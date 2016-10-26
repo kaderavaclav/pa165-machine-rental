@@ -10,5 +10,7 @@ package cz.muni.fi.pa165;
  * @author Josef
  */
 public interface UserDao {
+
+    public string Ahoj {get; set;}
     
 }
