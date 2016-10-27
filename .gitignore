@@ -1,3 +1,14 @@
+.idea
+*.iml
+
+nbactions.xml
+nb-configuration.xml
+catalog.xml
+
+target
+
+
+
 *.class
 
 # Mobile Tools for Java (J2ME)
