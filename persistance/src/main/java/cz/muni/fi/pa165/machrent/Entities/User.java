@@ -19,13 +19,13 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table (name = "RenatalUser")
 public class User implements Serializable {
-    @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private Long id;
-    
     @Column (nullable = false, unique = true)
     @NotNull
     private String email;
+    
+    @Id
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    private Long id;
     
     @NotNull
     private String name;
@@ -33,6 +33,8 @@ public class User implements Serializable {
     private String passwordHash;
     
     private Set <Role> roles;
+    
+    private static final String HASH_SALT = "VOLZvQjWGJndyOnjZTfH";
     
     @NotNull
     private String username;
@@ -69,18 +71,18 @@ public class User implements Serializable {
         return areEqual;
     }
     
-    public Long getId () {
-        return this.id;
-    }
-    
     public String getEmail () {
         return this.email;
+    }
+    
+    public Long getId () {
+        return this.id;
     }
     
     public String getName () {
         return this.name;
     }
-
+    
     public String getPasswordHash () {
         return this.passwordHash;
     }
@@ -105,6 +107,24 @@ public class User implements Serializable {
         return hash;
     }
     
+    private static String hashPassword (String password) {
+        return Integer.toString (hashString (password + HASH_SALT));
+    }
+    
+    private static int hashString (String string) {
+        int hash;
+        if (string == null) {
+            hash = 0;
+        }
+        else {
+            hash = 7;
+            for (int i = 0; i < string.length (); i++) {
+                hash = hash * 31 + string.charAt (i);
+            }
+        }
+        return hash;
+    }
+    
     public void setId (Long id) {
         this.id = id;
     }
@@ -116,7 +136,11 @@ public class User implements Serializable {
     public void setName (String name) {
         this.name = name;
     }
-
+    
+    public void setPassword (String password) {
+        setPasswordHash (hashPassword (password));
+    }
+    
     public void setPasswordHash (String passwordHash) {
         this.passwordHash = passwordHash;
     }
@@ -132,5 +156,9 @@ public class User implements Serializable {
     @Override
     public String toString () {
         return "User {id = " + this.id + ", name = " + this.name + "}";
+    }
+    
+    public boolean verifyPassword (String password) {
+        return Objects.equals (hashPassword (password), passwordHash);
     }
 }

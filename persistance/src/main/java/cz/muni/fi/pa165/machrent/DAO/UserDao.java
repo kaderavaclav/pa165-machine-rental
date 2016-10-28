@@ -15,11 +15,11 @@ public interface UserDao {
     
     public void delete (User user);
     
-    public User findById (Long id);
+    public List <User> findAll ();
     
     public User findByEmail (String email);
     
-    public List <User> findAll ();
+    public User findById (Long id);
     
     public void update (User user);
 }
