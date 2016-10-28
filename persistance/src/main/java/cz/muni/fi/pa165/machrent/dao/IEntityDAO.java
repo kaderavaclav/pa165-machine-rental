@@ -1,4 +1,4 @@
-package cz.muni.fi.pa165.machrent.DAO;
+package cz.muni.fi.pa165.machrent.dao;
 
 /**
  * Created by vaclav.kadera on 27-Oct-16.
