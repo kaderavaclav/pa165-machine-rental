@@ -3,16 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.fi.pa165.machrent.DAO;
+package cz.muni.fi.pa165.machrent.dao;
 
-import cz.muni.fi.pa165.machrent.Entities.Rent;
+import cz.muni.fi.pa165.machrent.entities.Rent;
 import java.util.List;
 
 /**
  *
  * @author Peter Benus
  */
-public interface RentDAO {
+public interface RentDao {
     public void create(Rent r);
     public void delete(Rent r); 
     public void update(Rent r); 

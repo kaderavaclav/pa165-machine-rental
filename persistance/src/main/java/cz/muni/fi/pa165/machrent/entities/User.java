@@ -1,4 +1,4 @@
-package cz.muni.fi.pa165.machrent.Entities;
+package cz.muni.fi.pa165.machrent.entities;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
  * @version 2016-10-28
  */
 @Entity
-@Table (name = "RenatalUser")
+@Table (name = "User")
 public class User implements Serializable {
     @Column (nullable = false, unique = true)
     @NotNull

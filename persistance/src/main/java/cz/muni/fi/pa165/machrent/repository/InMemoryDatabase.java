@@ -1,4 +1,4 @@
-package cz.muni.fi.pa165.machrent.Repository;
+package cz.muni.fi.pa165.machrent.repository;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -7,7 +7,6 @@ package cz.muni.fi.pa165.machrent.Repository;
  */
 import javax.sql.DataSource;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;

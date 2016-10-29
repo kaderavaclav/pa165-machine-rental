@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.fi.pa165.machrent.Entities;
+package cz.muni.fi.pa165.machrent.entities;
 
 import java.io.Serializable;
 import java.util.Date;

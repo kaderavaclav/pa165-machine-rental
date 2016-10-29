@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.fi.pa165.machrent.DAO;
+package cz.muni.fi.pa165.machrent.dao;
 
-import cz.muni.fi.pa165.machrent.Entities.Rent;
+import cz.muni.fi.pa165.machrent.entities.Rent;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Repository;
  * @author Peter Benus
  */
 @Repository
-public class RentDaoImpl implements RentDAO{
+public class RentDaoImpl implements RentDao{
 
     @PersistenceContext
 	private EntityManager em; 
