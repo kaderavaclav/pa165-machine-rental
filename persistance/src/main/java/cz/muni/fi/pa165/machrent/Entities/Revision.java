@@ -16,7 +16,7 @@ public class Revision {
     private Long id;
 
     private String note;
-    private Timestamp revisionDate;
+    private Date revisionDate;
     private User mechanic;
     private Machine machine;
 
@@ -37,11 +37,9 @@ public class Revision {
         this.note = note;
     }
 
-    public Timestamp getRevisionDate() {
-        return revisionDate;
-    }
+    public Date getRevisionDate() { return revisionDate; }
 
-    public void setRevisionDate(Timestamp revisionDate) {
+    public void setRevisionDate(Date revisionDate) {
         this.revisionDate = revisionDate;
     }
 
