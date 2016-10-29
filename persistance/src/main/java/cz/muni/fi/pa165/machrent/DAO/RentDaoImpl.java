@@ -42,7 +42,7 @@ public class RentDaoImpl implements RentDAO{
     }
 
     @Override
-    public List<Rent> findAll(Rent r) {
+    public List<Rent> findAll() {
         return em.createQuery("SELECT r FROM Rent r", Rent.class).getResultList();
     }
 

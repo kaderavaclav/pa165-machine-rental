@@ -17,5 +17,5 @@ public interface RentDAO {
     public void delete(Rent r); 
     public void update(Rent r); 
     public Rent findById (Long id);
-    public List<Rent> findAll(Rent r); 
+    public List<Rent> findAll(); 
 }
