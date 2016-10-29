@@ -1,4 +1,4 @@
-package cz.muni.fi.pa165.machrent.Repository;
+package cz.muni.fi.pa165.machrent.repository;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

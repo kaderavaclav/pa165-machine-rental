@@ -1,12 +1,12 @@
-package cz.muni.fi.pa165.machrent.DAO;
+package cz.muni.fi.pa165.machrent.dao;
 
-import cz.muni.fi.pa165.machrent.Entities.Machine;
+import cz.muni.fi.pa165.machrent.entities.Machine;
 import java.util.List;
 
 /**
  * Created by vaclav.kadera on 27-Oct-16.
  */
-public interface MachineDAO {
+public interface MachineDao {
 
     void create(Machine m);
     void delete(Machine m);

@@ -1,8 +1,6 @@
-package cz.muni.fi.pa165.machrent.Entities;
+package cz.muni.fi.pa165.machrent.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -10,10 +8,11 @@ import javax.validation.constraints.NotNull;
  */
 
 @Entity
+@Table(name = "Machine")
 public class Machine {
 
     @Id
-    @GeneratedValue()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @NotNull

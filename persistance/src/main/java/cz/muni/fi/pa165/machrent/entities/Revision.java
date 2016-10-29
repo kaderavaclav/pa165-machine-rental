@@ -1,18 +1,18 @@
-package cz.muni.fi.pa165.machrent.Entities;
+package cz.muni.fi.pa165.machrent.entities;
 
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.security.Timestamp;
 import java.util.Date;
 
 /**
  * Created by Falka on 27. 10. 2016.
  */
+@Entity
+@Table(name = "Revision")
 public class Revision {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String note;

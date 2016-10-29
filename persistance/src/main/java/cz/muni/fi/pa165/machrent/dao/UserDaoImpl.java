@@ -1,6 +1,6 @@
-package cz.muni.fi.pa165.machrent.DAO;
+package cz.muni.fi.pa165.machrent.dao;
 
-import cz.muni.fi.pa165.machrent.Entities.User;
+import cz.muni.fi.pa165.machrent.entities.User;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
