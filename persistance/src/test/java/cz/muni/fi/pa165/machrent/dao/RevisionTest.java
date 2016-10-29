@@ -3,12 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.fi.pa165.machrent.DAO;
+package cz.muni.fi.pa165.machrent.dao;
 
-import cz.muni.fi.pa165.machrent.Entities.Machine;
-import cz.muni.fi.pa165.machrent.Entities.Revision;
-import cz.muni.fi.pa165.machrent.Repository.PersistenceApplicationContext;
-import java.security.Timestamp;
+import cz.muni.fi.pa165.machrent.entities.Machine;
+import cz.muni.fi.pa165.machrent.entities.Revision;
+import cz.muni.fi.pa165.machrent.entities.User;
+import cz.muni.fi.pa165.machrent.repository.PersistenceApplicationContext;
+
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -33,11 +34,11 @@ import org.testng.annotations.Test;
 public class RevisionTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
-    private RevisionDAO revisionDao;
+    private RevisionDao revisionDao;
     @Autowired
-    private UserDAO userDao;
+    private UserDao userDao;
     @Autowired
-    private MachineDAO machineDao;
+    private MachineDao machineDao;
 
     private Revision revision;
     private User mechanic;
