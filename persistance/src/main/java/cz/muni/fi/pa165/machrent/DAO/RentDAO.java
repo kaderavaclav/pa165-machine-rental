@@ -5,7 +5,7 @@
  */
 package cz.muni.fi.pa165.machrent.DAO;
 
-import cz.muni.fi.pa165.machrent.Entities.RentEntity;
+import cz.muni.fi.pa165.machrent.Entities.Rent;
 import java.util.List;
 
 /**
@@ -13,8 +13,9 @@ import java.util.List;
  * @author Peter Benus
  */
 public interface RentDAO {
-    public void create(RentEntity r);
-    public void delete(RentEntity r); 
-    public void update(RentEntity r); 
-    public List<RentEntity> get(RentEntity r); 
+    public void create(Rent r);
+    public void delete(Rent r); 
+    public void update(Rent r); 
+    public Rent findById (Long id);
+    public List<Rent> findAll(); 
 }
