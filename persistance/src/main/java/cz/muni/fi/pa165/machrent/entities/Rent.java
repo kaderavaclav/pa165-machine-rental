@@ -7,23 +7,22 @@ package cz.muni.fi.pa165.machrent.entities;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  *
  * @author Peter Benus
  */
 @Entity
-@Table (name = "Rent")
+@Table
 public class Rent implements Serializable {
 
+    @OneToOne
     private Machine machine;
+    @OneToOne
     private User customer;
     private String note;
+    @OneToOne
     private User employee;
     private Date dateStart;
     private Date dateEnd;    
