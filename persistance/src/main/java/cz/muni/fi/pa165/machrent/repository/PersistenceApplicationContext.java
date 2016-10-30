@@ -7,7 +7,15 @@ package cz.muni.fi.pa165.machrent.repository;
  */
 
 import javax.sql.DataSource;
+
+import cz.muni.fi.pa165.machrent.dao.MachineDao;
+import cz.muni.fi.pa165.machrent.dao.RentDao;
+import cz.muni.fi.pa165.machrent.dao.RevisionDao;
+import cz.muni.fi.pa165.machrent.dao.UserDao;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
@@ -16,10 +24,17 @@ import org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver
 import org.springframework.instrument.classloading.LoadTimeWeaver;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
 /**
  *
  * @author Peter Benus
  */
+
+@Configuration
+@EnableTransactionManagement
+@EnableJpaRepositories
+@ComponentScan(basePackageClasses = {UserDao.class, MachineDao.class, RentDao.class, RevisionDao.class})
 public class PersistenceApplicationContext {
     
     
