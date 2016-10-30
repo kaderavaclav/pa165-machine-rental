@@ -8,7 +8,7 @@ import java.util.Date;
  * Created by Falka on 27. 10. 2016.
  */
 @Entity
-@Table(name = "Revision")
+@Table
 public class Revision {
 
     @Id
@@ -17,7 +17,9 @@ public class Revision {
 
     private String note;
     private Date revisionDate;
+    @OneToOne
     private User mechanic;
+    @OneToOne
     private Machine machine;
 
 

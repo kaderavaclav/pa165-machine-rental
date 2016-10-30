@@ -3,12 +3,7 @@ package cz.muni.fi.pa165.machrent.entities;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 /*
@@ -17,7 +12,7 @@ import javax.validation.constraints.NotNull;
  * @version 2016-10-28
  */
 @Entity
-@Table (name = "User")
+@Table
 public class User implements Serializable {
     @Column (nullable = false, unique = true)
     @NotNull
@@ -31,8 +26,10 @@ public class User implements Serializable {
     private String name;
     
     private String passwordHash;
-    
-    private Set <Role> roles;
+
+    @ElementCollection
+    @Enumerated
+    private Set<Role> roles;
     
     private static final String HASH_SALT = "VOLZvQjWGJndyOnjZTfH";
     
