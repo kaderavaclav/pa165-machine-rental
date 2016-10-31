@@ -3,12 +3,7 @@ package cz.muni.fi.pa165.machrent.entities;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 /*
@@ -19,6 +14,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table
 public class RentalUser implements Serializable {
+
     @Column (nullable = false, unique = true)
     @NotNull
     private String email;
@@ -26,19 +22,24 @@ public class RentalUser implements Serializable {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
+    @Column(nullable = false)
     @NotNull
     private LegalPersonality legalPersonality;
-    
+
+    @Column(nullable = false)
     @NotNull
     private String name;
     
     private String passwordHash;
-    
-    private Set <Role> roles;
+
+    @ElementCollection
+    @Enumerated
+    private Set<Role> roles;
     
     private static final String HASH_SALT = "VOLZvQjWGJndyOnjZTfH";
-    
+
+    @Column(nullable = false)
     @NotNull
     private String username;
     
@@ -77,11 +78,11 @@ public class RentalUser implements Serializable {
         else if (object == null) {
             areEqual = false;
         }
-        else if (! (object instanceof User)) {
+        else if (! (object instanceof RentalUser)) {
             areEqual = false;
         }
         else {
-            User other = (User) object;
+            RentalUser other = (RentalUser) object;
             areEqual =
                 Objects.equals    (this.id,               other.id)
                 && Objects.equals (this.email,            other.email)
