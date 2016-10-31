@@ -12,8 +12,6 @@ import cz.muni.fi.pa165.machrent.PersistenceApplicationContext;
 
 import java.util.Date;
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -36,25 +34,27 @@ public class RevisionTest extends AbstractTestNGSpringContextTests {
     @Autowired
     private RevisionDao revisionDao;
     @Autowired
-    private UserDao userDao;
-    @Autowired
     private MachineDao machineDao;
+    @Autowired
+    private UserDao userDao;
 
     private Revision revision;
     private RentalUser mechanic;
     private Machine machine;
     private Date timestamp;
-
-    @PersistenceContext
-    private EntityManager em;
-
+    
     @BeforeMethod
     public void createRevision() {
         revision = new Revision();
-        mechanic = new RentalUser();
         machine = new Machine();
+        machine.setName("machine");
+        machineDao.create(machine);
         revision.setMachine(machine);
-        revision.setMechanic(mechanic);
+        mechanic = new RentalUser();
+        mechanic.setName("Janko");
+        mechanic.setEmail("janko@mail.com");
+        mechanic.setUsername("johny");
+        userDao.create(mechanic);
         revision.setNote("revision1");
         timestamp = new Date();
         revision.setRevisionDate(timestamp);
@@ -66,51 +66,63 @@ public class RevisionTest extends AbstractTestNGSpringContextTests {
         Assert.assertTrue(true);
     }
 
-//    @Test
-//    public void nonExistentReturnsNull() {
-//        Assert.assertNull(revisionDao.findById(12345l));
-//    }
-//
-//    @Test
-//    public void find() {
-//        Revision found = revisionDao.findById(revision.getId());
-//        Assert.assertEquals(found, revision);
-//    }
+    @Test
+    public void nonExistentReturnsNull() {
+        Assert.assertNull(revisionDao.findById(12345l));
+    }
 
-//    @Test
-//    public void findAll() {
-//        Revision revision2 = new Revision();
-//        revisionDao.create(revision2);
-//
-//        List<Revision> revisions = revisionDao.findAll();
-//
-//        Assert.assertEquals(revisions.size(), 2);
-//    }
-//
-//    @Test()
-//    public void delete() {
-//        Assert.assertNotNull(revisionDao.findById(revision.getId()));
-//        revisionDao.delete(revision);
-//        Assert.assertNull(revisionDao.findById(revision.getId()));
-//    }
-//
-//    @Test()
-//    public void savesNote() {
-//        Assert.assertEquals(revisionDao.findById(revision.getId()).getNote(), "revision1");
-//    }
-//
-//    @Test()
-//    public void savesMachine() {
-//        Assert.assertEquals(revisionDao.findById(revision.getId()).getMachine(), revision.getMachine());
-//    }
-//
-//    @Test()
-//    public void savesMechanic() {
-//        Assert.assertEquals(revisionDao.findById(revision.getId()).getMechanic(), revision.getMechanic());
-//    }
-//
-//    @Test()
-//    public void savesRevisionDate() {
-//        Assert.assertEquals(revisionDao.findById(revision.getId()).getRevisionDate(), revision.getRevisionDate());
-//    }
+    @Test
+    public void find() {
+        Revision found = revisionDao.findById(revision.getId());
+        Assert.assertEquals(found, revision);
+    }
+
+    @Test
+    public void findAll() {
+        Revision revision2 = new Revision();
+        Machine machine2 = new Machine();
+        machine2.setName("machine2");
+        machineDao.create(machine2);
+        revision.setMachine(machine2);
+        RentalUser mechanic2 = new RentalUser();
+        mechanic2.setName("Ferko");
+        mechanic2.setEmail("ferko@mail.com");
+        mechanic2.setUsername("fery");
+        userDao.create(mechanic2);  
+        revision.setNote("revision2");
+        Date timestamp2 = new Date();
+        revision.setRevisionDate(timestamp2);
+        revisionDao.create(revision2);
+        
+        List<Revision> revisions = revisionDao.findAll();
+
+        Assert.assertEquals(revisions.size(), 2);
+    }
+
+    @Test()
+    public void delete() {
+        Assert.assertNotNull(revisionDao.findById(revision.getId()));
+        revisionDao.delete(revision);
+        Assert.assertNull(revisionDao.findById(revision.getId()));
+    }
+
+    @Test()
+    public void savesNote() {
+        Assert.assertEquals(revisionDao.findById(revision.getId()).getNote(), "revision1");
+    }
+
+    @Test()
+    public void savesMachine() {
+        Assert.assertEquals(revisionDao.findById(revision.getId()).getMachine(), revision.getMachine());
+    }
+
+    @Test()
+    public void savesMechanic() {
+        Assert.assertEquals(revisionDao.findById(revision.getId()).getMechanic(), revision.getMechanic());
+    }
+
+    @Test()
+    public void savesRevisionDate() {
+        Assert.assertEquals(revisionDao.findById(revision.getId()).getRevisionDate(), revision.getRevisionDate());
+    }
 }
