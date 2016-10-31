@@ -92,7 +92,6 @@ public class Machine {
     @Override
     public int hashCode() {
         int result = (int) (getId() ^ (getId() >>> 32));
-        result = 31 * result + getName().hashCode();
         result = 31 * result + (getDescription() != null ? getDescription().hashCode() : 0);
         return result;
     }
