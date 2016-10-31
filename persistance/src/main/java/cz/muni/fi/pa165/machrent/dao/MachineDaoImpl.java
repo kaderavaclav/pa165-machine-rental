@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.machrent.dao;
 import cz.muni.fi.pa165.machrent.entities.Machine;
 import org.springframework.stereotype.Repository;
 
+import javax.crypto.Mac;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
@@ -27,9 +28,7 @@ public class MachineDaoImpl implements MachineDao {
     }
 
     @Override
-    public void update(Machine m) {
-        em.merge(m);
-    }
+    public Machine update(Machine m) { return em.merge(m); }
 
     @Override
     public List<Machine> findAll() {
