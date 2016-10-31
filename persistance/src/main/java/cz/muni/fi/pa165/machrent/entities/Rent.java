@@ -32,62 +32,137 @@ public class Rent implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /**
+     *  Returns ID of this rent object.
+     * 
+     * @return ID of rent object
+     */
     public Long getId() {
         return id;
     }
     
+    /**
+     *  Returns rented machine by customer in this object.
+     * 
+     * @return rented machine 
+     */
     public Machine getMachine() {
         return machine;
     }
 
+    /**
+     *  Sets the rented machine to this rent object.
+     * 
+     * @param machine rented machine in this rent
+     */
     public void setMachine(Machine machine) {
         this.machine = machine;
     }
 
+    /**
+     * Returns customer who ordered this rent of machine in this object.
+     * 
+     * @return customer who ordered this rent
+     */
     public RentalUser getCustomer() {
         return customer;
     }
 
+    /**
+     * Sets customer who ordered this rent of machine in this object.
+     *
+     * @param customer who ordered this rent
+     */
     public void setCustomer(RentalUser customer) {
         this.customer = customer;
     }
 
+    /**
+     * Returns note saved to this rent.
+     *
+     * @return note
+     */
     public String getNote() {
         return note;
     }
 
+    /**
+     * Sets note for this rent.
+     *
+     * @param note note for this rent
+     */
     public void setNote(String note) {
         this.note = note;
     }
 
+    /**
+     * Returns employee who created this rent in system.
+     * 
+     * @return employee who created rent
+     */
     public RentalUser getEmployee() {
         return employee;
     }
 
+    /**
+     * Sets employee who created this rent in system.
+     * 
+     * @param employee employee who created rent
+     */
     public void setEmployee(RentalUser employee) {
         this.employee = employee;
     }
 
+    /**
+     * Returns first day of this rent.
+     * 
+     * @return first day of rent
+     */
     public Date getDateStart() {
         return dateStart;
     }
 
+    /**
+     *  Sets first day of this rent.
+     * 
+     * @param dateStart first day of rent
+     */
     public void setDateStart(Date dateStart) {
         this.dateStart = dateStart;
     }
 
+    /**
+     * Returns last day of this rent.
+     * 
+     * @return last day of rent
+     */
     public Date getDateEnd() {
         return dateEnd;
     }
 
+    /**
+     * Sets last day of this rent.
+     * 
+     * @param dateEnd last day of rent
+     */
     public void setDateEnd(Date dateEnd) {
         this.dateEnd = dateEnd;
     }
 
+    /**
+     * Returns the day when this rent was ordered.
+     *
+     * @return day of order this rent
+     */
     public Date getDateCreated() {
         return dateCreated;
     }
 
+    /**
+     * Sets the day when this rent was ordered.
+     * 
+     * @param dateCreated day of order this rent
+     */
     public void setDateCreated(Date dateCreated) {
         this.dateCreated = dateCreated;
     }
