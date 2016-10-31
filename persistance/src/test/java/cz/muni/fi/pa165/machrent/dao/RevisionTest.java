@@ -6,8 +6,8 @@
 package cz.muni.fi.pa165.machrent.dao;
 
 import cz.muni.fi.pa165.machrent.entities.Machine;
+import cz.muni.fi.pa165.machrent.entities.RentalUser;
 import cz.muni.fi.pa165.machrent.entities.Revision;
-import cz.muni.fi.pa165.machrent.entities.User;
 import cz.muni.fi.pa165.machrent.PersistenceApplicationContext;
 
 import java.util.Date;
@@ -41,7 +41,7 @@ public class RevisionTest extends AbstractTestNGSpringContextTests {
     private MachineDao machineDao;
 
     private Revision revision;
-    private User mechanic;
+    private RentalUser mechanic;
     private Machine machine;
     private Date timestamp;
 
@@ -51,7 +51,7 @@ public class RevisionTest extends AbstractTestNGSpringContextTests {
     @BeforeMethod
     public void createRevision() {
         revision = new Revision();
-        mechanic = new User();
+        mechanic = new RentalUser();
         machine = new Machine();
         revision.setMachine(machine);
         revision.setMechanic(mechanic);

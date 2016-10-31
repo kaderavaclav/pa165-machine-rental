@@ -20,10 +20,10 @@ public class Rent implements Serializable {
     @OneToOne
     private Machine machine;
     @OneToOne
-    private User customer;
+    private RentalUser customer;
     private String note;
     @OneToOne
-    private User employee;
+    private RentalUser employee;
     private Date dateStart;
     private Date dateEnd;    
     private Date dateCreated;
@@ -44,11 +44,11 @@ public class Rent implements Serializable {
         this.machine = machine;
     }
 
-    public User getCustomer() {
+    public RentalUser getCustomer() {
         return customer;
     }
 
-    public void setCustomer(User customer) {
+    public void setCustomer(RentalUser customer) {
         this.customer = customer;
     }
 
@@ -60,11 +60,11 @@ public class Rent implements Serializable {
         this.note = note;
     }
 
-    public User getEmployee() {
+    public RentalUser getEmployee() {
         return employee;
     }
 
-    public void setEmployee(User employee) {
+    public void setEmployee(RentalUser employee) {
         this.employee = employee;
     }
 
