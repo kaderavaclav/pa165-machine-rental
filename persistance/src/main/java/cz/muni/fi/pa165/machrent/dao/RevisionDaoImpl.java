@@ -8,7 +8,7 @@ import java.util.List;
 
 
 /**
- * Created by Falka on 27. 10. 2016.
+ * Created by zuz-schwarzova on 27. 10. 2016.
  */
 @Repository
 public class RevisionDaoImpl implements RevisionDao {

@@ -52,7 +52,7 @@ public class Rent implements Serializable {
 
     /**
      *  Sets the rented machine to this rent object.
-     * 
+     *
      * @param machine rented machine in this rent
      */
     public void setMachine(Machine machine) {

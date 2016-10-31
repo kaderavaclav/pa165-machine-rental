@@ -18,7 +18,7 @@ import javax.validation.ConstraintViolationException;
 import java.util.List;
 
 /**
- * Created by zschwarz on 10/29/16.
+ * Created by zuz-schwarzova on 10/29/16.
  */
 
 @ContextConfiguration(classes = PersistenceApplicationContext.class)
