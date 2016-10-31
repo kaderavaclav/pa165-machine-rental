@@ -3,18 +3,22 @@ package cz.muni.fi.pa165.machrent.entities;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 /*
  * @author  Josef Plch
  * @since   2016-10-26
- * @version 2016-10-28
+ * @version 2016-10-30
  */
 @Entity
 @Table
 public class RentalUser implements Serializable {
-
     @Column (nullable = false, unique = true)
     @NotNull
     private String email;
@@ -22,27 +26,43 @@ public class RentalUser implements Serializable {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false)
+    
+    @NotNull
+    private LegalPersonality legalPersonality;
+    
     @NotNull
     private String name;
     
     private String passwordHash;
-
-    @ElementCollection
-    @Enumerated
-    private Set<Role> roles;
+    
+    private Set <Role> roles;
     
     private static final String HASH_SALT = "VOLZvQjWGJndyOnjZTfH";
-
-    @Column(nullable = false)
+    
     @NotNull
     private String username;
-
-
-
+    
     /**
-     * List of all possible user roles.
+     * There are only two possible types of legal person: natural person and
+     * juridical person (Latin: persona ficta).
+     * 
+     * For further details, see Wikipedia:
+     * https://en.wikipedia.org/wiki/Legal_personality
+     * 
+     * @author  Josef Plch
+     * @since   2016-10-30
+     * @version 2016-10-30
+     */
+    public enum LegalPersonality {
+        JURIDICAL, NATURAL
+    }
+    
+    /**
+     * List of all possible user roles in the evidence system.
+     * 
+     * @author  Josef Plch
+     * @since   2016-10-26
+     * @version 2016-10-26
      */
     public enum Role {
         CUSTOMER, EMPLOYEE
@@ -57,18 +77,19 @@ public class RentalUser implements Serializable {
         else if (object == null) {
             areEqual = false;
         }
-        else if (! (object instanceof RentalUser)) {
+        else if (! (object instanceof User)) {
             areEqual = false;
         }
         else {
-            RentalUser other = (RentalUser) object;
+            User other = (User) object;
             areEqual =
-                Objects.equals    (this.id,           other.id)
-                && Objects.equals (this.email,        other.email)
-                && Objects.equals (this.name,         other.name)
-                && Objects.equals (this.passwordHash, other.passwordHash)
-                && Objects.equals (this.roles,        other.roles)
-                && Objects.equals (this.username,     other.username);
+                Objects.equals    (this.id,               other.id)
+                && Objects.equals (this.email,            other.email)
+                && Objects.equals (this.legalPersonality, other.legalPersonality)
+                && Objects.equals (this.name,             other.name)
+                && Objects.equals (this.passwordHash,     other.passwordHash)
+                && Objects.equals (this.roles,            other.roles)
+                && Objects.equals (this.username,         other.username);
         }
         return areEqual;
     }
@@ -79,6 +100,10 @@ public class RentalUser implements Serializable {
     
     public Long getId () {
         return this.id;
+    }
+    
+    public LegalPersonality getLegalPersonality () {
+        return this.legalPersonality;
     }
     
     public String getName () {
@@ -102,6 +127,7 @@ public class RentalUser implements Serializable {
         int hash = 3;
         hash = 67 * hash + (this.id != null ? this.id.hashCode () : 0);
         hash = 67 * hash + (this.email != null ? this.email.hashCode () : 0);
+        hash = 67 * hash + (this.legalPersonality != null ? this.legalPersonality.hashCode () : 0);
         hash = 67 * hash + (this.name != null ? this.name.hashCode () : 0);
         hash = 67 * hash + (this.passwordHash != null ? this.passwordHash.hashCode () : 0);
         hash = 67 * hash + (this.roles != null ? this.roles.hashCode () : 0);
@@ -135,6 +161,10 @@ public class RentalUser implements Serializable {
         this.email = email;
     }
 
+    public void setLegalPersonality (LegalPersonality legalPersonality) {
+        this.legalPersonality = legalPersonality;
+    }
+    
     public void setName (String name) {
         this.name = name;
     }
@@ -157,7 +187,13 @@ public class RentalUser implements Serializable {
     
     @Override
     public String toString () {
-        return "User {id = " + this.id + ", name = " + this.name + "}";
+        String string =
+            "User {"
+            + "id = " + this.id
+            + ", email = " + this.email
+            + ", name = " + this.name
+            + "}";
+        return string;
     }
     
     public boolean verifyPassword (String password) {
