@@ -41,6 +41,7 @@ public class UserDaoTest extends AbstractTestNGSpringContextTests {
         validUser.setEmail("valid@email.com");
         validUser.setName("Valid User");
         validUser.setUsername("validUser");
+        validUser.setLegalPersonality(RentalUser.LegalPersonality.NATURAL);
 
         invalidId = 0L;
         invalidEmail = "invalidEmail";
@@ -48,6 +49,7 @@ public class UserDaoTest extends AbstractTestNGSpringContextTests {
         invalidUser.setName("invalid User");
         invalidUser.setUsername("invalidUser");
         invalidUser.setEmail(invalidEmail);
+        invalidUser.setLegalPersonality(RentalUser.LegalPersonality.NATURAL);
 
         userDao.create(validUser);
     }
@@ -96,6 +98,12 @@ public class UserDaoTest extends AbstractTestNGSpringContextTests {
     @Test(expectedExceptions=ConstraintViolationException.class)
     public void setUsernameNull_throwsException(){
         invalidUser.setUsername(null);
+        userDao.create(invalidUser);
+    }
+
+    @Test(expectedExceptions = ConstraintViolationException.class)
+    public void setLegalPersonalityNull_throwsException(){
+        invalidUser.setLegalPersonality(null);
         userDao.create(invalidUser);
     }
 }
