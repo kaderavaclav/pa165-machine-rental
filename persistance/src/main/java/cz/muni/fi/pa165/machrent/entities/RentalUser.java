@@ -18,7 +18,7 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table (name = "RenatalUser")
-public class User implements Serializable {
+public class RentalUser implements Serializable {
     @Column (nullable = false, unique = true)
     @NotNull
     private String email;
