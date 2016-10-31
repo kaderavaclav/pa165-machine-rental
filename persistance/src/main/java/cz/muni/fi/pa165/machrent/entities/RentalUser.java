@@ -6,10 +6,13 @@ import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-/*
+/**
+ * RentalUser represent users of the evidence system - both employees and
+ * customers (they can be distinguished by attríbute "roles").
+ *
  * @author  Josef Plch
  * @since   2016-10-26
- * @version 2016-10-30
+ * @version 2016-10-31
  */
 @Entity
 @Table
@@ -170,6 +173,12 @@ public class RentalUser implements Serializable {
         this.name = name;
     }
     
+    /**
+     * Actually, this method does not set a password, but rather its hash. For
+     * security reasons, the password itself is not stored at all.
+     * 
+     * @param password new password
+     */
     public void setPassword (String password) {
         setPasswordHash (hashPassword (password));
     }
@@ -197,6 +206,12 @@ public class RentalUser implements Serializable {
         return string;
     }
     
+    /**
+     * Compare hash of the given password with the correct hash.
+     * 
+     * @param password A password to be verified.
+     * @return True = correct, false = incorrect.
+     */
     public boolean verifyPassword (String password) {
         return Objects.equals (hashPassword (password), passwordHash);
     }
