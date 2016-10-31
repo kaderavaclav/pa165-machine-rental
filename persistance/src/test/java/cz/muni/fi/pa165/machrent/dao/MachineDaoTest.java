@@ -55,49 +55,49 @@ public class MachineDaoTest extends AbstractTestNGSpringContextTests {
         List<Machine> machines = machineDao.findAll();
         Assert.assertEquals(machines.size(), 2);
     }
+    @Test()
+    public void findMachine() {
+        Machine found = machineDao.findById(machine.getId());
 
-//    @Test()
-//    public void findMachine() {
-//        Machine found = machineDao.findById(machine.getId());
-//
-//        Assert.assertEquals(found.getName(), "MACH1");
-//        Assert.assertEquals(found.getDescription(), "machine1");
-//    }
-//
-//    @Test
-//    public void nonExistentReturnsNull() {
-//        Assert.assertNull(machineDao.findById(873623l));
-//    }
-//
-//    @Test(expectedExceptions=ConstraintViolationException.class)
-//    public void nullMachineNameNotAllowed(){
-//        Machine mach = new Machine();
-//        mach.setName(null);
-//        machineDao.create(mach);
-//    }
-//
-//
-//    @Test()
-//    public void deleteMachine() {
-//        Assert.assertNotNull(machineDao.findById(traktor.getId()));
-//        machineDao.delete(traktor);
-//        Assert.assertNull(machineDao.findById(traktor.getId()));
-//    }
-//
-//
-//    @Test()
-//    public void saveName() {
-//        Machine m = new Machine();
-//        m.setName("masina");
-//        machineDao.create(m);
-//        Assert.assertEquals(machineDao.findById(m.getId()).getName(),"masina");
-//    }
-//
-//    @Test()
-//    public void saveDescription() {
-//        Machine n = new Machine();
-//        n.setDescription("narez");
-//        machineDao.create(n);
-//        Assert.assertEquals(machineDao.findById(n.getId()).getDescription(),"narez");
-//    }
+        Assert.assertEquals(found.getName(), "MACH1");
+        Assert.assertEquals(found.getDescription(), "machine1");
+    }
+
+    @Test
+    public void nonExistentReturnsNull() {
+        Assert.assertNull(machineDao.findById(873623l));
+    }
+
+    @Test(expectedExceptions=ConstraintViolationException.class)
+    public void nullMachineNameNotAllowed(){
+        Machine mach = new Machine();
+        mach.setName(null);
+        machineDao.create(mach);
+    }
+
+
+    @Test()
+    public void deleteMachine() {
+        Assert.assertNotNull(machineDao.findById(traktor.getId()));
+        machineDao.delete(traktor);
+        Assert.assertNull(machineDao.findById(traktor.getId()));
+    }
+
+
+    @Test()
+    public void saveName() {
+        Machine m = new Machine();
+        m.setName("masina");
+        machineDao.create(m);
+        Assert.assertEquals(machineDao.findById(m.getId()).getName(),"masina");
+    }
+
+    @Test()
+    public void saveDescription() {
+        Machine n = new Machine();
+        n.setName("blah");
+        n.setDescription("narez");
+        machineDao.create(n);
+        Assert.assertEquals(machineDao.findById(n.getId()).getDescription(),"narez");
+    }
 }
