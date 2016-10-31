@@ -4,7 +4,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 /**
- * Created by vaclav.kadera on 27-Oct-16.
+ * Machine class represents entity {@code Machine} in Machine Rental application.
+ * @author vaclav.kadera
  */
 
 @Entity
@@ -15,33 +16,61 @@ public class Machine {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(nullable = false)
     @NotNull
     private String name;
 
     private String description;
 
+    /**
+     * Default constructor.
+     */
+    public Machine(){ }
 
-
+    /**
+     * Method that returns {@code Machine.Id}.
+     * @return {@code Long id}
+     */
     public long getId() {
         return id;
     }
 
+    /**
+     * Method that sets {@code Machine.Id}
+     * @param id {@code Long} id.
+     */
     public void setId(long id) {
         this.id = id;
     }
 
+    /**
+     * Method that returns {@code Machine.Name}.
+     * @return {@code String name}
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Method that sets {@code Machine.Name}
+     * @param name {@code String} name.
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Method that returns {@code Machine.Description}.
+     * @return {@code String description}
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * Method that sets {@code Machine.Description}
+     * @param description {@code String} description.
+     */
     public void setDescription(String description) {
         this.description = description;
     }
