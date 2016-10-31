@@ -14,6 +14,7 @@ import org.testng.annotations.Test;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.validation.ConstraintViolationException;
 
 /**
  * Created by vaclav.kadera on 30-Oct-16.
@@ -32,7 +33,7 @@ public class UserDaoTest extends AbstractTestNGSpringContextTests {
     private RentalUser validUser;
     private long invalidId;
     private String invalidEmail;
-    private RentalUser createdUser;
+    private RentalUser invalidUser;
 
     @BeforeMethod
     public void setUp(){
@@ -40,57 +41,61 @@ public class UserDaoTest extends AbstractTestNGSpringContextTests {
         validUser.setEmail("valid@email.com");
         validUser.setName("Valid User");
         validUser.setUsername("validUser");
+
         invalidId = 0L;
         invalidEmail = "invalidEmail";
+        invalidUser = new RentalUser();
+        invalidUser.setName("invalid User");
+        invalidUser.setUsername("invalidUser");
+        invalidUser.setEmail(invalidEmail);
 
         userDao.create(validUser);
-
-        createdUser = userDao.findByEmail("valid@email.com");
     }
 
     @Test
-    public void findById_NotNull(){
-        RentalUser user = userDao.findById(createdUser.getId());
-        Assert.assertNotNull(user,  "UserDao.findById() valid user Id was null!");
+    public void findById_isNotNull(){
+        RentalUser user = userDao.findById(validUser.getId());
+        Assert.assertNotNull(user,  "UserDao.findById() valid user Id should not be null!");
     }
 
     @Test
-    public void findById_Null(){
+    public void findById_isNull(){
         RentalUser nullUser = userDao.findById(invalidId);
-        Assert.assertNull(nullUser, "UserDao.findById() invalid user Id was not null!");
+        Assert.assertNull(nullUser, "UserDao.findById() invalid user Id should be null!");
     }
 
     @Test
-    public void findByEmail_NotNull(){
-
-        RentalUser user = userDao.findByEmail(createdUser.getEmail());
-        Assert.assertNotNull(user, "UserDao.findByEmail() valid email was null!");
+    public void findByEmail_isNotNull(){
+        RentalUser user = userDao.findByEmail(validUser.getEmail());
+        Assert.assertNotNull(user, "UserDao.findByEmail() valid email should not be null!");
     }
 
     @Test
-    public void findByEmail_Null(){
+    public void findByEmail_isNull(){
         RentalUser nullUser = userDao.findByEmail(invalidEmail);
-        Assert.assertNull(nullUser, "UserDao.findByEmail() invalid email was not null!");
+        Assert.assertNull(nullUser, "UserDao.findByEmail() invalid email should be null!");
     }
 
     @Test
-    public void findAll_NotNull(){
-        // TODO: implement TestMethod
+    public void findAll_isNotNull(){
+        Assert.assertNotNull(userDao.findAll(), "UserDao.findAll() should not be null!");
     }
 
-    @Test
-    public void setPassword_NotNull(){
-        // TODO: implement TestMethod
+    @Test(expectedExceptions=ConstraintViolationException.class)
+    public void setNameNull_throwsException(){
+        invalidUser.setName(null);
+        userDao.create(invalidUser);
     }
 
-    @Test
-    public void hashPassword_NotNull(){
-        // TODO: implement TestMethod
+    @Test(expectedExceptions=ConstraintViolationException.class)
+    public void setEmailNull_throwsException(){
+        invalidUser.setEmail(null);
+        userDao.create(invalidUser);
     }
 
-    @Test
-    public void verifyPassword_EqualsTrue(){
-        // TODO: implement TestMethod
+    @Test(expectedExceptions=ConstraintViolationException.class)
+    public void setUsernameNull_throwsException(){
+        invalidUser.setUsername(null);
+        userDao.create(invalidUser);
     }
-
 }
