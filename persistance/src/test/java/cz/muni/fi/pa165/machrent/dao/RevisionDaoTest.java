@@ -66,11 +66,6 @@ public class RevisionDaoTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void test() {
-        Assert.assertTrue(true);
-    }
-
-    @Test
     public void nonExistentReturnsNull() {
         Assert.assertNull(revisionDao.findById(12345l));
     }
