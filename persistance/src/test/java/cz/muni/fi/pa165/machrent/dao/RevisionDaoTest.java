@@ -29,7 +29,7 @@ import org.testng.annotations.Test;
 @ContextConfiguration(classes = PersistenceApplicationContext.class)
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
 @Transactional
-public class RevisionTest extends AbstractTestNGSpringContextTests {
+public class RevisionDaoTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
     private RevisionDao revisionDao;
@@ -39,12 +39,14 @@ public class RevisionTest extends AbstractTestNGSpringContextTests {
     private UserDao userDao;
 
     private Revision revision;
-    private RentalUser mechanic;
-    private Machine machine;
+//    private RentalUser mechanic;
+//    private Machine machine;
     private Date timestamp;
-    
+
     @BeforeMethod
     public void createRevision() {
+        RentalUser mechanic;
+        Machine machine;
         revision = new Revision();
         machine = new Machine();
         machine.setName("machine");
@@ -54,16 +56,13 @@ public class RevisionTest extends AbstractTestNGSpringContextTests {
         mechanic.setName("Janko");
         mechanic.setEmail("janko@mail.com");
         mechanic.setUsername("johny");
+        mechanic.setLegalPersonality(RentalUser.LegalPersonality.NATURAL);
         userDao.create(mechanic);
+        revision.setMechanic(mechanic);
         revision.setNote("revision1");
         timestamp = new Date();
         revision.setRevisionDate(timestamp);
         revisionDao.create(revision);
-    }
-
-    @Test
-    public void test() {
-        Assert.assertTrue(true);
     }
 
     @Test
@@ -83,17 +82,19 @@ public class RevisionTest extends AbstractTestNGSpringContextTests {
         Machine machine2 = new Machine();
         machine2.setName("machine2");
         machineDao.create(machine2);
-        revision.setMachine(machine2);
+        revision2.setMachine(machine2);
         RentalUser mechanic2 = new RentalUser();
         mechanic2.setName("Ferko");
         mechanic2.setEmail("ferko@mail.com");
         mechanic2.setUsername("fery");
-        userDao.create(mechanic2);  
-        revision.setNote("revision2");
+        mechanic2.setLegalPersonality(RentalUser.LegalPersonality.JURIDICAL);
+        userDao.create(mechanic2);
+        revision2.setMechanic(mechanic2);
+        revision2.setNote("revision2");
         Date timestamp2 = new Date();
-        revision.setRevisionDate(timestamp2);
+        revision2.setRevisionDate(timestamp2);
         revisionDao.create(revision2);
-        
+
         List<Revision> revisions = revisionDao.findAll();
 
         Assert.assertEquals(revisions.size(), 2);
