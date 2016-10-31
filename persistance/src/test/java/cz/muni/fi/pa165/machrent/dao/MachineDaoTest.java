@@ -2,7 +2,6 @@ package cz.muni.fi.pa165.machrent.dao;
 
 import cz.muni.fi.pa165.machrent.PersistenceApplicationContext;
 import cz.muni.fi.pa165.machrent.entities.Machine;
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -15,6 +14,7 @@ import org.testng.annotations.Test;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.validation.ConstraintViolationException;
 import java.util.List;
 
 /**

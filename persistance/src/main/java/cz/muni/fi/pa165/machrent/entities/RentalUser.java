@@ -14,6 +14,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table
 public class RentalUser implements Serializable {
+
     @Column (nullable = false, unique = true)
     @NotNull
     private String email;
@@ -21,7 +22,8 @@ public class RentalUser implements Serializable {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
+    @Column(nullable = false)
     @NotNull
     private String name;
     
@@ -32,10 +34,13 @@ public class RentalUser implements Serializable {
     private Set<Role> roles;
     
     private static final String HASH_SALT = "VOLZvQjWGJndyOnjZTfH";
-    
+
+    @Column(nullable = false)
     @NotNull
     private String username;
-    
+
+
+
     /**
      * List of all possible user roles.
      */
