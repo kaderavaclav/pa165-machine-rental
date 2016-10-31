@@ -1,6 +1,6 @@
 package cz.muni.fi.pa165.machrent.dao;
 
-import cz.muni.fi.pa165.machrent.entities.User;
+import cz.muni.fi.pa165.machrent.entities.RentalUser;
 import java.util.List;
 
 /**
@@ -11,15 +11,15 @@ import java.util.List;
  * @version 2016-10-28
  */
 public interface UserDao {
-    public void create (User user);
+    public void create (RentalUser user);
     
-    public void delete (User user);
+    public void delete (RentalUser user);
     
-    public List <User> findAll ();
+    public List <RentalUser> findAll ();
     
-    public User findByEmail (String email);
+    public RentalUser findByEmail (String email);
     
-    public User findById (Long id);
+    public RentalUser findById (Long id);
     
-    public void update (User user);
+    public void update (RentalUser user);
 }

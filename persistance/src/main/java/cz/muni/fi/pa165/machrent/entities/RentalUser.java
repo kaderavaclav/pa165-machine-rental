@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table
-public class User implements Serializable {
+public class RentalUser implements Serializable {
     @Column (nullable = false, unique = true)
     @NotNull
     private String email;
@@ -52,11 +52,11 @@ public class User implements Serializable {
         else if (object == null) {
             areEqual = false;
         }
-        else if (! (object instanceof User)) {
+        else if (! (object instanceof RentalUser)) {
             areEqual = false;
         }
         else {
-            User other = (User) object;
+            RentalUser other = (RentalUser) object;
             areEqual =
                 Objects.equals    (this.id,           other.id)
                 && Objects.equals (this.email,        other.email)

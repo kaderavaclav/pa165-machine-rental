@@ -18,7 +18,7 @@ public class Revision {
     private String note;
     private Date revisionDate;
     @OneToOne
-    private User mechanic;
+    private RentalUser mechanic;
     @OneToOne
     private Machine machine;
 
@@ -45,11 +45,11 @@ public class Revision {
         this.revisionDate = revisionDate;
     }
 
-    public User getMechanic() {
+    public RentalUser getMechanic() {
         return mechanic;
     }
 
-    public void setMechanic(User mechanic) {
+    public void setMechanic(RentalUser mechanic) {
         this.mechanic = mechanic;
     }
 

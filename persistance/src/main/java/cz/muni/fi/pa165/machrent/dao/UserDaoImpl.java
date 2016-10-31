@@ -1,6 +1,6 @@
 package cz.muni.fi.pa165.machrent.dao;
 
-import cz.muni.fi.pa165.machrent.entities.User;
+import cz.muni.fi.pa165.machrent.entities.RentalUser;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -21,30 +21,30 @@ public class UserDaoImpl implements UserDao {
     private EntityManager em;
 
     @Override
-    public void create (User user) {
+    public void create (RentalUser user) {
         em.persist (user);
     }
 
     @Override
-    public void delete (User user) {
+    public void delete (RentalUser user) {
         em.remove (user);
     }
     
     @Override
-    public List <User> findAll () {
-        TypedQuery <User> query = em.createQuery ("select u from User u", User.class); // Not sure whether User or RentalUser.
-        return (List <User>) query.getResultList ();
+    public List <RentalUser> findAll () {
+        TypedQuery <RentalUser> query = em.createQuery ("select u from RentalUser u", RentalUser.class); // Not sure whether User or RentalUser.
+        return (List <RentalUser>) query.getResultList ();
     }
     
     @Override
-    public User findByEmail (String email) {
+    public RentalUser findByEmail (String email) {
         if (email == null || email.isEmpty ()) {
             throw new IllegalArgumentException ("null e-mail");
         }
         
         try {
-            User user =
-                em.createQuery ("select u from User u where email=:email", User.class) // Not sure whether User or RentalUser.
+            RentalUser user =
+                em.createQuery ("select u from RentalUser u where u.email=:email", RentalUser.class) // Not sure whether User or RentalUser.
                 .setParameter ("email", email)
                 .getSingleResult ();
             return user;
@@ -55,12 +55,12 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User findById (Long id) {
-        return em.find (User.class, id);
+    public RentalUser findById (Long id) {
+        return em.find (RentalUser.class, id);
     }
 
     @Override
-    public void update (User user) {
+    public void update (RentalUser user) {
         em.merge (user);
     }
 }
