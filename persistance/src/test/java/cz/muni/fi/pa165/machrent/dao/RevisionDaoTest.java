@@ -126,4 +126,14 @@ public class RevisionDaoTest extends AbstractTestNGSpringContextTests {
     public void savesRevisionDate() {
         Assert.assertEquals(revisionDao.findById(revision.getId()).getRevisionDate(), revision.getRevisionDate());
     }
+    
+    @Test()
+    public void update(){
+        Revision rev = revisionDao.findById(revision.getId());
+        rev.setNote("updated note");
+        revisionDao.update(rev);
+        
+        rev = revisionDao.findById(rev.getId());
+        Assert.assertEquals(rev.getNote(), "updated note");
+    }
 }
