@@ -31,8 +31,10 @@ public class UserDaoTest extends AbstractTestNGSpringContextTests {
     private EntityManager em;
 
     private RentalUser validUser;
+    private RentalUser userToDelete;
     private long invalidId;
     private String invalidEmail;
+    private String updatedEmail;
     private RentalUser invalidUser;
 
     @BeforeMethod
@@ -43,6 +45,14 @@ public class UserDaoTest extends AbstractTestNGSpringContextTests {
         validUser.setUsername("validUser");
         validUser.setLegalPersonality(RentalUser.LegalPersonality.NATURAL);
 
+        updatedEmail = "newEmail@test.it";
+
+        userToDelete = new RentalUser();
+        userToDelete.setEmail("valid2@email.com");
+        userToDelete.setName("Valid2 User");
+        userToDelete.setUsername("userToDelete");
+        userToDelete.setLegalPersonality(RentalUser.LegalPersonality.NATURAL);
+
         invalidId = 0L;
         invalidEmail = "invalidEmail";
         invalidUser = new RentalUser();
@@ -52,6 +62,22 @@ public class UserDaoTest extends AbstractTestNGSpringContextTests {
         invalidUser.setLegalPersonality(RentalUser.LegalPersonality.NATURAL);
 
         userDao.create(validUser);
+        userDao.create(userToDelete);
+    }
+
+    @Test
+    public void create_isNotNull() {
+        userDao.create(validUser);
+        userDao.create(userToDelete);
+        Assert.assertNotNull(userDao.findById(validUser.getId()));
+        Assert.assertNotNull(userDao.findById(userToDelete.getId()));
+    }
+
+    @Test
+    public void delete_isNull(){
+        Long id = userToDelete.getId();
+        userDao.delete(userToDelete);
+        Assert.assertNull(userDao.findById(id));
     }
 
     @Test
@@ -105,5 +131,12 @@ public class UserDaoTest extends AbstractTestNGSpringContextTests {
     public void setLegalPersonalityNull_throwsException(){
         invalidUser.setLegalPersonality(null);
         userDao.create(invalidUser);
+    }
+
+    @Test
+    public void update_isEqual(){
+        validUser.setEmail(updatedEmail);
+        userDao.update(validUser);
+        Assert.assertEquals(validUser.getEmail(), updatedEmail);
     }
 }
