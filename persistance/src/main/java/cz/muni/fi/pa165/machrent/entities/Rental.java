@@ -15,7 +15,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table
-public class Rent implements Serializable {
+public class Rental implements Serializable {
 
     @OneToOne
     private Machine machine;
@@ -187,7 +187,7 @@ public class Rent implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Rent other = (Rent) obj;
+        final Rental other = (Rental) obj;
         if (this.machine != other.machine && (this.machine == null || !this.machine.equals(other.machine))) {
             return false;
         }

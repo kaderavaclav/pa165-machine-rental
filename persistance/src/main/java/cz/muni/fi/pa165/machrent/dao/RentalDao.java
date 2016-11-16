@@ -5,14 +5,14 @@
  */
 package cz.muni.fi.pa165.machrent.dao;
 
-import cz.muni.fi.pa165.machrent.entities.Rent;
+import cz.muni.fi.pa165.machrent.entities.Rental;
 import java.util.List;
 
 /**
  *
  * @author Peter Benus
  */
-public interface RentDao {
+public interface RentalDao {
     
     /**
      * Save created rent entity given by parameter into database.
@@ -21,7 +21,7 @@ public interface RentDao {
      * 
      * @param r rent to create
      */
-    public void create(Rent r);
+    public void create(Rental r);
 
     /**
      * Remove given rent from database.
@@ -30,7 +30,7 @@ public interface RentDao {
      * 
      * @param r rent to delete
      */
-    public void delete(Rent r); 
+    public void delete(Rental r); 
 
     /**
      * Update entry in database with new values given by rent entity in parameter.
@@ -39,7 +39,7 @@ public interface RentDao {
      * 
      * @param r rent to update
      */
-    public void update(Rent r); 
+    public void update(Rental r); 
 
     /**
      * Find rent with given ID in database.
@@ -49,12 +49,12 @@ public interface RentDao {
      * @param id ID to find
      * @return rent with given ID
      */
-    public Rent findById (Long id);
+    public Rental findById (Long id);
 
     /**
      * Select all rents saved in database.
      * 
      * @return List of Rent entities.
      */
-    public List<Rent> findAll(); 
+    public List<Rental> findAll(); 
 }
