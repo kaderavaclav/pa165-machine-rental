@@ -1,6 +1,8 @@
 package cz.muni.fi.pa165.machrent;
 
+import cz.muni.fi.pa165.machrent.dao.MachineDao;
 import cz.muni.fi.pa165.machrent.entities.Machine;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -9,23 +11,36 @@ import java.util.List;
  */
 public class MachineServiceImpl implements MachineService {
 
+    @Autowired
+    private MachineDao machineDao;
+
+    @Override
     public Machine createMachine(Machine m) {
-        return null;
+        machineDao.create(m);
+        return m;
     }
 
+    @Override
     public void deleteMachine(Machine m) {
 
+        machineDao.delete(m);
     }
 
-    public Machine updateMachine(Machine m) {
-        return null;
+    @Override
+    public Machine updateMachine(Machine m){
+
+        return machineDao.update(m);
     }
 
+    @Override
     public List<Machine> findAllMachines() {
-        return null;
+
+        return machineDao.findAll();
     }
 
+    @Override
     public Machine findById(Long id) {
-        return null;
+
+        return machineDao.findById(id);
     }
 }
