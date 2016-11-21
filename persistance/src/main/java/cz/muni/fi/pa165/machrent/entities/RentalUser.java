@@ -1,5 +1,7 @@
 package cz.muni.fi.pa165.machrent.entities;
 
+import cz.muni.fi.pa165.machrent.enums.LegalPersonality;
+import cz.muni.fi.pa165.machrent.enums.RentalUserRole;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;
@@ -12,12 +14,11 @@ import javax.validation.constraints.NotNull;
  *
  * @author  Josef Plch
  * @since   2016-10-26
- * @version 2016-10-31
+ * @version 2016-11-21
  */
 @Entity
 @Table
 public class RentalUser implements Serializable {
-
     @Column (nullable = false, unique = true)
     @NotNull
     private String email;
@@ -38,7 +39,7 @@ public class RentalUser implements Serializable {
 
     @ElementCollection
     @Enumerated
-    private Set<Role> roles;
+    private Set <RentalUserRole> roles;
     
     private static final String HASH_SALT = "VOLZvQjWGJndyOnjZTfH";
 
@@ -46,47 +47,15 @@ public class RentalUser implements Serializable {
     @NotNull
     private String username;
     
-    /**
-     * There are only two possible types of legal person: natural person and
-     * juridical person (Latin: persona ficta).
-     * 
-     * For further details, see Wikipedia:
-     * https://en.wikipedia.org/wiki/Legal_personality
-     * 
-     * @author  Josef Plch
-     * @since   2016-10-30
-     * @version 2016-10-30
-     */
-    public enum LegalPersonality {
-        JURIDICAL, NATURAL
-    }
-    
-    /**
-     * List of all possible user roles in the evidence system.
-     * 
-     * @author  Josef Plch
-     * @since   2016-10-26
-     * @version 2016-10-26
-     */
-    public enum Role {
-        CUSTOMER, EMPLOYEE
-    }
-
     @Override
     public boolean equals (Object object) {
-        boolean areEqual;
-        if (this == object) {
-            areEqual = true;
-        }
-        else if (object == null) {
-            areEqual = false;
-        }
-        else if (! (object instanceof RentalUser)) {
-            areEqual = false;
+        boolean result;
+        if (object == null || ! (object instanceof RentalUser)) {
+            result = false;
         }
         else {
             RentalUser other = (RentalUser) object;
-            areEqual =
+            result =
                 Objects.equals    (this.id,               other.id)
                 && Objects.equals (this.email,            other.email)
                 && Objects.equals (this.legalPersonality, other.legalPersonality)
@@ -95,7 +64,7 @@ public class RentalUser implements Serializable {
                 && Objects.equals (this.roles,            other.roles)
                 && Objects.equals (this.username,         other.username);
         }
-        return areEqual;
+        return result;
     }
     
     public String getEmail () {
@@ -118,7 +87,7 @@ public class RentalUser implements Serializable {
         return this.passwordHash;
     }
 
-    public Set <Role> getRoles () {
+    public Set <RentalUserRole> getRoles () {
         return this.roles;
     }
 
@@ -129,13 +98,13 @@ public class RentalUser implements Serializable {
     @Override
     public int hashCode () {
         int hash = 3;
-        hash = 67 * hash + (this.id != null ? this.id.hashCode () : 0);
-        hash = 67 * hash + (this.email != null ? this.email.hashCode () : 0);
-        hash = 67 * hash + (this.legalPersonality != null ? this.legalPersonality.hashCode () : 0);
-        hash = 67 * hash + (this.name != null ? this.name.hashCode () : 0);
-        hash = 67 * hash + (this.passwordHash != null ? this.passwordHash.hashCode () : 0);
-        hash = 67 * hash + (this.roles != null ? this.roles.hashCode () : 0);
-        hash = 67 * hash + (this.username != null ? this.username.hashCode () : 0);
+        hash = 67 * hash + Objects.hashCode (id);
+        hash = 67 * hash + Objects.hashCode (email);
+        hash = 67 * hash + Objects.hashCode (legalPersonality);
+        hash = 67 * hash + Objects.hashCode (name);
+        hash = 67 * hash + Objects.hashCode (passwordHash);
+        hash = 67 * hash + Objects.hashCode (roles);
+        hash = 67 * hash + Objects.hashCode (username);
         return hash;
     }
     
@@ -155,6 +124,10 @@ public class RentalUser implements Serializable {
             }
         }
         return hash;
+    }
+    
+    public boolean isEmployee () {
+        return this.roles.contains (RentalUserRole.EMPLOYEE);
     }
     
     public void setId (Long id) {
@@ -187,7 +160,7 @@ public class RentalUser implements Serializable {
         this.passwordHash = passwordHash;
     }
 
-    public void setRoles (Set <Role> roles) {
+    public void setRoles (Set <RentalUserRole> roles) {
         this.roles = roles;
     }
 
@@ -199,9 +172,9 @@ public class RentalUser implements Serializable {
     public String toString () {
         String string =
             "User {"
-            + "id = " + this.id
-            + ", email = " + this.email
-            + ", name = " + this.name
+                + "id = " + this.id
+                + ", email = " + this.email
+                + ", name = " + this.name
             + "}";
         return string;
     }

@@ -13,10 +13,10 @@ import org.springframework.stereotype.Repository;
  * 
  * @author  Josef Plch
  * @since   2016-10-27
- * @version 2016-10-28
+ * @version 2016-11-21
  */
 @Repository
-public class UserDaoImpl implements UserDao {
+public class RentalUserDaoImpl implements RentalUserDao {
     @PersistenceContext
     private EntityManager em;
 
@@ -32,7 +32,7 @@ public class UserDaoImpl implements UserDao {
     
     @Override
     public List <RentalUser> findAll () {
-        TypedQuery <RentalUser> query = em.createQuery ("select u from RentalUser u", RentalUser.class); // Not sure whether User or RentalUser.
+        TypedQuery <RentalUser> query = em.createQuery ("select u from RentalUser u", RentalUser.class);
         return (List <RentalUser>) query.getResultList ();
     }
     
@@ -44,7 +44,7 @@ public class UserDaoImpl implements UserDao {
         
         try {
             RentalUser user =
-                em.createQuery ("select u from RentalUser u where u.email=:email", RentalUser.class) // Not sure whether User or RentalUser.
+                em.createQuery ("select u from RentalUser u where u.email=:email", RentalUser.class)
                 .setParameter ("email", email)
                 .getSingleResult ();
             return user;
@@ -57,6 +57,24 @@ public class UserDaoImpl implements UserDao {
     @Override
     public RentalUser findById (Long id) {
         return em.find (RentalUser.class, id);
+    }
+    
+    @Override
+    public RentalUser findByUsername (String username) {
+        if (username == null || username.isEmpty ()) {
+            throw new IllegalArgumentException ("null username");
+        }
+        
+        try {
+            RentalUser user =
+                em.createQuery ("select u from RentalUser u where u.username=:username", RentalUser.class)
+                .setParameter ("username", username)
+                .getSingleResult ();
+            return user;
+        }
+        catch (NoResultException exception) {
+            return null;
+        }
     }
 
     @Override

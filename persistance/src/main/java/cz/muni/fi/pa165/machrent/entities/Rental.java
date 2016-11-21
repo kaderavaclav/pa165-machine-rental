@@ -15,7 +15,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table
-public class Rent implements Serializable {
+public class Rental implements Serializable {
 
     @OneToOne
     private Machine machine;
@@ -25,7 +25,7 @@ public class Rent implements Serializable {
     @OneToOne
     private RentalUser employee;
     private Date dateStart;
-    private Date dateEnd;    
+    private Date dateEnd;
     private Date dateCreated;
 
     @Id
@@ -33,25 +33,32 @@ public class Rent implements Serializable {
     private Long id;
 
     /**
-     *  Returns ID of this rent object.
-     * 
+     * Returns ID of this rent object.
+     *
      * @return ID of rent object
      */
     public Long getId() {
         return id;
     }
+
+    public Rental(Long rentalId) {
+        this.id = rentalId;
+    }
     
+    public Rental(){  
+    }
+
     /**
-     *  Returns rented machine by customer in this object.
-     * 
-     * @return rented machine 
+     * Returns rented machine by customer in this object.
+     *
+     * @return rented machine
      */
     public Machine getMachine() {
         return machine;
     }
 
     /**
-     *  Sets the rented machine to this rent object.
+     * Sets the rented machine to this rent object.
      *
      * @param machine rented machine in this rent
      */
@@ -61,7 +68,7 @@ public class Rent implements Serializable {
 
     /**
      * Returns customer who ordered this rent of machine in this object.
-     * 
+     *
      * @return customer who ordered this rent
      */
     public RentalUser getCustomer() {
@@ -97,7 +104,7 @@ public class Rent implements Serializable {
 
     /**
      * Returns employee who created this rent in system.
-     * 
+     *
      * @return employee who created rent
      */
     public RentalUser getEmployee() {
@@ -106,7 +113,7 @@ public class Rent implements Serializable {
 
     /**
      * Sets employee who created this rent in system.
-     * 
+     *
      * @param employee employee who created rent
      */
     public void setEmployee(RentalUser employee) {
@@ -115,7 +122,7 @@ public class Rent implements Serializable {
 
     /**
      * Returns first day of this rent.
-     * 
+     *
      * @return first day of rent
      */
     public Date getDateStart() {
@@ -123,8 +130,8 @@ public class Rent implements Serializable {
     }
 
     /**
-     *  Sets first day of this rent.
-     * 
+     * Sets first day of this rent.
+     *
      * @param dateStart first day of rent
      */
     public void setDateStart(Date dateStart) {
@@ -133,7 +140,7 @@ public class Rent implements Serializable {
 
     /**
      * Returns last day of this rent.
-     * 
+     *
      * @return last day of rent
      */
     public Date getDateEnd() {
@@ -142,7 +149,7 @@ public class Rent implements Serializable {
 
     /**
      * Sets last day of this rent.
-     * 
+     *
      * @param dateEnd last day of rent
      */
     public void setDateEnd(Date dateEnd) {
@@ -160,7 +167,7 @@ public class Rent implements Serializable {
 
     /**
      * Sets the day when this rent was ordered.
-     * 
+     *
      * @param dateCreated day of order this rent
      */
     public void setDateCreated(Date dateCreated) {
@@ -187,7 +194,7 @@ public class Rent implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Rent other = (Rent) obj;
+        final Rental other = (Rental) obj;
         if (this.machine != other.machine && (this.machine == null || !this.machine.equals(other.machine))) {
             return false;
         }
@@ -200,7 +207,4 @@ public class Rent implements Serializable {
         return true;
     }
 
-    
-    
-    
 }
