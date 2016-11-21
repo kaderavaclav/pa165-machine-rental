@@ -9,6 +9,7 @@ import cz.muni.fi.pa165.machrent.entities.Machine;
 import cz.muni.fi.pa165.machrent.entities.RentalUser;
 import cz.muni.fi.pa165.machrent.entities.Revision;
 import cz.muni.fi.pa165.machrent.PersistenceApplicationContext;
+import cz.muni.fi.pa165.machrent.enums.LegalPersonality;
 
 import java.util.Date;
 import java.util.List;
@@ -36,7 +37,7 @@ public class RevisionDaoTest extends AbstractTestNGSpringContextTests {
     @Autowired
     private MachineDao machineDao;
     @Autowired
-    private UserDao userDao;
+    private RentalUserDao userDao;
 
     private Revision revision;
 //    private RentalUser mechanic;
@@ -56,7 +57,7 @@ public class RevisionDaoTest extends AbstractTestNGSpringContextTests {
         mechanic.setName("Janko");
         mechanic.setEmail("janko@mail.com");
         mechanic.setUsername("johny");
-        mechanic.setLegalPersonality(RentalUser.LegalPersonality.NATURAL);
+        mechanic.setLegalPersonality(LegalPersonality.NATURAL);
         userDao.create(mechanic);
         revision.setMechanic(mechanic);
         revision.setNote("revision1");
@@ -87,7 +88,7 @@ public class RevisionDaoTest extends AbstractTestNGSpringContextTests {
         mechanic2.setName("Ferko");
         mechanic2.setEmail("ferko@mail.com");
         mechanic2.setUsername("fery");
-        mechanic2.setLegalPersonality(RentalUser.LegalPersonality.JURIDICAL);
+        mechanic2.setLegalPersonality(LegalPersonality.JURIDICAL);
         userDao.create(mechanic2);
         revision2.setMechanic(mechanic2);
         revision2.setNote("revision2");

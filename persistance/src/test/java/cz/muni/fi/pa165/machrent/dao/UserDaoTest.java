@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.machrent.dao;
 
 import cz.muni.fi.pa165.machrent.PersistenceApplicationContext;
 import cz.muni.fi.pa165.machrent.entities.RentalUser;
+import cz.muni.fi.pa165.machrent.enums.LegalPersonality;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -25,7 +26,7 @@ import javax.validation.ConstraintViolationException;
 public class UserDaoTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
-    private UserDao userDao;
+    private RentalUserDao userDao;
 
     @PersistenceContext
     private EntityManager em;
@@ -43,7 +44,7 @@ public class UserDaoTest extends AbstractTestNGSpringContextTests {
         validUser.setEmail("valid@email.com");
         validUser.setName("Valid User");
         validUser.setUsername("validUser");
-        validUser.setLegalPersonality(RentalUser.LegalPersonality.NATURAL);
+        validUser.setLegalPersonality(LegalPersonality.NATURAL);
 
         updatedEmail = "newEmail@test.it";
 
@@ -51,7 +52,7 @@ public class UserDaoTest extends AbstractTestNGSpringContextTests {
         userToDelete.setEmail("valid2@email.com");
         userToDelete.setName("Valid2 User");
         userToDelete.setUsername("userToDelete");
-        userToDelete.setLegalPersonality(RentalUser.LegalPersonality.NATURAL);
+        userToDelete.setLegalPersonality(LegalPersonality.NATURAL);
 
         invalidId = 0L;
         invalidEmail = "invalidEmail";
@@ -59,7 +60,7 @@ public class UserDaoTest extends AbstractTestNGSpringContextTests {
         invalidUser.setName("invalid User");
         invalidUser.setUsername("invalidUser");
         invalidUser.setEmail(invalidEmail);
-        invalidUser.setLegalPersonality(RentalUser.LegalPersonality.NATURAL);
+        invalidUser.setLegalPersonality(LegalPersonality.NATURAL);
 
         userDao.create(validUser);
         userDao.create(userToDelete);

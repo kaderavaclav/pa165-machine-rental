@@ -8,9 +8,9 @@ import java.util.List;
  * 
  * @author  Josef Plch
  * @since   2016-10-27
- * @version 2016-10-28
+ * @version 2016-11-21
  */
-public interface UserDao {
+public interface RentalUserDao {
     /**
      * Persist the user (save him/her into some storage).
      * 
@@ -47,6 +47,14 @@ public interface UserDao {
      * @return A user with the given ID (if any).
      */
     public RentalUser findById (Long id);
+    
+    /**
+     * Find user with the given username. (The usernames are unique.)
+     * 
+     * @param username The username address to search by.
+     * @return A user with the given username (if any).
+     */
+    public RentalUser findByUsername (String username);    
     
     /**
      * Persist the changes – basicly the same as create, but for an already-
