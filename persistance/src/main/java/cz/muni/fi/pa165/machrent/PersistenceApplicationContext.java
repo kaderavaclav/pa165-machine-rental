@@ -10,7 +10,7 @@ import javax.sql.DataSource;
 
 import cz.muni.fi.pa165.machrent.dao.MachineDao;
 import cz.muni.fi.pa165.machrent.dao.RevisionDao;
-import cz.muni.fi.pa165.machrent.dao.UserDao;
+import cz.muni.fi.pa165.machrent.dao.RentalUserDao;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

@@ -4,6 +4,8 @@ import cz.muni.fi.pa165.machrent.entities.Machine;
 import cz.muni.fi.pa165.machrent.entities.Rental;
 import cz.muni.fi.pa165.machrent.entities.RentalUser;
 import cz.muni.fi.pa165.machrent.PersistenceApplicationContext;
+import cz.muni.fi.pa165.machrent.enums.LegalPersonality;
+import cz.muni.fi.pa165.machrent.enums.RentalUserRole;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
@@ -22,7 +24,7 @@ import org.testng.annotations.Test;
 /**
  * @author  Josef Plch
  * @since   2016-10-31
- * @version 2016-10-31
+ * @version 2016-11-21
  */
 @ContextConfiguration (classes = PersistenceApplicationContext.class)
 @TestExecutionListeners (TransactionalTestExecutionListener.class)
@@ -39,25 +41,25 @@ public class RentalDaoTest extends AbstractTestNGSpringContextTests {
     private RentalDao rentalDao;
     
     @Autowired
-    private UserDao userDao;
+    private RentalUserDao userDao;
 
     @BeforeMethod
     public void beforeMethod () {
         RentalUser customerA;
         customerA = new RentalUser ();
         customerA.setEmail ("zednicek@email.cz");
-        customerA.setLegalPersonality (RentalUser.LegalPersonality.NATURAL);
+        customerA.setLegalPersonality (LegalPersonality.NATURAL);
         customerA.setName ("Pavel Zedníèek");
-        customerA.setRoles (Collections.singleton (RentalUser.Role.CUSTOMER));
+        customerA.setRoles (Collections.singleton (RentalUserRole.CUSTOMER));
         customerA.setUsername ("zednicek");
         userDao.create (customerA);
         
         RentalUser employeeA;
         employeeA = new RentalUser ();
         employeeA.setEmail ("kant@machinerentals.com");
-        employeeA.setLegalPersonality (RentalUser.LegalPersonality.NATURAL);
+        employeeA.setLegalPersonality (LegalPersonality.NATURAL);
         employeeA.setName ("Immanuel Kant");
-        employeeA.setRoles (Collections.singleton (RentalUser.Role.EMPLOYEE));
+        employeeA.setRoles (Collections.singleton (RentalUserRole.EMPLOYEE));
         employeeA.setUsername ("kant");
         userDao.create (employeeA);
         
@@ -104,18 +106,18 @@ public class RentalDaoTest extends AbstractTestNGSpringContextTests {
         
         RentalUser customerB = new RentalUser ();
         customerB.setEmail ("info@slovakostav.eu");
-        customerB.setLegalPersonality (RentalUser.LegalPersonality.JURIDICAL);
+        customerB.setLegalPersonality (LegalPersonality.JURIDICAL);
         customerB.setName ("Slovakostav, s.r.o.");
-        customerB.setRoles (Collections.singleton (RentalUser.Role.CUSTOMER));
+        customerB.setRoles (Collections.singleton (RentalUserRole.CUSTOMER));
         customerB.setUsername ("slovakostav");
         userDao.create (customerB);
         
         RentalUser employeeB;
         employeeB = new RentalUser ();
         employeeB.setEmail ("descartes@machinerentals.com");
-        employeeB.setLegalPersonality (RentalUser.LegalPersonality.NATURAL);
+        employeeB.setLegalPersonality (LegalPersonality.NATURAL);
         employeeB.setName ("René Descartes");
-        employeeB.setRoles (Collections.singleton (RentalUser.Role.EMPLOYEE));
+        employeeB.setRoles (Collections.singleton (RentalUserRole.EMPLOYEE));
         employeeB.setUsername ("rene");
         userDao.create (employeeB);
         
