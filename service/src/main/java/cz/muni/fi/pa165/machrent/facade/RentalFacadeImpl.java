@@ -6,7 +6,9 @@
 package cz.muni.fi.pa165.machrent.facade;
 
 import cz.muni.fi.pa165.machrent.BeanMappingService;
+import cz.muni.fi.pa165.machrent.MachineService;
 import cz.muni.fi.pa165.machrent.RentalService;
+import cz.muni.fi.pa165.machrent.RentalUserService;
 import cz.muni.fi.pa165.machrent.dto.MachineDto;
 import cz.muni.fi.pa165.machrent.dto.RentalCreateDto;
 import cz.muni.fi.pa165.machrent.dto.RentalDto;
@@ -56,8 +58,8 @@ public class RentalFacadeImpl implements RentalFacade {
         mappedRental.setDateStart(now);
         mappedRental.setDateEnd(now);
         mappedRental.setNote(new String());
-        mappedRental.setEmployee(rentalUserService.findById(r.getEmployeeId()));
-        mappedRental.setCustomer(rentalUserService.findById(r.getCustomerId()));
+        mappedRental.setEmployee(rentalUserService.findUserById(r.getEmployeeId()));
+        mappedRental.setCustomer(rentalUserService.findUserById(r.getCustomerId()));
         mappedRental.setMachine(machineService.findById(r.getMachineId()));
         Rental newRental = rentalService.createRental(mappedRental);
         return newRental.getId();
@@ -80,7 +82,7 @@ public class RentalFacadeImpl implements RentalFacade {
 
     @Override
     public void setCustomer(Long rentalId, Long customerId) {
-        rentalService.setCustomer(rentalService.findById(rentalId), rentalUserService.findById(customerId));
+        rentalService.setCustomer(rentalService.findById(rentalId), rentalUserService.findUserById(customerId));
     }
 
     @Override
@@ -91,22 +93,22 @@ public class RentalFacadeImpl implements RentalFacade {
 
     @Override
     public void setEmployee(Long rentalId, Long employeeId) {
-        rentalService.setEmployee(rentalService.findById(rentalId), rentalUserService.findById(employeeId));
+        rentalService.setEmployee(rentalService.findById(rentalId), rentalUserService.findUserById(employeeId));
     }
 
     @Override
-    public Long getEmployee(Long rentalId) {
+    public RentalUserDto getEmployee(Long rentalId) {
         RentalUser employee = rentalService.getEmployee(rentalService.findById(rentalId));
         return (employee == null) ? null : beanMappingService.mapTo(employee, RentalUserDto.class);
     }
 
     @Override
     public void setMachine(Long rentalId, Long machineId) {
-        rentalService.setEmployee(rentalService.findById(rentalId), machineService.findById(machineId));
+        rentalService.setMachine(rentalService.findById(rentalId), machineService.findById(machineId));
     }
 
     @Override
-    public Long getMachine(Long rentalId) {
+    public MachineDto getMachine(Long rentalId) {
         Machine machine = rentalService.getMachine(rentalService.findById(rentalId));
         return (machine == null) ? null : beanMappingService.mapTo(machine, MachineDto.class);
     }
