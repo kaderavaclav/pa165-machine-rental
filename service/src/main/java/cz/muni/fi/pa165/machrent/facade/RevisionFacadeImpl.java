@@ -7,12 +7,16 @@ import cz.muni.fi.pa165.machrent.dto.RevisionDto;
 import cz.muni.fi.pa165.machrent.entities.Revision;
 import cz.muni.fi.pa165.machrent.exceptions.MachrentServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 /**
  * Created by zschwarz on 11/20/16.
  */
+@Service
+@Transactional
 public class RevisionFacadeImpl implements RevisionFacade {
 
 	@Autowired

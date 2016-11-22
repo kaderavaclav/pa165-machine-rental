@@ -1,12 +1,14 @@
 package cz.muni.fi.pa165.machrent;
 
 import cz.muni.fi.pa165.machrent.entities.Machine;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * Created by vaclav.kadera on 16-Nov-16.
  */
+@Service
 public interface MachineService {
     /**
      * Method that creates {@code Machine} in database.

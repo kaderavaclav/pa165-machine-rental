@@ -6,14 +6,18 @@ import cz.muni.fi.pa165.machrent.dto.MachineCreateDto;
 import cz.muni.fi.pa165.machrent.dto.MachineDto;
 import cz.muni.fi.pa165.machrent.dto.MachineUpdateDto;
 import cz.muni.fi.pa165.machrent.entities.Machine;
-import org.apache.commons.lang3.NotImplementedException;
+import cz.muni.fi.pa165.machrent.exceptions.MachineServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 /**
  * Created by vaclav.kadera on 16-Nov-16.
  */
+@Service
+@Transactional
 public class MachineFacadeImpl implements MachineFacade {
 
     @Autowired
@@ -39,7 +43,7 @@ public class MachineFacadeImpl implements MachineFacade {
         Machine m = ms.findById(id);
 
         if(m == null)
-            throw new NotImplementedException("MISSING MachineServiceException >> TODO");
+            throw new MachineServiceException("Machine with id: " + id + " doesn't exist!");
 
         ms.deleteMachine(ms.findById(id));
     }
