@@ -5,10 +5,12 @@ import java.util.Collection;
 import java.util.List;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * Created by vaclav.kadera on 16-Nov-16.
  */
+@Service
 public class BeanMappingServiceImpl implements BeanMappingService {
 
     @Autowired
