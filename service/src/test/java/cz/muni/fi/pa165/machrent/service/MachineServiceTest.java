@@ -33,6 +33,7 @@ import org.testng.annotations.Test;
 import javax.crypto.Mac;
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
@@ -51,6 +52,9 @@ public class MachineServiceTest {
 
     @InjectMocks
     private MachineService machineService = new MachineServiceImpl();
+
+    @Captor
+    private ArgumentCaptor<Machine> machineArgumentCaptor;
 
     private Machine machine1;
     private Machine machine2;
@@ -106,10 +110,22 @@ public class MachineServiceTest {
     }
 
 
-    /*@Test
-    public void testFindAll() {
+    @Test
+    public void findAll() {
+        List<Machine> machines = Arrays.asList(machine1, machine2);
+        when(machineDao.findAll()).thenReturn(machines);
+        List<Machine> res = machineService.findAllMachines();
 
-    }*/
+        assertEquals(res.size(), machines.size());
+
+        assertEquals(machine1.getId(),res.get(0).getId());
+        assertEquals(machine1.getName(),res.get(0).getName());
+        assertEquals(machine1.getDescription(),res.get(0).getDescription());
+        assertEquals(machine2.getId(),res.get(1).getId());
+        assertEquals(machine2.getName(),res.get(1).getName());
+        assertEquals(machine2.getDescription(),res.get(1).getDescription());
+
+    }
 
 
 }

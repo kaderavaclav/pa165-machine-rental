@@ -17,6 +17,7 @@ import org.testng.annotations.Test;
 import javax.crypto.Mac;
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
@@ -116,18 +117,20 @@ public class MachineFacadeTest extends AbstractTransactionalTestNGSpringContextT
 
     }
 
-    /*@Test
-    public void findAll(){
+    @Test
+    public void findAll() {
+        List<Machine> machines = Arrays.asList(machine1, machine2);
+        when(machineService.findAllMachines()).thenReturn(machines);
         List<MachineDto> machineDtos = machineFacade.findAllMachines();
-        assertNotNull(machineDtos);
-        assertEquals(machineDtos.size(),2);
+
+        assertEquals(machineDtos.size(), machines.size());
+
         assertEquals(machine1.getId(),machineDtos.get(0).getId());
         assertEquals(machine1.getName(),machineDtos.get(0).getName());
         assertEquals(machine1.getDescription(),machineDtos.get(0).getDescription());
-        assertEquals(machine2.getId(),machineDtos.get(1));
-        assertEquals(machine2.getName(),machineDtos.get(1));
-        assertEquals(machine2.getDescription(),machineDtos.get(1));
-
-    }*/
+        assertEquals(machine2.getId(),machineDtos.get(1).getId());
+        assertEquals(machine2.getName(),machineDtos.get(1).getName());
+        assertEquals(machine2.getDescription(),machineDtos.get(1).getDescription());
+    }
 
 }
