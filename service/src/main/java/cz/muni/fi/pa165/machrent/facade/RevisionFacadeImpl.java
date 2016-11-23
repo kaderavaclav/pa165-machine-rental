@@ -6,6 +6,7 @@ import cz.muni.fi.pa165.machrent.dto.RevisionCreateDto;
 import cz.muni.fi.pa165.machrent.dto.RevisionDto;
 import cz.muni.fi.pa165.machrent.entities.Revision;
 import cz.muni.fi.pa165.machrent.exceptions.MachrentServiceException;
+import cz.muni.fi.pa165.machrent.exceptions.RevisionServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,7 +43,7 @@ public class RevisionFacadeImpl implements RevisionFacade {
 		}
 		Revision rev = beanMappingService.mapTo(r, Revision.class);
 		if (revs.findById(rev.getId()) == null) {
-			throw new MachrentServiceException("Revision not found.");
+			throw new RevisionServiceException("Revision not found.");
 		}
 		revs.updateRevision(rev);
 
@@ -53,7 +54,7 @@ public class RevisionFacadeImpl implements RevisionFacade {
 	public void deleteRevision(Long id) {
 		Revision r = revs.findById(id);
 		if (r == null) {
-			throw new MachrentServiceException("Revision not found.");
+			throw new RevisionServiceException("Revision not found.");
 		}
 		revs.deleteRevision(r);
 	}
@@ -67,7 +68,7 @@ public class RevisionFacadeImpl implements RevisionFacade {
 	public RevisionDto findById(Long id) {
 		Revision r = revs.findById(id);
 		if (r == null) {
-			throw new MachrentServiceException("Revision not found.");
+			throw new RevisionServiceException("Revision not found.");
 		}
 		return beanMappingService.mapTo(r,RevisionDto.class);
 	}
