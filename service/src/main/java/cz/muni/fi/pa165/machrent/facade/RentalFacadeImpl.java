@@ -16,6 +16,7 @@ import cz.muni.fi.pa165.machrent.dto.RentalUserDto;
 import cz.muni.fi.pa165.machrent.entities.Machine;
 import cz.muni.fi.pa165.machrent.entities.Rental;
 import cz.muni.fi.pa165.machrent.entities.RentalUser;
+import cz.muni.fi.pa165.machrent.exceptions.RentalServiceException;
 import java.util.Date;
 import java.util.List;
 import javax.inject.Inject;
@@ -71,6 +72,11 @@ public class RentalFacadeImpl implements RentalFacade {
 
     @Override
     public void deleteRental(Long rentalId) {
+        Rental rental = rentalService.findById(rentalId);
+        
+        if (rental == null) 
+            throw new RentalServiceException("Machine with id: " + rentalId + " doesn't exist!"); 
+        
         rentalService.deleteRental(new Rental(rentalId)); 
     }
 
