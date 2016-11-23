@@ -97,7 +97,6 @@ public class RentalUserFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void getAllUsers() {
-
         when(rentalUserService.getAllUsers()).thenReturn(users);
 
         rentalUserFacade.getAllUsers();
@@ -145,10 +144,17 @@ public class RentalUserFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void deleteUser() {
-
         rentalUserFacade.deleteUser(validUserDto.getId());
 
         verify(rentalUserService).deleteUser(validUserDto.getId());
+    }
+
+    @Test
+    public void updateUser(){
+        when(beanMappingService.mapTo(validUserDto, RentalUser.class)).thenReturn(validUser);
+        rentalUserFacade.updateUser(validUserDto);
+
+        verify(rentalUserService).updateUser(validUser);
     }
 
 }

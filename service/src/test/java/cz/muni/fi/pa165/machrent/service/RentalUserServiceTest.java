@@ -116,14 +116,18 @@ public class RentalUserServiceTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void deleteUser(){
-
         when(rentalUserDao.findById(validUser.getId())).thenReturn(validUser);
-
         rentalUserService.deleteUser(validUser.getId());
-
 
         verify(rentalUserDao, atMost(2)).findById(validUser.getId());
         verify(rentalUserDao).delete(validUser);
+    }
+
+    @Test
+    public void updateUser(){
+        rentalUserService.updateUser(validUser);
+
+        verify(rentalUserDao).update(validUser);
     }
 
 
