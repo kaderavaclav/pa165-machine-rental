@@ -14,19 +14,22 @@ import cz.muni.fi.pa165.machrent.entities.Machine;
 import cz.muni.fi.pa165.machrent.entities.RentalUser;
 import cz.muni.fi.pa165.machrent.entities.Revision;
 import cz.muni.fi.pa165.machrent.enums.LegalPersonality;
+import cz.muni.fi.pa165.machrent.exceptions.RevisionServiceException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -45,9 +48,8 @@ public class RevisionFacadeTest extends AbstractTestNGSpringContextTests{
     @Mock
     private BeanMappingService beanMappingService;
     
-    @Autowired
     @InjectMocks
-    private RevisionFacade revisionFacade;
+    private RevisionFacade revisionFacade = new RevisionFacadeImpl();
     
     private RevisionDto revisionDto;
     private RevisionCreateDto revisionCreateDto;
@@ -55,8 +57,14 @@ public class RevisionFacadeTest extends AbstractTestNGSpringContextTests{
     private Date timestamp;
     private List<Revision> revisions;
     
+    @BeforeClass
+    public void initTestClass() throws RevisionServiceException {
+        MockitoAnnotations.initMocks(this);
+    }
+    
     @BeforeMethod
     public void initTest() {
+        revisionDto = new RevisionDto();
         revisionDto.setId(1L);
         revisionDto.setNote("Test note");
         timestamp = new Date();
@@ -71,6 +79,7 @@ public class RevisionFacadeTest extends AbstractTestNGSpringContextTests{
         mechanic.setLegalPersonality(LegalPersonality.NATURAL);
         revisionDto.setMechanic(mechanic);
         
+        revisionCreateDto = new RevisionCreateDto();
         revisionCreateDto.setId(1L);
         revisionCreateDto.setNote("Test note");
         timestamp = new Date();
@@ -83,6 +92,7 @@ public class RevisionFacadeTest extends AbstractTestNGSpringContextTests{
         mechanic.setLegalPersonality(LegalPersonality.NATURAL);
         revisionCreateDto.setMechanic(mechanic);
         
+        revision = new Revision();
         revision.setId(1L);
         revision.setNote("Test note");
         timestamp = new Date();
@@ -95,6 +105,7 @@ public class RevisionFacadeTest extends AbstractTestNGSpringContextTests{
         mechanic.setLegalPersonality(LegalPersonality.NATURAL);
         revision.setMechanic(mechanic);
         
+        revisions = new ArrayList<>();
         revisions.add(revision);
     }
     
@@ -104,16 +115,17 @@ public class RevisionFacadeTest extends AbstractTestNGSpringContextTests{
         
         revisionFacade.createRevision(revisionCreateDto);
         
-        verify(revisionFacade).createRevision(revisionCreateDto);
+        verify(revisionService).createRevision(revision);
     }
     
     @Test
-    public void RevisionFacadeDeleteTest(){
+    public void RevisionFacadeDeleteTest(){  
+        when(revisionService.findById(1L)).thenReturn(revision);
         when(beanMappingService.mapTo(revisionDto, Revision.class)).thenReturn(revision);
         
         revisionFacade.deleteRevision(revisionDto.getId());
         
-        verify(revisionFacade).deleteRevision(revisionDto.getId());
+        verify(revisionService).deleteRevision(revision);
     }
     
     @Test
@@ -122,7 +134,7 @@ public class RevisionFacadeTest extends AbstractTestNGSpringContextTests{
         
         revisionFacade.updateRevision(revisionDto);
         
-        verify(revisionFacade).updateRevision(revisionDto);
+        verify(revisionService).updateRevision(revision);
     }
     
     @Test
