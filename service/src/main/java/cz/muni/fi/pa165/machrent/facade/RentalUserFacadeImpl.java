@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * @author  Josef Plch
  * @since   2016-11-21
- * @version 2016-11-21
+ * @version 2016-11-23
  */
 @Service
 @Transactional
@@ -65,12 +65,12 @@ public class RentalUserFacadeImpl implements RentalUserFacade {
     }
 
     @Override
-    public boolean isEmployee (RentalUserDto userDto) {
-        return convertToEntity (userDto).isEmployee ();
-    }
-
-    @Override
     public void registerUser (RentalUserDto userDto, String password) {
         rentalUserService.registerUser (convertToEntity (userDto), password);
+    }
+    
+    @Override
+    public void updateUser (RentalUserDto userDto) {
+        rentalUserService.updateUser (convertToEntity (userDto));
     }
 }

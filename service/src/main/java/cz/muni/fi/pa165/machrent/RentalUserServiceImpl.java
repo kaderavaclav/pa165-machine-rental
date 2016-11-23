@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 /**
  * @author  Josef Plch
  * @since   2016-11-21
- * @version 2016-11-21
+ * @version 2016-11-23
  */
 @Service
 public class RentalUserServiceImpl implements RentalUserService {
@@ -47,14 +47,12 @@ public class RentalUserServiceImpl implements RentalUserService {
     }
 
     @Override
-    public boolean isEmployee (RentalUser user) {
-        // Use a fresh copy from database.
-        return findUserById (user.getId ()).isEmployee ();
-    }
-
-    @Override
     public void registerUser (RentalUser user, String password) {
         user.setPassword (password);
         rentalUserDao.create (user);
+    }
+    
+    public void updateUser (RentalUser user) {
+        rentalUserDao.update (user);
     }
 }

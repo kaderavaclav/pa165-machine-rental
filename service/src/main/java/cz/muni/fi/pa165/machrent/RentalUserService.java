@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
  * 
  * @author  Josef Plch
  * @since   2016-11-21
- * @version 2016-11-21
+ * @version 2016-11-23
  */
 @Service
 public interface RentalUserService {
@@ -39,18 +39,17 @@ public interface RentalUserService {
     public Collection <RentalUser> getAllUsers ();
 
     /**
-     * Check whether the given user is employee.
-     * 
-     * @param user The user to be checked.
-     * @return     Yes/no.
-     */
-    public boolean isEmployee (RentalUser user);
-    
-    /**
      * Register the given user with the given unencrypted password.
      * 
      * @param user     The user to be registered.
      * @param password Unencrypted password.
      */
     public void registerUser (RentalUser user, String password);
+    
+    /**
+     * Save the data of an existing user.
+     * 
+     * @param user The use to be updated.
+     */
+    public void updateUser (RentalUser user);
 }
