@@ -10,7 +10,12 @@ import cz.muni.fi.pa165.machrent.exception.MachrentDataAccesException;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
+import org.springframework.transaction.annotation.Transactional;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -43,13 +48,15 @@ import static org.testng.AssertJUnit.*;
 /**
  * Created by zuz-schwarzova on 23. 11. 2016.
  */
-
-@ContextConfiguration(classes = ServiceConfiguration.class)
-public class MachineServiceTest {
+@ContextConfiguration (classes = ServiceConfiguration.class)
+@TestExecutionListeners(TransactionalTestExecutionListener.class)
+@Transactional
+public class MachineServiceTest extends AbstractTestNGSpringContextTests {
 
     @Mock
     private MachineDao machineDao;
 
+    @Autowired
     @InjectMocks
     private MachineService machineService = new MachineServiceImpl();
 
@@ -101,8 +108,6 @@ public class MachineServiceTest {
     public void update() {
         machineService.updateMachine(machine1);
         verify(machineDao).update(machine1);
-
-
     }
 
     @Test
@@ -120,19 +125,8 @@ public class MachineServiceTest {
 
     @Test
     public void findAll() {
-        List<Machine> machines = Arrays.asList(machine1, machine2);
-        when(machineDao.findAll()).thenReturn(machines);
-        List<Machine> res = machineService.findAllMachines();
-
-        assertEquals(res.size(), machines.size());
-
-        assertEquals(machine1.getId(),res.get(0).getId());
-        assertEquals(machine1.getName(),res.get(0).getName());
-        assertEquals(machine1.getDescription(),res.get(0).getDescription());
-        assertEquals(machine2.getId(),res.get(1).getId());
-        assertEquals(machine2.getName(),res.get(1).getName());
-        assertEquals(machine2.getDescription(),res.get(1).getDescription());
-
+        machineService.findAllMachines();
+        verify(machineDao).findAll();
     }
 
 
