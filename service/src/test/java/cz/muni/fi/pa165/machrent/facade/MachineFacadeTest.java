@@ -6,6 +6,7 @@ import cz.muni.fi.pa165.machrent.MachineService;
 import cz.muni.fi.pa165.machrent.config.ServiceConfiguration;
 import cz.muni.fi.pa165.machrent.dto.MachineCreateDto;
 import cz.muni.fi.pa165.machrent.dto.MachineDto;
+import cz.muni.fi.pa165.machrent.dto.MachineUpdateDto;
 import cz.muni.fi.pa165.machrent.entities.Machine;
 import org.mockito.*;
 import org.springframework.test.context.ContextConfiguration;
@@ -101,6 +102,23 @@ public class MachineFacadeTest extends AbstractTransactionalTestNGSpringContextT
         assertEquals(m.getDescription(), description1);
     }
 
+
+    @Test
+    public void testUpdate() {
+        MachineUpdateDto machineDto = new MachineUpdateDto();
+        machineDto.setId(machine1.getId());
+        machineDto.setName(machine1.getName());
+        machineDto.setDescription("holub");
+
+        machineFacade.updateMachine(machineDto);
+
+        verify(machineService).updateMachine(machineArgumentCaptor.capture());
+
+        Machine m = machineArgumentCaptor.getValue();
+        assertEquals(m.getId(), machineDto.getId());
+        assertEquals(m.getName(), machineDto.getName());
+        assertEquals(m.getDescription(), machineDto.getDescription());
+    }
 
     @Test
     public void deleteMachine(){

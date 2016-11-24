@@ -98,6 +98,14 @@ public class MachineServiceTest {
     }
 
     @Test
+    public void update() {
+        machineService.updateMachine(machine1);
+        verify(machineDao).update(machine1);
+
+
+    }
+
+    @Test
     public void delete(){
         machineService.deleteMachine(machine1);
         verify(machineDao).delete(machine1);
