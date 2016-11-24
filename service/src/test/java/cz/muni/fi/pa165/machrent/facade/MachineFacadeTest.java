@@ -10,7 +10,11 @@ import cz.muni.fi.pa165.machrent.dto.MachineUpdateDto;
 import cz.muni.fi.pa165.machrent.entities.Machine;
 import org.mockito.*;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
+import org.springframework.transaction.annotation.Transactional;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -32,13 +36,14 @@ import static org.testng.AssertJUnit.assertNull;
  * Created by zuz-schwarzova on 23. 11. 2016.
  */
 @ContextConfiguration(classes = ServiceConfiguration.class)
-public class MachineFacadeTest extends AbstractTransactionalTestNGSpringContextTests {
+@TestExecutionListeners(TransactionalTestExecutionListener.class)
+@Transactional
+public class MachineFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Mock
     private MachineService machineService;
 
-    @Spy
-    @Inject
+    @Mock
     private BeanMappingService beanMappingService = new BeanMappingServiceImpl();
 
     @InjectMocks
@@ -108,30 +113,43 @@ public class MachineFacadeTest extends AbstractTransactionalTestNGSpringContextT
         MachineUpdateDto machineDto = new MachineUpdateDto();
         machineDto.setId(machine1.getId());
         machineDto.setName(machine1.getName());
-        machineDto.setDescription("holub");
+        machineDto.setDescription(machine1.getDescription());
+
+        when(beanMappingService.mapTo(machineDto, Machine.class)).thenReturn(machine1);
 
         machineFacade.updateMachine(machineDto);
 
-        verify(machineService).updateMachine(machineArgumentCaptor.capture());
+        verify(machineService).updateMachine(machine1);
 
-        Machine m = machineArgumentCaptor.getValue();
-        assertEquals(m.getId(), machineDto.getId());
-        assertEquals(m.getName(), machineDto.getName());
-        assertEquals(m.getDescription(), machineDto.getDescription());
     }
 
     @Test
     public void deleteMachine(){
-        machineFacade.deleteMachine(2L);
-        verify(machineService).deleteMachine(machine2);
+        MachineDto machineDto = new MachineDto();
+        machineDto.setId(machine1.getId());
+        machineDto.setName(machine1.getName());
+        machineDto.setDescription(machine1.getDescription());
+
+        when(beanMappingService.mapTo(machineDto, Machine.class)).thenReturn(machine1);
+
+        machineFacade.deleteMachine(machineDto.getId());
+
+        verify(machineService).deleteMachine(machine1);
     }
 
     @Test
     public void findById(){
-        MachineDto machDto = machineFacade.findById(1L);
-        assertEquals(machDto.getId(),machine1.getId());
-        assertEquals(machDto.getName(),machine1.getName());
-        assertEquals(machDto.getDescription(),machine1.getDescription());
+        MachineDto machineDto = new MachineDto();
+        machineDto.setId(machine1.getId());
+        machineDto.setName(machine1.getName());
+        machineDto.setDescription(machine1.getDescription());
+
+        when(beanMappingService.mapTo(machine1, MachineDto.class)).thenReturn(machineDto);
+
+        MachineDto machDto = machineFacade.findById(machineDto.getId());
+        assertEquals(machDto.getId(),machineDto.getId());
+        assertEquals(machDto.getName(),machineDto.getName());
+        assertEquals(machDto.getDescription(),machineDto.getDescription());
 
     }
 
@@ -139,16 +157,9 @@ public class MachineFacadeTest extends AbstractTransactionalTestNGSpringContextT
     public void findAll() {
         List<Machine> machines = Arrays.asList(machine1, machine2);
         when(machineService.findAllMachines()).thenReturn(machines);
-        List<MachineDto> machineDtos = machineFacade.findAllMachines();
+        machineFacade.findAllMachines();
 
-        assertEquals(machineDtos.size(), machines.size());
-
-        assertEquals(machine1.getId(),machineDtos.get(0).getId());
-        assertEquals(machine1.getName(),machineDtos.get(0).getName());
-        assertEquals(machine1.getDescription(),machineDtos.get(0).getDescription());
-        assertEquals(machine2.getId(),machineDtos.get(1).getId());
-        assertEquals(machine2.getName(),machineDtos.get(1).getName());
-        assertEquals(machine2.getDescription(),machineDtos.get(1).getDescription());
+        verify(machineService).findAllMachines();
     }
 
 }
