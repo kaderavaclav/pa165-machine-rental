@@ -43,5 +43,11 @@ public interface RentalService {
      */
     public void deleteRental(Rental r);
 
-    
+    /**
+     * Method that returns list of {@code Rental} objects between specified dates.
+     * @param startDate first date of acceptable creation date in Rental object
+     * @param endDate last date of acceptable creation date in Rental object
+     * @return list of Rental objects
+     */
+    public List<Rental> getRentalsCreatedBetween(Date startDate, Date endDate);
 }
