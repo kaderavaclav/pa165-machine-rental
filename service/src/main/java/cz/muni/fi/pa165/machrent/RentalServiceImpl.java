@@ -5,9 +5,7 @@
  */
 package cz.muni.fi.pa165.machrent;
 
-import cz.muni.fi.pa165.machrent.entities.Machine;
 import cz.muni.fi.pa165.machrent.entities.Rental;
-import cz.muni.fi.pa165.machrent.entities.RentalUser;
 import cz.muni.fi.pa165.machrent.dao.RentalDao;
 import java.util.Date;
 import java.util.List;
@@ -44,71 +42,6 @@ public class RentalServiceImpl implements RentalService {
     @Override
     public void deleteRental(Rental r) {
         rentalDao.delete(r);
-    }
-
-    @Override
-    public void setNote(Rental r, String note) {
-        r.setNote(note);
-    }
-
-    @Override
-    public String getNote(Rental r) {
-        return r.getNote();
-    }
-
-    @Override
-    public void setCustomer(Rental r, RentalUser customer) {
-        r.setCustomer(customer);
-    }
-
-    @Override
-    public RentalUser getCustomer(Rental r) {
-        return r.getCustomer();
-    }
-
-    @Override
-    public void setEmployee(Rental r, RentalUser employee) {
-        r.setEmployee(employee);
-    }
-
-    @Override
-    public RentalUser getEmployee(Rental r) {
-        return r.getEmployee();
-    }
-
-    @Override
-    public void setMachine(Rental r, Machine m) {
-        r.setMachine(m);
-    }
-
-    @Override
-    public Machine getMachine(Rental r) {
-        return r.getMachine();
-    }
-
-    @Override
-    public void setDateStart(Rental r, Date d) {
-        r.setDateStart(d);
-    }
-
-    @Override
-    public Date getDateStart(Rental r) {
-        return r.getDateStart();
-    }
-
-    @Override
-    public void setDateEnd(Rental r, Date d) {
-        r.setDateEnd(d);
-    }
-
-    @Override
-    public Date getDateEnd(Rental r) {
-        return r.getDateEnd();
-    }
-
-    @Override
-    public Date getDateCreate(Rental r) {
-        return r.getDateCreated();
     }
 
 }
