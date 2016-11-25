@@ -6,9 +6,10 @@ import cz.muni.fi.pa165.machrent.dao.RentalDao;
 import cz.muni.fi.pa165.machrent.entities.Machine;
 import cz.muni.fi.pa165.machrent.entities.Rental;
 import cz.muni.fi.pa165.machrent.entities.RentalUser;
-import cz.muni.fi.pa165.machrent.enums.LegalPersonality;
-import cz.muni.fi.pa165.machrent.enums.RentalUserRole;
 import cz.muni.fi.pa165.machrent.exceptions.RentalUserServiceException;
+import cz.muni.fi.pa165.machrent.sampleInstances.SampleMachines;
+import cz.muni.fi.pa165.machrent.sampleInstances.SampleRentals;
+import cz.muni.fi.pa165.machrent.sampleInstances.SampleRentalUsers;
 import java.sql.Date;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -24,12 +25,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import java.util.EnumSet;
 
 /**
  * @author  Josef Plch
  * @since   2016-11-23
- * @version 0016-11-24
+ * @version 0016-11-25
  */
 @ContextConfiguration (classes = ServiceConfiguration.class)
 @TestExecutionListeners (TransactionalTestExecutionListener.class)
@@ -54,37 +54,10 @@ public class RentalServiceTest extends AbstractTestNGSpringContextTests {
 
     @BeforeMethod
     public void initTestMethods () {
-        validCustomer = new RentalUser ();
-        validCustomer.setEmail      ("charlie@rental.com");
-        validCustomer.setId         (101L);
-        validCustomer.setLegalPersonality (LegalPersonality.NATURAL);
-        validCustomer.setName       ("Charlie Customer");
-        validCustomer.setPassword   ("charliecharlie");
-        validCustomer.setRoles      (EnumSet.of (RentalUserRole.CUSTOMER));
-        validCustomer.setUsername   ("charlie");
-        
-        validEmployee = new RentalUser ();
-        validEmployee.setEmail      ("edward@rental.com");
-        validEmployee.setId         (102L);
-        validEmployee.setLegalPersonality (LegalPersonality.NATURAL);
-        validEmployee.setName       ("Edward Employee");
-        validEmployee.setPassword   ("edwardedward");
-        validEmployee.setRoles      (EnumSet.of (RentalUserRole.EMPLOYEE));
-        validEmployee.setUsername   ("edward");
-        
-        validMachine = new Machine ();
-        validMachine.setDescription ("a huge yellow crane");
-        validMachine.setId          (201L);
-        validMachine.setName        ("Big Max");
-        
-        validRental = new Rental ();
-        validRental.setCustomer    (validCustomer);
-        validRental.setDateCreated (Date.valueOf ("2000-01-01"));
-        validRental.setDateEnd     (Date.valueOf ("2000-04-18"));
-        validRental.setDateStart   (Date.valueOf ("2000-04-14"));
-        validRental.setEmployee    (validEmployee);
-        validRental.setMachine     (validMachine);
-        validRental.setNote        ("This is the first rental of Max.");
+        validCustomer = SampleRentalUsers.newCustomerCharlie ();
+        validEmployee = SampleRentalUsers.newEmployeeEdward ();
+        validMachine = SampleMachines.newMachineBigMax ();
+        validRental = SampleRentals.newRentalOfBixMaxByCharlie ();
     }
     
     @Test
