@@ -52,8 +52,10 @@ public class RentalServiceTest extends AbstractTestNGSpringContextTests {
     private RentalUser validEmployee;
     private Machine validMachine;
     private Rental validRental;
-    private Date dateFrom;
-    private Date dateTo;
+    private Date date19980101;
+    private Date date19990101;
+    private Date date20000101;
+    private Date date20000418;
     private List<Rental> rentals;
 
     @BeforeClass
@@ -69,10 +71,12 @@ public class RentalServiceTest extends AbstractTestNGSpringContextTests {
         validRental = SampleRentals.newRentalOfBixMaxByCharlie ();
 
         SimpleDateFormat formater = new SimpleDateFormat("yyyy-mm-dd");
-
+        
         try {
-            dateFrom = formater.parse("2000-01-01");
-            dateTo = formater.parse("2000-04-18");
+            date19980101 = formater.parse("1998-01-01");
+            date19990101 = formater.parse("1999-01-01");
+            date20000101 = formater.parse("2000-01-01");
+            date20000418 = formater.parse("2000-04-18");
         }
         catch (ParseException ex){
             throw new RentalServiceException(ex);
@@ -110,15 +114,23 @@ public class RentalServiceTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void findAllCreatedBetween(){
-        when(rentalDao.findAllCreatedBetween(dateFrom, dateTo)).thenReturn(rentals);
-        List<Rental> created = rentalService.findAllCreatedBetween(dateFrom, dateTo);
+        when(rentalDao.findAllCreatedBetween(date20000101, date20000418)).thenReturn(rentals);
+        List<Rental> created = rentalService.findAllCreatedBetween(date20000101, date20000418);
         assertEquals(rentals, created);
     }
-
+    
     @Test
     public void findAllEffectiveBetween(){
-        when(rentalDao.findAllEffectiveBetween(dateFrom, dateTo)).thenReturn(rentals);
-        List<Rental> created = rentalService.findAllEffectiveBetween(dateFrom, dateTo);
-        assertEquals(rentals, created);
+        when(rentalDao.findAllEffectiveBetween(date20000101, date20000418)).thenReturn(rentals);
+        List<Rental> foundRentals = rentalService.findAllEffectiveBetween(date20000101, date20000418);
+        assertEquals(rentals, foundRentals);
+    }
+    
+    @Test
+    public void findAllEffectiveBetweenEmpty(){
+        List <Rental> emptyList = new ArrayList <> ();
+        when(rentalDao.findAllEffectiveBetween(date19980101, date19990101)).thenReturn(emptyList);
+        List<Rental> foundRentals = rentalService.findAllEffectiveBetween(date19980101, date19990101);
+        assertEquals(emptyList, foundRentals);
     }
 }
