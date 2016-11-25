@@ -6,6 +6,7 @@ import cz.muni.fi.pa165.machrent.dao.RentalDao;
 import cz.muni.fi.pa165.machrent.entities.Machine;
 import cz.muni.fi.pa165.machrent.entities.Rental;
 import cz.muni.fi.pa165.machrent.entities.RentalUser;
+import cz.muni.fi.pa165.machrent.exceptions.RentalServiceException;
 import cz.muni.fi.pa165.machrent.exceptions.RentalUserServiceException;
 import cz.muni.fi.pa165.machrent.sampleInstances.SampleMachines;
 import cz.muni.fi.pa165.machrent.sampleInstances.SampleRentals;
@@ -24,6 +25,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author  Josef Plch
@@ -45,6 +52,9 @@ public class RentalServiceTest extends AbstractTestNGSpringContextTests {
     private RentalUser validEmployee;
     private Machine validMachine;
     private Rental validRental;
+    private Date dateFrom;
+    private Date dateTo;
+    private List<Rental> rentals;
 
     @BeforeClass
     public void initTestClass () throws RentalUserServiceException {
@@ -52,11 +62,25 @@ public class RentalServiceTest extends AbstractTestNGSpringContextTests {
     }
 
     @BeforeMethod
-    public void initTestMethods () {
+    public void initTestMethods() throws RentalServiceException {
         validCustomer = SampleRentalUsers.newCustomerCharlie ();
         validEmployee = SampleRentalUsers.newEmployeeEdward ();
         validMachine = SampleMachines.newMachineBigMax ();
         validRental = SampleRentals.newRentalOfBixMaxByCharlie ();
+
+        SimpleDateFormat formater = new SimpleDateFormat("yyyy-mm-dd");
+
+        try {
+            dateFrom = formater.parse("2000-01-01");
+            dateTo = formater.parse("2000-04-18");
+        }
+        catch (ParseException ex){
+            throw new RentalServiceException(ex);
+        }
+
+        rentals = new ArrayList<>();
+        rentals.add(validRental);
+
     }
     
     @Test
@@ -82,5 +106,12 @@ public class RentalServiceTest extends AbstractTestNGSpringContextTests {
         when(rentalDao.findById(validRental.getId())).thenReturn(validRental);
         Rental rental = rentalService.findById (validRental.getId ());
         assertEquals (rental, validRental);
+    }
+
+    @Test
+    public void findAllCreatedBetween(){
+        when(rentalDao.findAllCreatedBetween(dateFrom, dateTo)).thenReturn(rentals);
+        List<Rental> created = rentalService.findAllCreatedBetween(dateFrom, dateTo);
+        assertEquals(rentals, created);
     }
 }

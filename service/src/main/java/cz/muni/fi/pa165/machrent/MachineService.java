@@ -41,11 +41,11 @@ public interface MachineService {
     /**
      * Find all machines without any rental effective between given dates.
      * 
-     * @param startDate First date of the interval.
-     * @param endDate   Last date of the interval.
+     * @param from {@code java.util.Date} the first date of the interval.
+     * @param to   {@code java.util.Date} the last date of the interval.
      * @return          Available machines.
      */
-    List<Machine> findAvailableMachines(Date startDate, Date endDate);
+    List<Machine> findAvailableMachines(Date from, Date to);
 
     /**
      * Method that returns {@code MachineDto} with specified {@code Long id}.

@@ -4,9 +4,13 @@ import cz.muni.fi.pa165.machrent.MachineService;
 import cz.muni.fi.pa165.machrent.MachineServiceImpl;
 import cz.muni.fi.pa165.machrent.config.ServiceConfiguration;
 import cz.muni.fi.pa165.machrent.dao.MachineDao;
+import cz.muni.fi.pa165.machrent.dao.RentalDao;
 import cz.muni.fi.pa165.machrent.dto.MachineCreateDto;
 import cz.muni.fi.pa165.machrent.entities.Machine;
+import cz.muni.fi.pa165.machrent.entities.Rental;
 import cz.muni.fi.pa165.machrent.exception.MachrentDataAccesException;
+import cz.muni.fi.pa165.machrent.exceptions.MachineServiceException;
+import cz.muni.fi.pa165.machrent.exceptions.MachrentServiceException;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -37,8 +41,11 @@ import org.testng.annotations.Test;
 
 import javax.crypto.Mac;
 import javax.inject.Inject;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
@@ -56,6 +63,9 @@ public class MachineServiceTest extends AbstractTestNGSpringContextTests {
     @Mock
     private MachineDao machineDao;
 
+    @Mock
+    private RentalDao rentalDao;
+
     @Autowired
     @InjectMocks
     private MachineService machineService = new MachineServiceImpl();
@@ -69,6 +79,10 @@ public class MachineServiceTest extends AbstractTestNGSpringContextTests {
     private String name2;
     private String description1;
     private String description2;
+    private Date dateFrom;
+    private Date dateTo;
+    private List<Rental> rentals;
+    private List<Machine> machines;
 
     @BeforeClass
     public void initMockito(){
@@ -76,7 +90,7 @@ public class MachineServiceTest extends AbstractTestNGSpringContextTests {
     }
 
     @BeforeMethod
-    public void initMachines(){
+    public void initMachines() throws MachrentServiceException{
         machine1 = new Machine();
         machine2 = new Machine();
         name1="mach1";
@@ -89,6 +103,21 @@ public class MachineServiceTest extends AbstractTestNGSpringContextTests {
         machine2.setId(2L);
         machine2.setName(name2);
         machine2.setDescription(description2);
+
+        SimpleDateFormat formater = new SimpleDateFormat("yyyy-mm-dd");
+
+        try {
+            dateFrom = formater.parse("2000-01-01");
+            dateTo = formater.parse("2000-04-18");
+        }
+        catch (ParseException ex){
+            throw new MachineServiceException(ex);
+        }
+
+        rentals = new ArrayList<>();
+        machines = new ArrayList<>();
+        machines.add(machine1);
+
     }
 
     @BeforeMethod(dependsOnMethods = "initMachines")
@@ -127,6 +156,15 @@ public class MachineServiceTest extends AbstractTestNGSpringContextTests {
     public void findAll() {
         machineService.findAllMachines();
         verify(machineDao).findAll();
+    }
+
+    @Test
+    public void findAvailableMachines(){
+        when(rentalDao.findAllEffectiveBetween(dateFrom, dateTo)).thenReturn(rentals);
+        when(machineDao.findAll()).thenReturn(machines);
+
+        List<Machine> available = machineService.findAvailableMachines(dateFrom, dateTo);
+        assertEquals(machines, available);
     }
 
 

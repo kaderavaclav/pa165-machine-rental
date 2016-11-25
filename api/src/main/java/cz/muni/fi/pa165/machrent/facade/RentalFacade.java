@@ -7,6 +7,8 @@ package cz.muni.fi.pa165.machrent.facade;
 
 import cz.muni.fi.pa165.machrent.dto.RentalCreateDto;
 import cz.muni.fi.pa165.machrent.dto.RentalDto;
+
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,13 +22,13 @@ public interface RentalFacade {
      * @param id to find
      * @return RentalDto object
      */
-    public RentalDto getRentalWithId(Long id);
+    public RentalDto findRentalWithId(Long id);
 
     /**
      * Method that returns list of {@code RentalDto}.
      * @return list of RentalDto objects
      */
-    public List<RentalDto> getAllRentals();
+    public List<RentalDto> findAllRentals();
 
     /**
      * Method that creates {@code Rental} in database.
@@ -40,4 +42,11 @@ public interface RentalFacade {
      * @param rentalId id of object to delete
      */
     public void deleteRental(Long rentalId);
+
+    /**
+     * Method that returns list of {@code RentalDto} created within specified interval.
+     * @param from {@code Date} start of interval
+     * @param to {@code Date} end of interval
+     */
+    public List <RentalDto> findAllCreatedBetween(Date from, Date to);
 }
