@@ -49,5 +49,14 @@ public interface RentalService {
      * @param endDate last date of acceptable creation date in Rental object
      * @return list of Rental objects
      */
-    public List<Rental> getRentalsCreatedBetween(Date startDate, Date endDate);
+    public List<Rental> findAllCreatedBetween(Date startDate, Date endDate);
+    
+    /**
+     * Find all rentals which are in effect between given dates.
+     * 
+     * @param startDate First date of the interval.
+     * @param endDate   Last date of the interval.
+     * @return          Effective rentals.
+     */
+    public List<Rental> findAllEffectiveBetween(Date startDate, Date endDate);
 }

@@ -1,6 +1,8 @@
 package cz.muni.fi.pa165.machrent;
 
 import cz.muni.fi.pa165.machrent.entities.Machine;
+import cz.muni.fi.pa165.machrent.entities.Rental;
+import java.util.Date;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,6 +28,7 @@ public interface MachineService {
     /**
      * Method that updates {@code Machine} object values in database.
      * @param m {@code Machine} object with modified values.
+     * @return Updated machine
      */
     Machine updateMachine(Machine m);
 
@@ -34,6 +37,15 @@ public interface MachineService {
      * @return {@code List<Machine>} that contains all {@code Machine} objects in database.
      */
     List<Machine> findAllMachines();
+
+    /**
+     * Find all machines without any rental effective between given dates.
+     * 
+     * @param startDate First date of the interval.
+     * @param endDate   Last date of the interval.
+     * @return          Available machines.
+     */
+    List<Machine> findAvailableMachines(Date startDate, Date endDate);
 
     /**
      * Method that returns {@code MachineDto} with specified {@code Long id}.
