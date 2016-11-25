@@ -8,6 +8,9 @@ import cz.muni.fi.pa165.machrent.dto.MachineCreateDto;
 import cz.muni.fi.pa165.machrent.dto.MachineDto;
 import cz.muni.fi.pa165.machrent.dto.MachineUpdateDto;
 import cz.muni.fi.pa165.machrent.entities.Machine;
+import cz.muni.fi.pa165.machrent.entities.Rental;
+import cz.muni.fi.pa165.machrent.exceptions.MachineServiceException;
+import cz.muni.fi.pa165.machrent.exceptions.MachrentServiceException;
 import org.mockito.*;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -21,8 +24,11 @@ import org.testng.annotations.Test;
 
 import javax.crypto.Mac;
 import javax.inject.Inject;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
@@ -55,10 +61,16 @@ public class MachineFacadeTest extends AbstractTestNGSpringContextTests {
     private MachineCreateDto machineCreateDto;
     private Machine machine1;
     private Machine machine2;
+    private MachineDto machine1Dto;
     private String name1;
     private String name2;
     private String description1;
     private String description2;
+    private Date dateFrom;
+    private Date dateTo;
+    private List<Machine> machines;
+    private List<MachineDto> machinesDto;
+
 
     @BeforeClass
     public void initMockito() {
@@ -66,7 +78,7 @@ public class MachineFacadeTest extends AbstractTestNGSpringContextTests {
     }
 
     @BeforeMethod
-    public void initMachines()
+    public void initMachines() throws MachrentServiceException
     {
         machine1 = new Machine();
         machine2 = new Machine();
@@ -80,6 +92,27 @@ public class MachineFacadeTest extends AbstractTestNGSpringContextTests {
         machine2.setId(2L);
         machine2.setName(name2);
         machine2.setDescription(description2);
+
+        machine1Dto = new MachineDto();
+        machine1Dto.setId(machine1.getId());
+        machine1Dto.setName(machine1.getName());
+        machine1Dto.setDescription(machine1.getDescription());
+
+        SimpleDateFormat formater = new SimpleDateFormat("yyyy-mm-dd");
+
+        try {
+            dateFrom = formater.parse("2000-01-01");
+            dateTo = formater.parse("2000-04-18");
+        }
+        catch (ParseException ex){
+            throw new MachineServiceException(ex);
+        }
+
+        machines = new ArrayList<>();
+        machines.add(machine1);
+
+        machinesDto = new ArrayList<>();
+        machinesDto.add(machine1Dto);
 
     }
 
@@ -160,6 +193,15 @@ public class MachineFacadeTest extends AbstractTestNGSpringContextTests {
         machineFacade.findAllMachines();
 
         verify(machineService).findAllMachines();
+    }
+
+    @Test
+    public void findAvailableMachines(){
+        when(machineService.findAvailableMachines(dateFrom, dateTo)).thenReturn(machines);
+        when(beanMappingService.mapTo(machines, MachineDto.class)).thenReturn(machinesDto);
+
+        List<MachineDto> availableDto = machineFacade.findAvailableMachines(dateFrom, dateTo);
+        assertEquals(machinesDto, availableDto);
     }
 
 }

@@ -15,8 +15,11 @@ import cz.muni.fi.pa165.machrent.sampleInstances.SampleMachines;
 import cz.muni.fi.pa165.machrent.sampleInstances.SampleRentalUsers;
 import cz.muni.fi.pa165.machrent.sampleInstances.SampleRentals;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import org.mockito.*;
 import static org.mockito.Mockito.*;
@@ -25,6 +28,7 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -54,6 +58,10 @@ public class RentalFacadeTest extends AbstractTestNGSpringContextTests {
     private Machine machine;
     private Rental rental;
     private List <Rental> allRentals;
+    private List<RentalDto> allRentalsDto;
+    private Date dateFrom;
+    private Date dateTo;
+
 
     @BeforeClass
     public void initTestClass () throws RentalServiceException {
@@ -61,7 +69,7 @@ public class RentalFacadeTest extends AbstractTestNGSpringContextTests {
     }
 
     @BeforeMethod
-    public void initTestMethods () {
+    public void initTestMethods () throws RentalServiceException {
 
         customer = SampleRentalUsers.newCustomerCharlie ();
         employee = SampleRentalUsers.newEmployeeEdward ();
@@ -71,8 +79,21 @@ public class RentalFacadeTest extends AbstractTestNGSpringContextTests {
         rentalCreateDto = SampleRentals.newRentalCreateDto (customer.getId (), employee.getId (), machine.getId ());
         rentalDto = SampleRentals.newRentalOfBixMaxByCharlieDto ();
 
+        SimpleDateFormat formater = new SimpleDateFormat("yyyy-mm-dd");
+
+        try {
+            dateFrom = formater.parse("2000-01-01");
+            dateTo = formater.parse("2000-04-18");
+        }
+        catch (ParseException ex){
+            throw new RentalServiceException(ex);
+        }
+
         allRentals = new ArrayList<>();
         allRentals.add(rental);
+
+        allRentalsDto = new ArrayList<>();
+        allRentalsDto.add(rentalDto);
     }
 
     @Test
@@ -93,19 +114,28 @@ public class RentalFacadeTest extends AbstractTestNGSpringContextTests {
     }
     
     @Test
-    public void getAllRentals () {
+    public void findAllRentals () {
         when(rentalService.findAll()).thenReturn(allRentals);
 
-        rentalFacade.getAllRentals ();
+        rentalFacade.findAllRentals ();
         verify(rentalService).findAll ();
     }
     
     @Test
-    public void getRentalWithId () {
+    public void findRentalWithId () {
         when(rentalService.findById(rentalDto.getId())).thenReturn(rental);
         when(beanMappingService.mapTo(rental, RentalDto.class)).thenReturn(rentalDto);
 
-        rentalFacade.getRentalWithId(rentalDto.getId());
+        rentalFacade.findRentalWithId(rentalDto.getId());
         verify(rentalService, atMost(2)).findById(rentalDto.getId());
+    }
+
+    @Test
+    public void findRentalCreatedBetween(){
+        when(rentalService.findAllCreatedBetween(dateFrom, dateTo)).thenReturn(allRentals);
+        when(beanMappingService.mapTo(allRentals, RentalDto.class)).thenReturn(allRentalsDto);
+
+        List<RentalDto> createdDto = rentalFacade.findAllCreatedBetween(dateFrom, dateTo);
+        Assert.assertEquals(allRentalsDto, createdDto);
     }
 }

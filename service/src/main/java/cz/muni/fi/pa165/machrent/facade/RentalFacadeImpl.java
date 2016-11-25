@@ -41,7 +41,7 @@ public class RentalFacadeImpl implements RentalFacade {
     private BeanMappingService beanMappingService;
 
     @Override
-    public RentalDto getRentalWithId(Long id) {
+    public RentalDto findRentalWithId(Long id) {
         Rental rental = rentalService.findById(id);
 
         if (rental == null){
@@ -52,7 +52,7 @@ public class RentalFacadeImpl implements RentalFacade {
     }
 
     @Override
-    public List<RentalDto> getAllRentals() {
+    public List<RentalDto> findAllRentals() {
         return beanMappingService.mapTo(rentalService.findAll(), RentalDto.class);
     }
 
@@ -72,4 +72,16 @@ public class RentalFacadeImpl implements RentalFacade {
         
         rentalService.deleteRental(rental);
     }
+
+    @Override
+    public List<RentalDto> findAllCreatedBetween(Date from, Date to) {
+        List<Rental> rentals = rentalService.findAllCreatedBetween(from, to);
+
+        if(rentals == null)
+            throw new RentalServiceException("There are no Rentals within specified interval!");
+        else
+            return beanMappingService.mapTo(rentals, RentalDto.class);
+    }
+
+
 }

@@ -4,6 +4,7 @@ import cz.muni.fi.pa165.machrent.dto.MachineCreateDto;
 import cz.muni.fi.pa165.machrent.dto.MachineDto;
 import cz.muni.fi.pa165.machrent.dto.MachineUpdateDto;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -42,4 +43,13 @@ public interface MachineFacade {
      * @return {@code MachineDto} object
      */
     MachineDto findById(Long id);
+
+    /**
+     * Method that returns all available {@code Machine} within specified dates.
+     * @param from {@code java.util.Date}
+     * @param to {@code java.util.Date}
+     * @return {@code MachineDto} object
+     */
+    List<MachineDto> findAvailableMachines(Date from, Date to);
+
 }

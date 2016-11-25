@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -65,5 +66,10 @@ public class MachineFacadeImpl implements MachineFacade {
     public MachineDto findById(Long id) {
 
         return beanMappingService.mapTo(ms.findById(id), MachineDto.class);
+    }
+
+    @Override
+    public List<MachineDto> findAvailableMachines(Date from, Date to) {
+        return beanMappingService.mapTo(ms.findAvailableMachines(from, to), MachineDto.class);
     }
 }
