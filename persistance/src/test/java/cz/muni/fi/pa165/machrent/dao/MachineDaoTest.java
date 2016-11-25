@@ -100,4 +100,25 @@ public class MachineDaoTest extends AbstractTestNGSpringContextTests {
         machineDao.create(n);
         Assert.assertEquals(machineDao.findById(n.getId()).getDescription(),"narez");
     }
+
+	@Test()
+	public  void updateName(){
+		Machine updated = machineDao.findById(machine.getId());
+		updated.setName("updated name");
+		machineDao.update(updated);
+
+		updated = machineDao.findById(updated.getId());
+		Assert.assertEquals(updated.getName(), "updated name");
+	}
+
+	@Test()
+	public void updateDescription(){
+		Machine updated = machineDao.findById(machine.getId());
+		updated.setDescription("updated description");
+		machineDao.update(updated);
+
+		updated = machineDao.findById(updated.getId());
+		Assert.assertEquals(updated.getDescription(),"updated description");
+	}
+
 }

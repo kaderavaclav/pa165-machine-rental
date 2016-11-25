@@ -9,9 +9,13 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>persistance</artifactId>
+    <artifactId>api</artifactId>
 
     <dependencies>
-
+        <dependency>
+            <groupId>cz.muni.fi.pa165.machrent</groupId>
+            <artifactId>persistance</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 </project>
