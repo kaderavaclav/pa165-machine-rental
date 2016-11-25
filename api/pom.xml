@@ -13,11 +13,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
-            <version>1.1.0.Final</version>
-        </dependency>
-        <dependency>
             <groupId>cz.muni.fi.pa165.machrent</groupId>
             <artifactId>persistance</artifactId>
             <version>1.0</version>
