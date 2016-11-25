@@ -11,7 +11,6 @@
 
     <artifactId>api</artifactId>
 
-
     <dependencies>
         <dependency>
             <groupId>javax.validation</groupId>
@@ -23,12 +22,5 @@
             <artifactId>persistance</artifactId>
             <version>1.0</version>
         </dependency>
-        <dependency>
-            <groupId>cz.muni.fi.pa165.machrent</groupId>
-            <artifactId>persistance</artifactId>
-            <version>1.0</version>
-        </dependency>
     </dependencies>
-
-
 </project>
