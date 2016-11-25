@@ -43,7 +43,12 @@ public class RentalFacadeImpl implements RentalFacade {
     @Override
     public RentalDto getRentalWithId(Long id) {
         Rental rental = rentalService.findById(id);
-        return (rental == null) ? null : beanMappingService.mapTo(rental, RentalDto.class);
+
+        if (rental == null){
+            throw new RentalServiceException("Machine with id: " + id + " doesn't exist!");
+        }
+        else
+            return beanMappingService.mapTo(rental, RentalDto.class);
     }
 
     @Override
@@ -54,14 +59,6 @@ public class RentalFacadeImpl implements RentalFacade {
     @Override
     public Long createRental(RentalCreateDto r) {
         Rental mappedRental = beanMappingService.mapTo(r, Rental.class);
-        Date now = new Date();
-        mappedRental.setDateCreated(now);
-        mappedRental.setDateStart(now);
-        mappedRental.setDateEnd(now);
-        mappedRental.setNote(new String());
-        mappedRental.setEmployee(rentalUserService.findUserById(r.getEmployeeId()));
-        mappedRental.setCustomer(rentalUserService.findUserById(r.getCustomerId()));
-        mappedRental.setMachine(machineService.findById(r.getMachineId()));
         Rental newRental = rentalService.createRental(mappedRental);
         return newRental.getId();
     }
@@ -73,6 +70,6 @@ public class RentalFacadeImpl implements RentalFacade {
         if (rental == null) 
             throw new RentalServiceException("Machine with id: " + rentalId + " doesn't exist!"); 
         
-        rentalService.deleteRental(new Rental(rentalId)); 
+        rentalService.deleteRental(rental);
     }
 }
