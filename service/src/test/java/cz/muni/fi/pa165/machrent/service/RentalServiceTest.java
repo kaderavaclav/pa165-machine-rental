@@ -114,4 +114,11 @@ public class RentalServiceTest extends AbstractTestNGSpringContextTests {
         List<Rental> created = rentalService.findAllCreatedBetween(dateFrom, dateTo);
         assertEquals(rentals, created);
     }
+
+    @Test
+    public void findAllEffectiveBetween(){
+        when(rentalDao.findAllEffectiveBetween(dateFrom, dateTo)).thenReturn(rentals);
+        List<Rental> created = rentalService.findAllEffectiveBetween(dateFrom, dateTo);
+        assertEquals(rentals, created);
+    }
 }

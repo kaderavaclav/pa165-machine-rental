@@ -138,4 +138,13 @@ public class RentalFacadeTest extends AbstractTestNGSpringContextTests {
         List<RentalDto> createdDto = rentalFacade.findAllCreatedBetween(dateFrom, dateTo);
         Assert.assertEquals(allRentalsDto, createdDto);
     }
+
+    @Test
+    public void findAllEffectiveBetween(){
+        when(rentalService.findAllEffectiveBetween(dateFrom, dateTo)).thenReturn(allRentals);
+        when(beanMappingService.mapTo(allRentals, RentalDto.class)).thenReturn(allRentalsDto);
+
+        List<RentalDto> createdDto = rentalFacade.findAllEffectiveBetween(dateFrom, dateTo);
+        Assert.assertEquals(allRentalsDto, createdDto);
+    }
 }

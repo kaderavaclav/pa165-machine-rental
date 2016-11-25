@@ -83,5 +83,17 @@ public class RentalFacadeImpl implements RentalFacade {
             return beanMappingService.mapTo(rentals, RentalDto.class);
     }
 
+    @Override
+    public List<RentalDto> findAllEffectiveBetween(Date from, Date to) {
+        List<Rental> rentals = rentalService.findAllEffectiveBetween(from, to);
+
+        if(rentals == null)
+            throw new RentalServiceException("There are no Rentals within specified interval!");
+        else
+            return beanMappingService.mapTo(rentals, RentalDto.class);
+    }
+
+
+
 
 }

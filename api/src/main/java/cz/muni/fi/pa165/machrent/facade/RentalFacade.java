@@ -49,4 +49,11 @@ public interface RentalFacade {
      * @param to {@code Date} end of interval
      */
     public List <RentalDto> findAllCreatedBetween(Date from, Date to);
+
+    /**
+     * Method that returns list of {@code RentalDto} effected within specified interval.
+     * @param from {@code Date} start of interval
+     * @param to {@code Date} end of interval
+     */
+    public List <RentalDto> findAllEffectiveBetween(Date from, Date to);
 }

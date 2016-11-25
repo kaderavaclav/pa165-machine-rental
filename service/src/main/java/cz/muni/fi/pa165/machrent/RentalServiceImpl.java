@@ -56,6 +56,12 @@ public class RentalServiceImpl implements RentalService {
     
     @Override
     public List<Rental> findAllEffectiveBetween(Date startDate, Date endDate){
-        return rentalDao.findAllCreatedBetween(startDate, endDate);
+        if (endDate.after(startDate) && startDate != null && endDate != null) {
+            return rentalDao.findAllEffectiveBetween(startDate, endDate);
+        }
+        else {
+            return null;
+        }
+
     }
 }
