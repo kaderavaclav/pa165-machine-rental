@@ -20,13 +20,36 @@ public interface RentalUserFacade {
      * @return         Password matches (yes/no).
      */
     public boolean authenticate (String username, String password);
-
+    
+    /**
+     * Delete user from the database.
+     * 
+     * @param userId ID of the user to be deleted.
+     */
     public void deleteUser (Long userId);
     
+    /**
+     * Find user by e-mail address.
+     * 
+     * @param email E-mail address to search by.
+     * @return      User with the given e-mail address (if any).
+     */
     public RentalUserDto findUserByEmail (String email);
     
+    /**
+     * Find user by ID.
+     * 
+     * @param id ID of the wanted user.
+     * @return   User with the given ID (if any).
+     */
     public RentalUserDto findUserById (Long id);
     
+    /**
+     * Find user by username.
+     * 
+     * @param username Username to search by.
+     * @return         User with the given username (if any).
+     */
     public RentalUserDto findUserByUsername (String username);
     
     /**
