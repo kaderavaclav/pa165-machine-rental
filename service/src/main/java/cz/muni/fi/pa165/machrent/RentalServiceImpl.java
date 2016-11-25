@@ -44,4 +44,12 @@ public class RentalServiceImpl implements RentalService {
         rentalDao.delete(r);
     }
 
+    @Override
+    public List<Rental> getRentalsCreatedBetween(Date startDate, Date endDate){
+        if (endDate.after(startDate) && startDate != null && endDate != null) {
+            return rentalDao.findAllBetweenDates(startDate, endDate);
+        }
+        else 
+            return null;
+    }
 }

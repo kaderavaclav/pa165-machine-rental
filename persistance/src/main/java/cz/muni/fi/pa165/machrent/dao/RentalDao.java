@@ -6,6 +6,7 @@
 package cz.muni.fi.pa165.machrent.dao;
 
 import cz.muni.fi.pa165.machrent.entities.Rental;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -57,4 +58,6 @@ public interface RentalDao {
      * @return List of Rent entities.
      */
     public List<Rental> findAll(); 
+    
+    public List<Rental> findAllBetweenDates(Date startDate, Date endDate);
 }

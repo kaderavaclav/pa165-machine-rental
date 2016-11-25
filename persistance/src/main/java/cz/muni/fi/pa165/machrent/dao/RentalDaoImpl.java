@@ -6,6 +6,7 @@
 package cz.muni.fi.pa165.machrent.dao;
 
 import cz.muni.fi.pa165.machrent.entities.Rental;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -46,6 +47,10 @@ public class RentalDaoImpl implements RentalDao{
         return em.createQuery("SELECT r FROM Rental r", Rental.class).getResultList();
     }
 
-    
+    public List<Rental> findAllBetweenDates(Date startDate, Date endDate) {
+        return em.createQuery("SELECT r FROM Rental r WHERE r.dateCreated >= :startDate" 
+                + " AND r.dateCreated <= :endDate", Rental.class).
+                setParameter("startDate", startDate).setParameter("endDate", endDate).getResultList();
+    }
     
 }
