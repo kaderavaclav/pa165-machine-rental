@@ -59,5 +59,7 @@ public interface RentalDao {
      */
     public List<Rental> findAll(); 
     
-    public List<Rental> findAllBetweenDates(Date startDate, Date endDate);
+    public List<Rental> findAllCreatedBetween(Date startDate, Date endDate);
+    
+    public List<Rental> findAllEffectiveBetween(Date startDate, Date endDate);
 }
