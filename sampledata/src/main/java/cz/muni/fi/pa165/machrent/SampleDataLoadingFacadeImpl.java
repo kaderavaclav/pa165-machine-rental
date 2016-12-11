@@ -87,7 +87,7 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         RentalUser u = new RentalUser();
         u.setUsername(username);
         u.setName(name);
-        u.setName(email);
+        u.setEmail(email);
         u.setLegalPersonality(legalPersonality);
 
         rentalUserService.registerUser(u, password);
