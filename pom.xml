@@ -12,6 +12,7 @@
         <module>service</module>
     <module>rest</module>
         <module>web</module>
+        <module>sampledata</module>
     </modules>
 
     <build>
