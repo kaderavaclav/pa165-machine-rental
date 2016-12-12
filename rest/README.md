@@ -16,40 +16,50 @@ Java: 1.8.0_74
 
 ### Installing
 
-1. Clone the `master` branch of this project to your directory. To get ready, you need to build whole project. Run command prompt in project directory root and call
+Clone the `master` branch of this project to your directory. To get ready, you need to build whole project. Run command prompt in project directory root and call
 
 ```
 mvn clean install
 ```
-2. After build success, change directory to `rest` root and run the REST API application:
+After build success, change directory to `rest` root and run the REST API application:
 ```
 > cd rest
 > ...\rest\mvn tomcat7:run
 ```
 
-### Usage & commands
+## Usage & commands
 You can access application on address `http://localhost:8080/pa165/rest/`. All its features are available through commands below.
 
-#### Testing environment
+### Testing environment
 For testing purpose in GUI we reccomend you to use *Advanced REST client* for Chrome browser. <https://advancedrestclient.com/>
 
 
-#### Machine entity commands
+### Machine entity commands
 
-Find all machines
-```GET ~/machines```
+**Find all machines**
+```
+GET ~/machines
+```
 
-Find machine by ID
-```GET ~/machines/{id}```
+**Find machine by ID**
+```
+GET ~/machines/{id}
+```
 
-Create new machine
-```POST ~/machines/create```
+**Create new machine**
+```
+POST ~/machines/create
+```
 
-Update existing machine
-```PUT ~/machines/update```
+**Update existing machine**
+```
+PUT ~/machines/update
+```
 
-Remove existing machine - (Application won't let you delete machine that has relations.)
-```DELETE ~/machines/{id}```
+**Remove existing machine** - (Application won't let you delete machine that has relations.)
+```
+DELETE ~/machines/{id}
+```
 
 
 
