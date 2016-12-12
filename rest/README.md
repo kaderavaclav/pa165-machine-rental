@@ -30,9 +30,20 @@ After build success, change directory to `rest` root and run the REST API applic
 ## Usage & commands
 You can access application on address `http://localhost:8080/pa165/rest/`. All its features are available through commands below.
 
-### Testing environment
-For testing purpose in GUI we reccomend you to use *Advanced REST client* for Chrome browser. <https://advancedrestclient.com/>
+### Testing
+For easy testing purpose in GUI we reccomend you to use *Advanced REST client* for Chrome browser. <https://advancedrestclient.com/>
 
+Example of `POST` request
+```
+POST http://localhost:8080/pa165/rest/machines/create
+
+conten-type: application/json
+
+{ 
+  "name": "new Machine name",
+  "description": "Machine description"
+}
+```
 
 ### Machine entity commands
 
