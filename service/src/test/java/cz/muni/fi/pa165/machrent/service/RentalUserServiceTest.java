@@ -1,18 +1,18 @@
 package cz.muni.fi.pa165.machrent.service;
 
-import cz.muni.fi.pa165.machrent.PersistenceApplicationContext;
 import cz.muni.fi.pa165.machrent.RentalUserService;
 import cz.muni.fi.pa165.machrent.config.ServiceConfiguration;
 import cz.muni.fi.pa165.machrent.dao.RentalUserDao;
 import cz.muni.fi.pa165.machrent.entities.RentalUser;
 import cz.muni.fi.pa165.machrent.enums.LegalPersonality;
 import cz.muni.fi.pa165.machrent.enums.RentalUserRole;
-import cz.muni.fi.pa165.machrent.exceptions.MachrentServiceException;
 import cz.muni.fi.pa165.machrent.exceptions.RentalUserServiceException;
+import java.util.EnumSet;
 import org.mockito.InjectMocks;
-import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import static org.mockito.Mockito.*;
+import static org.testng.Assert.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -23,13 +23,10 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.EnumSet;
-
-import static org.mockito.Mockito.*;
-import static org.testng.Assert.*;
-
 /**
- * Created by vaclav.kadera on 22-Nov-16.
+ * @author  vaclav.kadera
+ * @since   2016-11-22
+ * @version 2016-12-13
  */
 @ContextConfiguration(classes = ServiceConfiguration.class)
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
@@ -47,16 +44,13 @@ public class RentalUserServiceTest extends AbstractTestNGSpringContextTests {
     private String validPassword;
     private String invalidPassword;
 
-
-
     @BeforeClass
     public void initTestClass() throws RentalUserServiceException {
         MockitoAnnotations.initMocks(this);
     }
 
     @BeforeMethod
-    public void initTestMethods(){
-
+    public void initTestMethods() {
         validPassword = "123456*654321";
         invalidPassword = "thisIsInvalidPassword";
 
@@ -71,29 +65,28 @@ public class RentalUserServiceTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void registerUser(){
+    public void registerUser_validUserAndPassword_daoMethodIsCalled () {
         rentalUserService.registerUser(validUser, validPassword);
 
         verify(rentalUserDao).create(validUser);
     }
 
     @Test
-    public void getAllUsers(){
+    public void getAllUsers_always_daoMethodIsCalled () {
         rentalUserService.getAllUsers();
 
         verify(rentalUserDao).findAll();
     }
 
     @Test
-    public void findUserByUsername(){
+    public void findUserByUsername_usernameOfExistingUser_daoMethodIsCalled () {
         rentalUserService.findUserByUsername(validUser.getUsername());
 
         verify(rentalUserDao).findByUsername(validUser.getUsername());
-
     }
 
     @Test
-    public void findUserById(){
+    public void findUserById_idOfExistingUser_daoMethodIsCalled () {
         rentalUserService.findUserById(validUser.getId());
 
         verify(rentalUserDao, atMost(2)).findById(validUser.getId());
@@ -101,7 +94,7 @@ public class RentalUserServiceTest extends AbstractTestNGSpringContextTests {
 
 
     @Test
-    public void findUserByEmail(){
+    public void findUserByEmail_emailOfExistingUser_daoMethodIsCalled () {
         rentalUserService.findUserByEmail(validUser.getEmail());
 
         verify(rentalUserDao).findByEmail(validUser.getEmail());
@@ -109,13 +102,13 @@ public class RentalUserServiceTest extends AbstractTestNGSpringContextTests {
 
 
     @Test
-    public void authenticate(){
+    public void authenticate_correctAndWrongPassword_returnTrueAndFalse () {
         assertTrue(rentalUserService.authenticate(validUser, validPassword));
         assertFalse(rentalUserService.authenticate(validUser, invalidPassword));
     }
 
     @Test
-    public void deleteUser(){
+    public void deleteUser_idOfExistingUser_daoMethodIsCalled () {
         when(rentalUserDao.findById(validUser.getId())).thenReturn(validUser);
         rentalUserService.deleteUser(validUser.getId());
 
@@ -124,18 +117,9 @@ public class RentalUserServiceTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void updateUser(){
+    public void updateUser_validUser_daoMethodIsCalled () {
         rentalUserService.updateUser(validUser);
 
         verify(rentalUserDao).update(validUser);
     }
-
-
-
-
-
-
-
-
-
 }

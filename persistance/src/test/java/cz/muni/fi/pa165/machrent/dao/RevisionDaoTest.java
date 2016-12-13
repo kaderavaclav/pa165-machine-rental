@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package cz.muni.fi.pa165.machrent.dao;
 
 import cz.muni.fi.pa165.machrent.entities.Machine;
@@ -10,7 +5,6 @@ import cz.muni.fi.pa165.machrent.entities.RentalUser;
 import cz.muni.fi.pa165.machrent.entities.Revision;
 import cz.muni.fi.pa165.machrent.PersistenceApplicationContext;
 import cz.muni.fi.pa165.machrent.enums.LegalPersonality;
-
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +18,9 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
- *
- * @author Peter Benus
+ * @author  Peter Benus
+ * @since   2016-10-29
+ * @version 2016-12-13
  */
 @ContextConfiguration(classes = PersistenceApplicationContext.class)
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
@@ -40,19 +35,19 @@ public class RevisionDaoTest extends AbstractTestNGSpringContextTests {
     private RentalUserDao userDao;
 
     private Revision revision;
-//    private RentalUser mechanic;
-//    private Machine machine;
+    
     private Date timestamp;
 
     @BeforeMethod
     public void createRevision() {
-        RentalUser mechanic;
         Machine machine;
         revision = new Revision();
         machine = new Machine();
         machine.setName("machine");
         machineDao.create(machine);
         revision.setMachine(machine);
+        
+        RentalUser mechanic;
         mechanic = new RentalUser();
         mechanic.setName("Janko");
         mechanic.setEmail("janko@mail.com");
@@ -60,6 +55,7 @@ public class RevisionDaoTest extends AbstractTestNGSpringContextTests {
         mechanic.setLegalPersonality(LegalPersonality.NATURAL);
         userDao.create(mechanic);
         revision.setMechanic(mechanic);
+        
         revision.setNote("revision1");
         timestamp = new Date();
         revision.setRevisionDate(timestamp);
@@ -67,23 +63,24 @@ public class RevisionDaoTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void nonExistentReturnsNull() {
+    public void findById_nonExistentId_returnNull () {
         Assert.assertNull(revisionDao.findById(12345l));
     }
 
     @Test
-    public void find() {
+    public void findById_idOfExistingRevision_returnThatRevision () {
         Revision found = revisionDao.findById(revision.getId());
         Assert.assertEquals(found, revision);
     }
 
     @Test
-    public void findAll() {
+    public void findAll_twoRevisionsCreated_returnTwoRevisions () {
         Revision revision2 = new Revision();
         Machine machine2 = new Machine();
         machine2.setName("machine2");
         machineDao.create(machine2);
         revision2.setMachine(machine2);
+        
         RentalUser mechanic2 = new RentalUser();
         mechanic2.setName("Ferko");
         mechanic2.setEmail("ferko@mail.com");
@@ -91,45 +88,45 @@ public class RevisionDaoTest extends AbstractTestNGSpringContextTests {
         mechanic2.setLegalPersonality(LegalPersonality.JURIDICAL);
         userDao.create(mechanic2);
         revision2.setMechanic(mechanic2);
+        
         revision2.setNote("revision2");
         Date timestamp2 = new Date();
         revision2.setRevisionDate(timestamp2);
         revisionDao.create(revision2);
 
         List<Revision> revisions = revisionDao.findAll();
-
         Assert.assertEquals(revisions.size(), 2);
     }
 
     @Test()
-    public void delete() {
+    public void delete_existingRevision_findReturnsNull () {
         Assert.assertNotNull(revisionDao.findById(revision.getId()));
         revisionDao.delete(revision);
         Assert.assertNull(revisionDao.findById(revision.getId()));
     }
 
     @Test()
-    public void savesNote() {
+    public void findById_idOfExistingMachine_hasCorrectNote () {
         Assert.assertEquals(revisionDao.findById(revision.getId()).getNote(), "revision1");
     }
 
     @Test()
-    public void savesMachine() {
+    public void findById_idOfExistingMachine_hasCorrectMachine () {
         Assert.assertEquals(revisionDao.findById(revision.getId()).getMachine(), revision.getMachine());
     }
 
     @Test()
-    public void savesMechanic() {
+    public void findById_idOfExistingMachine_hasCorrectMechanic () {
         Assert.assertEquals(revisionDao.findById(revision.getId()).getMechanic(), revision.getMechanic());
     }
 
     @Test()
-    public void savesRevisionDate() {
+    public void findById_idOfExistingMachine_hasCorrectRevisionDate () {
         Assert.assertEquals(revisionDao.findById(revision.getId()).getRevisionDate(), revision.getRevisionDate());
     }
     
     @Test()
-    public void update(){
+    public void update_changedNote_findReturnsUpdatedRevision () {
         Revision rev = revisionDao.findById(revision.getId());
         rev.setNote("updated note");
         revisionDao.update(rev);
