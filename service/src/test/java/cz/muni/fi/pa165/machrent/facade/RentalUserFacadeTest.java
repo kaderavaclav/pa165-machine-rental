@@ -1,17 +1,19 @@
 package cz.muni.fi.pa165.machrent.facade;
 
 import cz.muni.fi.pa165.machrent.BeanMappingService;
-import cz.muni.fi.pa165.machrent.PersistenceApplicationContext;
 import cz.muni.fi.pa165.machrent.RentalUserService;
 import cz.muni.fi.pa165.machrent.config.ServiceConfiguration;
 import cz.muni.fi.pa165.machrent.dto.RentalUserDto;
 import cz.muni.fi.pa165.machrent.entities.RentalUser;
 import cz.muni.fi.pa165.machrent.enums.LegalPersonality;
 import cz.muni.fi.pa165.machrent.enums.RentalUserRole;
-import cz.muni.fi.pa165.machrent.exceptions.MachrentServiceException;
 import cz.muni.fi.pa165.machrent.exceptions.RentalUserServiceException;
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.List;
 import org.mockito.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import static org.mockito.Mockito.*;
+import static org.testng.Assert.*;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -21,16 +23,10 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.List;
-
-import static org.mockito.Mockito.*;
-import static org.testng.Assert.*;
-
 /**
- * Created by vaclav.kadera on 22-Nov-16.
+ * @author  vaclav.kadera
+ * @since   2016-11-22
+ * @version 2016-12-13
  */
 @ContextConfiguration(classes = ServiceConfiguration.class)
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
@@ -59,7 +55,6 @@ public class RentalUserFacadeTest extends AbstractTestNGSpringContextTests {
 
     @BeforeMethod
     public void initTestMethods() {
-
         validUserDto = new RentalUserDto();
         validUserDto.setId(1L);
         validUserDto.setUsername("validUser");
@@ -86,7 +81,7 @@ public class RentalUserFacadeTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void registerUser() {
+    public void registerUser_validDtoAndPassword_serviceMethodIsCalled () {
         when(beanMappingService.mapTo(validUserDto, RentalUser.class)).thenReturn(validUser);
 
         rentalUserFacade.registerUser(validUserDto, validPassword);
@@ -96,7 +91,7 @@ public class RentalUserFacadeTest extends AbstractTestNGSpringContextTests {
 
 
     @Test
-    public void getAllUsers() {
+    public void getAllUsers_always_serviceMethodIsCalled () {
         when(rentalUserService.getAllUsers()).thenReturn(users);
 
         rentalUserFacade.getAllUsers();
@@ -105,7 +100,7 @@ public class RentalUserFacadeTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void findUserByUsername() {
+    public void findUserByUsername_usernameOfExistingUser_returnThatUserDto () {
         when(rentalUserService.findUserByUsername("validUser")).thenReturn(validUser);
         when(beanMappingService.mapTo(validUser, RentalUserDto.class)).thenReturn(validUserDto);
 
@@ -114,7 +109,7 @@ public class RentalUserFacadeTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void findUserById() {
+    public void findUserById_idOfExistingUser_returnThatUserDto () {
         when(rentalUserService.findUserById(1L)).thenReturn(validUser);
         when(beanMappingService.mapTo(validUser, RentalUserDto.class)).thenReturn(validUserDto);
 
@@ -123,7 +118,7 @@ public class RentalUserFacadeTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void findUserByEmail() {
+    public void findUserByEmail_emailOfExistingUser_returnThatUserDto () {
         when(rentalUserService.findUserByEmail("valid@email.com")).thenReturn(validUser);
         when(beanMappingService.mapTo(validUser, RentalUserDto.class)).thenReturn(validUserDto);
 
@@ -132,7 +127,7 @@ public class RentalUserFacadeTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void authenticate() {
+    public void authenticate_usernameAndPasswordOfExistingUser_serviceMethodIsCalled () {
         when(rentalUserService.findUserByUsername("validUser")).thenReturn(validUser);
         when(rentalUserService.authenticate(validUser, validPassword)).thenReturn(true);
 
@@ -143,18 +138,17 @@ public class RentalUserFacadeTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void deleteUser() {
+    public void deleteUser_validDto_serviceMethodIsCalled () {
         rentalUserFacade.deleteUser(validUserDto.getId());
 
         verify(rentalUserService).deleteUser(validUserDto.getId());
     }
 
     @Test
-    public void updateUser(){
+    public void updateUser_validDto_serviceMethodIsCalled (){
         when(beanMappingService.mapTo(validUserDto, RentalUser.class)).thenReturn(validUser);
         rentalUserFacade.updateUser(validUserDto);
 
         verify(rentalUserService).updateUser(validUser);
     }
-
 }

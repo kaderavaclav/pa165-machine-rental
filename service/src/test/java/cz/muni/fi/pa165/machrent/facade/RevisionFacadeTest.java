@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package cz.muni.fi.pa165.machrent.facade;
 
 import cz.muni.fi.pa165.machrent.BeanMappingService;
@@ -20,9 +15,9 @@ import java.util.Date;
 import java.util.List;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -34,13 +29,14 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
- *
- * @author Peter Benus
+ * @author  Peter Benus
+ * @since   2016-11-23
+ * @version 2016-12-13
  */
 @ContextConfiguration(classes = ServiceConfiguration.class)
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
 @Transactional
-public class RevisionFacadeTest extends AbstractTestNGSpringContextTests{
+public class RevisionFacadeTest extends AbstractTestNGSpringContextTests {
     
     @Mock
     private RevisionService revisionService;
@@ -110,7 +106,7 @@ public class RevisionFacadeTest extends AbstractTestNGSpringContextTests{
     }
     
     @Test
-    public void RevisionFacadeCreateTest(){
+    public void createRevision_validDto_serviceMethodIsCalled () {
         when(beanMappingService.mapTo(revisionCreateDto, Revision.class)).thenReturn(revision);
         
         revisionFacade.createRevision(revisionCreateDto);
@@ -119,7 +115,7 @@ public class RevisionFacadeTest extends AbstractTestNGSpringContextTests{
     }
     
     @Test
-    public void RevisionFacadeDeleteTest(){  
+    public void deleteRevision_idOfExistingRevision_serviceMethodIsCalled () {  
         when(revisionService.findById(1L)).thenReturn(revision);
         when(beanMappingService.mapTo(revisionDto, Revision.class)).thenReturn(revision);
         
@@ -129,7 +125,7 @@ public class RevisionFacadeTest extends AbstractTestNGSpringContextTests{
     }
     
     @Test
-    public void RevisionFacadeUpdateTest(){
+    public void updateRevision_validDto_serviceMethodIsCalled () {
         when(beanMappingService.mapTo(revisionDto, Revision.class)).thenReturn(revision);
         
         revisionFacade.updateRevision(revisionDto);
@@ -138,7 +134,7 @@ public class RevisionFacadeTest extends AbstractTestNGSpringContextTests{
     }
     
     @Test
-    public void RevisionFacadeFindAllRevisionsTest(){
+    public void findAllRevisions_always_serviceMethodIsCalled () {
         when(revisionService.findAllRevisions()).thenReturn(revisions);
         
         revisionFacade.findAllRevisions();
@@ -147,7 +143,7 @@ public class RevisionFacadeTest extends AbstractTestNGSpringContextTests{
     }
     
     @Test
-    public void RevisionFacadeFindByIdTest(){
+    public void findById_idOfExistingRevision_returnThatRevisionDto () {
         when(revisionService.findById(1L)).thenReturn(revision);
         when(beanMappingService.mapTo(revision, RevisionDto.class)).thenReturn(revisionDto);
         

@@ -1,9 +1,7 @@
 package cz.muni.fi.pa165.machrent.facade;
 
 import cz.muni.fi.pa165.machrent.BeanMappingService;
-import cz.muni.fi.pa165.machrent.MachineService;
 import cz.muni.fi.pa165.machrent.RentalService;
-import cz.muni.fi.pa165.machrent.RentalUserService;
 import cz.muni.fi.pa165.machrent.config.ServiceConfiguration;
 import cz.muni.fi.pa165.machrent.dto.RentalCreateDto;
 import cz.muni.fi.pa165.machrent.dto.RentalDto;
@@ -14,11 +12,9 @@ import cz.muni.fi.pa165.machrent.exceptions.RentalServiceException;
 import cz.muni.fi.pa165.machrent.sampleInstances.SampleMachines;
 import cz.muni.fi.pa165.machrent.sampleInstances.SampleRentalUsers;
 import cz.muni.fi.pa165.machrent.sampleInstances.SampleRentals;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import org.mockito.*;
@@ -36,7 +32,7 @@ import org.testng.annotations.Test;
 /**
  * @author  Josef Plch
  * @since   2016-11-24
- * @version 2016-11-25
+ * @version 2016-12-13
  */
 @ContextConfiguration (classes = ServiceConfiguration.class)
 @TestExecutionListeners (TransactionalTestExecutionListener.class)
@@ -70,15 +66,14 @@ public class RentalFacadeTest extends AbstractTestNGSpringContextTests {
 
     @BeforeMethod
     public void initTestMethods () throws RentalServiceException {
-
         customer = SampleRentalUsers.newCustomerCharlie ();
         employee = SampleRentalUsers.newEmployeeEdward ();
         machine = SampleMachines.newMachineBigMax ();
         rental = SampleRentals.newRentalOfBixMaxByCharlie ();
-
+        
         rentalCreateDto = SampleRentals.newRentalCreateDto (customer.getId (), employee.getId (), machine.getId ());
         rentalDto = SampleRentals.newRentalOfBixMaxByCharlieDto ();
-
+        
         SimpleDateFormat formater = new SimpleDateFormat("yyyy-mm-dd");
 
         try {
@@ -97,7 +92,7 @@ public class RentalFacadeTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void createRental () {
+    public void createRental_validDto_serviceMethodIsCalled () {
         when(beanMappingService.mapTo(rentalCreateDto, Rental.class)).thenReturn(rental);
         when(rentalService.createRental(rental)).thenReturn(rental);
 
@@ -106,7 +101,7 @@ public class RentalFacadeTest extends AbstractTestNGSpringContextTests {
     }
     
     @Test
-    public void deleteRental () {
+    public void deleteRental_idOfExistingRental_serviceMethodIsCalled () {
         when(rentalService.findById(rentalDto.getId())).thenReturn(rental);
 
         rentalFacade.deleteRental (rentalDto.getId ());
@@ -114,7 +109,7 @@ public class RentalFacadeTest extends AbstractTestNGSpringContextTests {
     }
     
     @Test
-    public void findAllRentals () {
+    public void findAllRentals_always_serviceMethodIsCalled () {
         when(rentalService.findAll()).thenReturn(allRentals);
 
         rentalFacade.findAllRentals ();
@@ -122,7 +117,7 @@ public class RentalFacadeTest extends AbstractTestNGSpringContextTests {
     }
     
     @Test
-    public void findRentalWithId () {
+    public void findRentalWithId_idOfExistingRental_serviceMethodIsCalled () {
         when(rentalService.findById(rentalDto.getId())).thenReturn(rental);
         when(beanMappingService.mapTo(rental, RentalDto.class)).thenReturn(rentalDto);
 
@@ -131,7 +126,7 @@ public class RentalFacadeTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void findRentalCreatedBetween(){
+    public void findAllCreatedBetween_bigInterval_returnAllRentalsDtos () {
         when(rentalService.findAllCreatedBetween(dateFrom, dateTo)).thenReturn(allRentals);
         when(beanMappingService.mapTo(allRentals, RentalDto.class)).thenReturn(allRentalsDto);
 
@@ -140,7 +135,7 @@ public class RentalFacadeTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void findAllEffectiveBetween(){
+    public void findAllEffectiveBetween_bigInterval_returnAllRentalsDtos () {
         when(rentalService.findAllEffectiveBetween(dateFrom, dateTo)).thenReturn(allRentals);
         when(beanMappingService.mapTo(allRentals, RentalDto.class)).thenReturn(allRentalsDto);
 

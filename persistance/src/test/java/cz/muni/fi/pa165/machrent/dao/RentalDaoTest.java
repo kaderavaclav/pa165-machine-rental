@@ -24,13 +24,13 @@ import org.testng.annotations.Test;
 /**
  * @author  Josef Plch
  * @since   2016-10-31
- * @version 2016-11-21
+ * @version 2016-12-13
  */
 @ContextConfiguration (classes = PersistenceApplicationContext.class)
 @TestExecutionListeners (TransactionalTestExecutionListener.class)
 @Transactional
 public class RentalDaoTest extends AbstractTestNGSpringContextTests {
-    private static final SimpleDateFormat dateFormatter = new SimpleDateFormat ("yyyy-MM-dd");
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat ("yyyy-MM-dd");
     
     @Autowired
     private MachineDao machineDao;
@@ -80,25 +80,26 @@ public class RentalDaoTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test ()
-    public void create () {
-        Assert.assertEquals (rentalDao.findById (rentalA.getId ()).getCustomer (),    rentalA.getCustomer ());
-        Assert.assertEquals (rentalDao.findById (rentalA.getId ()).getDateCreated (), rentalA.getDateCreated ());
-        Assert.assertEquals (rentalDao.findById (rentalA.getId ()).getDateEnd (),     rentalA.getDateEnd ());
-        Assert.assertEquals (rentalDao.findById (rentalA.getId ()).getDateStart (),   rentalA.getDateStart ());
-        Assert.assertEquals (rentalDao.findById (rentalA.getId ()).getEmployee (),    rentalA.getEmployee ());
-        Assert.assertEquals (rentalDao.findById (rentalA.getId ()).getMachine (),     rentalA.getMachine ());
-        Assert.assertEquals (rentalDao.findById (rentalA.getId ()).getNote (),        rentalA.getNote ());
+    public void findById_idOfExistingMachine_foundMachineHasCorrectAttributes () {
+        Rental found = rentalDao.findById (rentalA.getId ());
+        Assert.assertEquals (found.getCustomer (),    rentalA.getCustomer ());
+        Assert.assertEquals (found.getDateCreated (), rentalA.getDateCreated ());
+        Assert.assertEquals (found.getDateEnd (),     rentalA.getDateEnd ());
+        Assert.assertEquals (found.getDateStart (),   rentalA.getDateStart ());
+        Assert.assertEquals (found.getEmployee (),    rentalA.getEmployee ());
+        Assert.assertEquals (found.getMachine (),     rentalA.getMachine ());
+        Assert.assertEquals (found.getNote (),        rentalA.getNote ());
     }
     
     @Test ()
-    public void delete () {
+    public void delete_existingRental_findReturnsNull () {
         Assert.assertNotNull (rentalDao.findById (rentalA.getId ()));
         rentalDao.delete (rentalA);
         Assert.assertNull (rentalDao.findById (rentalA.getId ()));
     }
 
     @Test
-    public void findAll () {
+    public void findAll_twoMachinesCreated_returnTwoMachines () {
         Machine machineB = new Machine ();
         machineB.setDescription ("velký žlutý bagr");
         machineB.setName ("BAGR 02");
@@ -136,13 +137,13 @@ public class RentalDaoTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void findById () {
+    public void findById_idOfExistingRental_returnThatRental () {
         Rental found = rentalDao.findById (rentalA.getId ());
         Assert.assertEquals (found, rentalA);
     }
 
     @Test
-    public void nonExistentReturnsNull () {
+    public void findById_nonExistentId_returnNull () {
         Assert.assertNull (rentalDao.findById (-1L));
     }
     
@@ -156,7 +157,7 @@ public class RentalDaoTest extends AbstractTestNGSpringContextTests {
     private static Date parseDate (String string) {
         Date date;
         try {
-            date = dateFormatter.parse (string);
+            date = DATE_FORMAT.parse (string);
         }
         catch (ParseException exception) {
             date = null;

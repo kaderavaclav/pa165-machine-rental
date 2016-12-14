@@ -5,55 +5,36 @@ import cz.muni.fi.pa165.machrent.MachineServiceImpl;
 import cz.muni.fi.pa165.machrent.config.ServiceConfiguration;
 import cz.muni.fi.pa165.machrent.dao.MachineDao;
 import cz.muni.fi.pa165.machrent.dao.RentalDao;
-import cz.muni.fi.pa165.machrent.dto.MachineCreateDto;
 import cz.muni.fi.pa165.machrent.entities.Machine;
 import cz.muni.fi.pa165.machrent.entities.Rental;
-import cz.muni.fi.pa165.machrent.exception.MachrentDataAccesException;
 import cz.muni.fi.pa165.machrent.exceptions.MachineServiceException;
 import cz.muni.fi.pa165.machrent.exceptions.MachrentServiceException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import org.mockito.*;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
+import static org.testng.AssertJUnit.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
-import static org.mockito.Mockito.when;
-import cz.muni.fi.pa165.machrent.BeanMappingService;
-import cz.muni.fi.pa165.machrent.BeanMappingServiceImpl;
-import cz.muni.fi.pa165.machrent.MachineService;
-import cz.muni.fi.pa165.machrent.config.ServiceConfiguration;
-import cz.muni.fi.pa165.machrent.dto.MachineCreateDto;
-import cz.muni.fi.pa165.machrent.dto.MachineDto;
-import cz.muni.fi.pa165.machrent.entities.Machine;
-import org.mockito.*;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import javax.crypto.Mac;
-import javax.inject.Inject;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-
-import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.when;
-import static org.testng.AssertJUnit.*;
 
 /**
- * Created by zuz-schwarzova on 23. 11. 2016.
+ * @author  zuz-schwarzova
+ * @since   2016-11-23
+ * @version 2016-12-13
  */
 @ContextConfiguration (classes = ServiceConfiguration.class)
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
@@ -117,7 +98,6 @@ public class MachineServiceTest extends AbstractTestNGSpringContextTests {
         rentals = new ArrayList<>();
         machines = new ArrayList<>();
         machines.add(machine1);
-
     }
 
     @BeforeMethod(dependsOnMethods = "initMachines")
@@ -128,44 +108,43 @@ public class MachineServiceTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void create(){
+    public void createMachine_validMachine_daoMethodIsCalled () {
         machineService.createMachine(machine1);
         verify(machineDao).create(machine1);
     }
 
     @Test
-    public void update() {
+    public void updateMachine_validMachine_daoMethodIsCalled () {
         machineService.updateMachine(machine1);
         verify(machineDao).update(machine1);
     }
 
     @Test
-    public void delete(){
+    public void deleteMachine_validMachine_daoMethodIsCalled () {
         machineService.deleteMachine(machine1);
         verify(machineDao).delete(machine1);
     }
 
     @Test
-    public void testFindById() {
+    public void findById_idOfExistingMachine_returnThatMachine () {
         assertSame(machineService.findById(machine1.getId()), machine1);
         verify(machineDao).findById(machine1.getId());
     }
 
 
     @Test
-    public void findAll() {
+    public void findAllMachines_always_daoMethodIsCalled () {
         machineService.findAllMachines();
         verify(machineDao).findAll();
     }
 
+    // Josef: What does it test?
     @Test
-    public void findAvailableMachines(){
+    public void findAvailableMachines () {
         when(rentalDao.findAllEffectiveBetween(dateFrom, dateTo)).thenReturn(rentals);
         when(machineDao.findAll()).thenReturn(machines);
 
         List<Machine> available = machineService.findAvailableMachines(dateFrom, dateTo);
         assertEquals(machines, available);
     }
-
-
 }

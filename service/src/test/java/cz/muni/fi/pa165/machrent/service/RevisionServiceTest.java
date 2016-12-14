@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package cz.muni.fi.pa165.machrent.service;
 
 import cz.muni.fi.pa165.machrent.RevisionService;
@@ -24,8 +19,9 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
- *
- * @author Peter Benus
+ * @author  Peter Benus
+ * @since   2016-11-23
+ * @version 2016-12-13
  */
 @ContextConfiguration(classes = ServiceConfiguration.class)
 public class RevisionServiceTest extends AbstractTestNGSpringContextTests{
@@ -40,7 +36,6 @@ public class RevisionServiceTest extends AbstractTestNGSpringContextTests{
     private Revision testRevision;
     private Date timestamp;
 
-
     @BeforeClass
     public void initTestClass() throws MachrentServiceException {
        MockitoAnnotations.initMocks(this);
@@ -52,31 +47,31 @@ public class RevisionServiceTest extends AbstractTestNGSpringContextTests{
     }
 
     @Test
-    public void RevisionServiceCreateTest(){
+    public void createRevision_validRevision_daoMethodIsCalled () {
         revisionService.createRevision(testRevision);
         verify(revisionDao).create(testRevision);
     }
         
     @Test
-    public void RevisionServiceUpdateTest(){
+    public void updateRevision_validRevision_daoMethodIsCalled () {
         revisionService.updateRevision(testRevision);
         verify(revisionDao).update(testRevision);
     }
     
     @Test
-    public void RevisionServiceDeleteTest(){
+    public void deleteRevision_validRevision_daoMethodIsCalled () {
         revisionService.deleteRevision(testRevision);
         verify(revisionDao).delete(testRevision);
     }
     
     @Test
-    public void RevisionServiceFindAllRevisionsTest(){
+    public void findAllRevisions_always_daoMethodIsCalled () {
         List<Revision> revisions = revisionService.findAllRevisions();
         verify(revisionDao).findAll();
     }
     
     @Test
-    public void RevisionServiceFindByIdTest(){
+    public void findById_idOfExistingRevision_daoMethodIsCalled () {
         Revision r = revisionService.findById(testRevision.getId());
         verify(revisionDao).findById(testRevision.getId());
     }
