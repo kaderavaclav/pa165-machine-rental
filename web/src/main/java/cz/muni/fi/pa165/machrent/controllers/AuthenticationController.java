@@ -25,8 +25,8 @@ import javax.servlet.http.HttpSession;
  */
 @Controller
 @RequestMapping("/auth")
-public class AuthentificationController {
-    final static Logger log = LoggerFactory.getLogger(AuthentificationController.class);
+public class AuthenticationController {
+    final static Logger log = LoggerFactory.getLogger(AuthenticationController.class);
 
     @Autowired
     RentalUserFacade rentalUserFacade;
