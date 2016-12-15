@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.machrent.facade;
 
+import cz.muni.fi.pa165.machrent.dto.RentalUserAuthenticateDto;
 import cz.muni.fi.pa165.machrent.dto.RentalUserDto;
 import java.util.Collection;
 
@@ -73,4 +74,19 @@ public interface RentalUserFacade {
      * @param user The use to be updated.
      */
     public void updateUser (RentalUserDto user);
+    
+    /**
+     * Authenticate user
+     *
+     * @param user user credentials
+     * @return authenticated user DTO if correct email and password entered, null otherwise
+     */
+    public RentalUserDto authUser(RentalUserAuthenticateDto user); 
+    
+    /**
+     *
+     * @param userId
+     * @return
+     */
+    public boolean isUserAdmin(long userId);
 }

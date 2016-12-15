@@ -188,4 +188,11 @@ public class RentalUser implements Serializable {
     public boolean verifyPassword (String password) {
         return Objects.equals (hashPassword (password), passwordHash);
     }
+
+    public boolean isAdmin() {
+        if (roles.contains(RentalUserRole.EMPLOYEE))
+            return true;
+        else
+            return false;
+    }
 }
