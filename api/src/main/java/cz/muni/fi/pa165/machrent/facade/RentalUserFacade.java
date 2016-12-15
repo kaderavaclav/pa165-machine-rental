@@ -20,7 +20,7 @@ public interface RentalUserFacade {
      * @param password The password to try.
      * @return         Password matches (yes/no).
      */
-    public boolean authenticate (String username, String password);
+    public RentalUserDto authenticate (String username, String password);
     
     /**
      * Delete user from the database.
@@ -74,15 +74,7 @@ public interface RentalUserFacade {
      * @param user The use to be updated.
      */
     public void updateUser (RentalUserDto user);
-    
-    /**
-     * Authenticate user
-     *
-     * @param user user credentials
-     * @return authenticated user DTO if correct email and password entered, null otherwise
-     */
-    public RentalUserDto authUser(RentalUserAuthenticateDto user); 
-    
+       
     /**
      *
      * @param userId

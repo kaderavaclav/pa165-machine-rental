@@ -77,14 +77,5 @@ public interface RentalUserService {
      */
     public void updateUser(RentalUser user);
 
-    /**
-     * Authenticate user
-     *
-     * @param user user to authenticate
-     * @param password password to check
-     * @return true if password is correct, false otherwise
-     */
-    public boolean authUser(RentalUser user, String password);
-
     public boolean isAdmin(long userId);
 }

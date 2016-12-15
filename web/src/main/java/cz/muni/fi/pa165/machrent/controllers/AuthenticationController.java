@@ -46,7 +46,7 @@ public class AuthenticationController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String authenticate(
-            @RequestParam String email,
+            @RequestParam String username,
             @RequestParam String password,
             Model model,
             RedirectAttributes redirectAttributes,
@@ -54,9 +54,9 @@ public class AuthenticationController {
             HttpServletResponse res) {
         log.error("request: POST /auth/login");
         RentalUserAuthenticateDto authDto = new RentalUserAuthenticateDto();
-        authDto.setEmail(email);
+        authDto.setEmail(username);
         authDto.setPassword(password);
-        RentalUserDto user = rentalUserFacade.authUser(authDto);
+        RentalUserDto user = rentalUserFacade.authenticate(username, password);
         if (user == null) {
             redirectAttributes.addFlashAttribute("alert_info", "Wrong email or password");
             return "redirect:/auth/login";

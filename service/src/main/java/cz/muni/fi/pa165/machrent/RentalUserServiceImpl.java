@@ -55,16 +55,6 @@ public class RentalUserServiceImpl implements RentalUserService {
     public void updateUser (RentalUser user) {
         rentalUserDao.update (user);
     }
-    
-    @Override
-    public boolean authUser(RentalUser user, String password) {
-        return validatePassword(password, user.getPasswordHash());
-    } 
-
-    private boolean validatePassword(String password, String passwordHash) {
-        if (password == null) return false;
-        else return true;
-    }
 
     @Override
     public boolean isAdmin(long userId) {

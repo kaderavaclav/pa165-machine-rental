@@ -25,11 +25,15 @@ public class RentalUserFacadeImpl implements RentalUserFacade {
     private RentalUserService rentalUserService;
     
     @Override
-    public boolean authenticate (String username, String password) {
-        return rentalUserService.authenticate (
-            rentalUserService.findUserByUsername (username),
-            password
-        );
+    public RentalUserDto authenticate (String username, String password) {
+        RentalUser user = rentalUserService.findUserByUsername(username);
+        if (user == null) {
+            return null;
+        }
+        if (rentalUserService.authenticate(user, password)) {
+            return beanMappingService.mapTo(user, RentalUserDto.class);
+        }
+        return null;
     }
 
     private RentalUserDto convertToDto (RentalUser user) {
@@ -73,18 +77,6 @@ public class RentalUserFacadeImpl implements RentalUserFacade {
     @Override
     public void updateUser (RentalUserDto userDto) {
         rentalUserService.updateUser (convertToEntity (userDto));
-    }
-    
-    @Override
-    public RentalUserDto authUser(RentalUserAuthenticateDto userDto) {
-        RentalUser user = rentalUserService.findUserByEmail(userDto.getEmail());
-        if (user == null) {
-            return null;
-        }
-        if (rentalUserService.authUser(user, userDto.getPassword())) {
-            return beanMappingService.mapTo(user, RentalUserDto.class);
-        }
-        return null;
     }
     
     @Override
