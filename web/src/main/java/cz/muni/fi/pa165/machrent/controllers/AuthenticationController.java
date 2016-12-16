@@ -24,27 +24,27 @@ import javax.servlet.http.HttpSession;
  * @author Peter Benus
  */
 @Controller
-@RequestMapping("/auth")
+@RequestMapping("/authentication")
 public class AuthenticationController {
     final static Logger log = LoggerFactory.getLogger(AuthenticationController.class);
 
     @Autowired
     RentalUserFacade rentalUserFacade;
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @RequestMapping(value = "/authentication", method = RequestMethod.GET)
     public String authForm(
             Model model,
             HttpServletRequest req,
             HttpServletResponse res) {
-        log.error("request: GET /auth/login");
+        log.error("request: GET /authentication/authentication");
         HttpSession session = req.getSession(true);
         if (session.getAttribute("authUser") != null) {
             return "redirect:/rental";
         }
-        return "auth/login";
+        return "authentication/authentication";
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @RequestMapping(value = "/authentication", method = RequestMethod.POST)
     public String authenticate(
             @RequestParam String username,
             @RequestParam String password,
@@ -52,14 +52,14 @@ public class AuthenticationController {
             RedirectAttributes redirectAttributes,
             HttpServletRequest req,
             HttpServletResponse res) {
-        log.error("request: POST /auth/login");
+        log.error("request: POST /authentication/authentication");
         RentalUserAuthenticateDto authDto = new RentalUserAuthenticateDto();
         authDto.setEmail(username);
         authDto.setPassword(password);
         RentalUserDto user = rentalUserFacade.authenticate(username, password);
         if (user == null) {
             redirectAttributes.addFlashAttribute("alert_info", "Wrong email or password");
-            return "redirect:/auth/login";
+            return "redirect:/authentication/authentication";
         }
         HttpSession session = req.getSession(true);
         user.setIsAdmin(rentalUserFacade.isUserAdmin(user.getId()));
@@ -72,10 +72,10 @@ public class AuthenticationController {
     public String logout(Model model,
             RedirectAttributes redirectAttributes,
             HttpServletRequest req) {
-        log.error("request: /auth/logout");
+        log.error("request: /authentication/logout");
         HttpSession session = req.getSession(true);
         session.removeAttribute("authUser");
         redirectAttributes.addFlashAttribute("alert_info", "You have been successfully logged out.");
-        return "redirect:/auth/login";
+        return "redirect:/authentication/authentication";
     } 
 }
