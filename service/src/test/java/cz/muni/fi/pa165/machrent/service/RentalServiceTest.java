@@ -3,14 +3,15 @@ package cz.muni.fi.pa165.machrent.service;
 import cz.muni.fi.pa165.machrent.RentalService;
 import cz.muni.fi.pa165.machrent.config.ServiceConfiguration;
 import cz.muni.fi.pa165.machrent.dao.RentalDao;
-import cz.muni.fi.pa165.machrent.entities.Machine;
 import cz.muni.fi.pa165.machrent.entities.Rental;
-import cz.muni.fi.pa165.machrent.entities.RentalUser;
 import cz.muni.fi.pa165.machrent.exceptions.RentalServiceException;
 import cz.muni.fi.pa165.machrent.exceptions.RentalUserServiceException;
-import cz.muni.fi.pa165.machrent.sampleInstances.SampleMachines;
 import cz.muni.fi.pa165.machrent.sampleInstances.SampleRentals;
-import cz.muni.fi.pa165.machrent.sampleInstances.SampleRentalUsers;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -25,12 +26,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 /**
  * @author  Josef Plch
@@ -48,9 +43,6 @@ public class RentalServiceTest extends AbstractTestNGSpringContextTests {
     @InjectMocks
     private RentalService rentalService;
 
-    private RentalUser validCustomer;
-    private RentalUser validEmployee;
-    private Machine validMachine;
     private Rental validRental;
     private Date date19980101;
     private Date date19990101;
@@ -65,9 +57,6 @@ public class RentalServiceTest extends AbstractTestNGSpringContextTests {
 
     @BeforeMethod
     public void initTestMethods() throws RentalServiceException {
-        validCustomer = SampleRentalUsers.newCustomerCharlie ();
-        validEmployee = SampleRentalUsers.newEmployeeEdward ();
-        validMachine = SampleMachines.newMachineBigMax ();
         validRental = SampleRentals.newRentalOfBixMaxByCharlie ();
 
         SimpleDateFormat formater = new SimpleDateFormat("yyyy-mm-dd");
@@ -84,50 +73,49 @@ public class RentalServiceTest extends AbstractTestNGSpringContextTests {
 
         rentals = new ArrayList<>();
         rentals.add(validRental);
-
     }
     
     @Test
-    public void createRental () {
+    public void createRental_validRental_daoMethodIsCalled () {
         rentalService.createRental(validRental);
         verify(rentalDao).create(validRental);
     }
     
     @Test
-    public void deleteRental () {
+    public void deleteRental_validRental_daoMethodIsCalled () {
         rentalService.deleteRental(validRental);
         verify(rentalDao).delete(validRental);
     }
     
     @Test
-    public void findAll () {
+    public void findAll_always_daoMethodIsCalled () {
         rentalService.findAll();
         verify(rentalDao).findAll();
     }
     
     @Test
-    public void findById () {
+    public void findById_idOfExistingRental_returnThatRental () {
         when(rentalDao.findById(validRental.getId())).thenReturn(validRental);
         Rental rental = rentalService.findById (validRental.getId ());
         assertEquals (rental, validRental);
     }
 
     @Test
-    public void findAllCreatedBetween(){
+    public void findAllCreatedBetween_modernDates_returnCorrespondingRentals () {
         when(rentalDao.findAllCreatedBetween(date20000101, date20000418)).thenReturn(rentals);
         List<Rental> created = rentalService.findAllCreatedBetween(date20000101, date20000418);
         assertEquals(rentals, created);
     }
     
     @Test
-    public void findAllEffectiveBetween(){
+    public void findAllEffectiveBetween_modernDates_returnCorrespondingRentals () {
         when(rentalDao.findAllEffectiveBetween(date20000101, date20000418)).thenReturn(rentals);
         List<Rental> foundRentals = rentalService.findAllEffectiveBetween(date20000101, date20000418);
         assertEquals(rentals, foundRentals);
     }
     
     @Test
-    public void findAllEffectiveBetweenEmpty(){
+    public void findAllEffectiveBetween_oldDates_returnEmptyList () {
         List <Rental> emptyList = new ArrayList <> ();
         when(rentalDao.findAllEffectiveBetween(date19980101, date19990101)).thenReturn(emptyList);
         List<Rental> foundRentals = rentalService.findAllEffectiveBetween(date19980101, date19990101);

@@ -8,38 +8,31 @@ import cz.muni.fi.pa165.machrent.dto.MachineCreateDto;
 import cz.muni.fi.pa165.machrent.dto.MachineDto;
 import cz.muni.fi.pa165.machrent.dto.MachineUpdateDto;
 import cz.muni.fi.pa165.machrent.entities.Machine;
-import cz.muni.fi.pa165.machrent.entities.Rental;
 import cz.muni.fi.pa165.machrent.exceptions.MachineServiceException;
 import cz.muni.fi.pa165.machrent.exceptions.MachrentServiceException;
-import org.mockito.*;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
-import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
-import org.springframework.transaction.annotation.Transactional;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
-import javax.crypto.Mac;
-import javax.inject.Inject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-
+import org.mockito.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.when;
 import static org.testng.AssertJUnit.assertEquals;
-import static org.testng.AssertJUnit.assertNotNull;
-import static org.testng.AssertJUnit.assertNull;
-
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
+import org.springframework.transaction.annotation.Transactional;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 /**
- * Created by zuz-schwarzova on 23. 11. 2016.
+ * @author  zuz-schwarzova
+ * @since   2016-11-23
+ * @version 2016-12-13
  */
 @ContextConfiguration(classes = ServiceConfiguration.class)
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
@@ -78,8 +71,7 @@ public class MachineFacadeTest extends AbstractTestNGSpringContextTests {
     }
 
     @BeforeMethod
-    public void initMachines() throws MachrentServiceException
-    {
+    public void initMachines() throws MachrentServiceException {
         machine1 = new Machine();
         machine2 = new Machine();
         name1="CAT";
@@ -98,11 +90,11 @@ public class MachineFacadeTest extends AbstractTestNGSpringContextTests {
         machine1Dto.setName(machine1.getName());
         machine1Dto.setDescription(machine1.getDescription());
 
-        SimpleDateFormat formater = new SimpleDateFormat("yyyy-mm-dd");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
 
         try {
-            dateFrom = formater.parse("2000-01-01");
-            dateTo = formater.parse("2000-04-18");
+            dateFrom = formatter.parse("2000-01-01");
+            dateTo = formatter.parse("2000-04-18");
         }
         catch (ParseException ex){
             throw new MachineServiceException(ex);
@@ -113,7 +105,6 @@ public class MachineFacadeTest extends AbstractTestNGSpringContextTests {
 
         machinesDto = new ArrayList<>();
         machinesDto.add(machine1Dto);
-
     }
 
     @BeforeMethod(dependsOnMethods = "initMachines")
@@ -124,7 +115,7 @@ public class MachineFacadeTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void createMachine(){
+    public void create_validDto_serviceMethodIsCalled () {
         machineCreateDto = new MachineCreateDto();
         machineCreateDto.setId(machine1.getId());
         machineCreateDto.setName(machine1.getName());
@@ -139,25 +130,23 @@ public class MachineFacadeTest extends AbstractTestNGSpringContextTests {
         assertEquals(m.getName(), name1);
         assertEquals(m.getDescription(), description1);
     }
-
-
+    
     @Test
-    public void testUpdate() {
+    public void update_validDto_serviceMethodIsCalled () {
         MachineUpdateDto machineDto = new MachineUpdateDto();
         machineDto.setId(machine1.getId());
         machineDto.setName(machine1.getName());
         machineDto.setDescription(machine1.getDescription());
-
+        
         when(beanMappingService.mapTo(machineDto, Machine.class)).thenReturn(machine1);
-
+        
         machineFacade.updateMachine(machineDto);
-
+        
         verify(machineService).updateMachine(machine1);
-
     }
 
     @Test
-    public void deleteMachine(){
+    public void delete_validDto_serviceMethodIsCalled () {
         MachineDto machineDto = new MachineDto();
         machineDto.setId(machine1.getId());
         machineDto.setName(machine1.getName());
@@ -171,7 +160,7 @@ public class MachineFacadeTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void findById(){
+    public void findById_idOfExistingMachine_returnThatMachineDto () {
         MachineDto machineDto = new MachineDto();
         machineDto.setId(machine1.getId());
         machineDto.setName(machine1.getName());
@@ -187,21 +176,21 @@ public class MachineFacadeTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void findAll() {
+    public void findAll_always_serviceMethodIsCalled () {
         List<Machine> machines = Arrays.asList(machine1, machine2);
         when(machineService.findAllMachines()).thenReturn(machines);
         machineFacade.findAllMachines();
 
         verify(machineService).findAllMachines();
     }
-
+    
+    // Josef Plch: Without any existing rentals, this is test is not very useful.
     @Test
-    public void findAvailableMachines(){
+    public void findAvailableMachines_noRentalsExist_returnAllMachinesDtos () {
         when(machineService.findAvailableMachines(dateFrom, dateTo)).thenReturn(machines);
         when(beanMappingService.mapTo(machines, MachineDto.class)).thenReturn(machinesDto);
 
         List<MachineDto> availableDto = machineFacade.findAvailableMachines(dateFrom, dateTo);
         assertEquals(machinesDto, availableDto);
     }
-
 }

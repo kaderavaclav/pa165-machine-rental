@@ -20,6 +20,7 @@ public class RentalUserDto {
     private String passwordHash;
     private Set <RentalUserRole> roles;
     private String username;
+    private boolean isAdmin;
 
     @Override
     public boolean equals (Object object) {
@@ -108,6 +109,10 @@ public class RentalUserDto {
 
     public void setUsername (String username) {
         this.username = username;
+    }
+    
+    public void setIsAdmin(boolean isAdmin) {
+        this.isAdmin = isAdmin;
     }
 
     @Override

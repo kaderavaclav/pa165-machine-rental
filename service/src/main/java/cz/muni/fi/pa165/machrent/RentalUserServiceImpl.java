@@ -55,4 +55,13 @@ public class RentalUserServiceImpl implements RentalUserService {
     public void updateUser (RentalUser user) {
         rentalUserDao.update (user);
     }
+
+    @Override
+    public boolean isAdmin(long userId) {
+        RentalUser u = findUserById(userId);
+        if (u == null) {
+            return false;
+        }
+        return u.isAdmin();
+    }
 }

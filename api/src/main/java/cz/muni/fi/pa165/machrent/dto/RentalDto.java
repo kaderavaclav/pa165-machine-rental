@@ -14,13 +14,13 @@ import java.util.Date;
 public class RentalDto {
     
     private Long id;
-    private MachineDto machine;    
-    private RentalUserDto customer;
+    MachineDto machine;    
+    RentalUserDto customer;
     private String note;
     private RentalUserDto employee;
     private Date dateStart;
     private Date dateEnd;    
-    private Date dateCreated;
+    Date dateCreated;
 
     public Long getId() {
         return id;

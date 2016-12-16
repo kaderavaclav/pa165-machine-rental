@@ -1,0 +1,222 @@
+﻿@charset "utf-8";
+
+/* Rozvržení */
+
+div#pozadi {
+  margin: 0mm;
+  padding: 8mm 0mm;
+  text-align: center;
+}
+
+div#stranka {
+  background: #fff url(./cracked_concrete_b.jpg) scroll;
+  border: 1px solid #222;
+  margin: 0mm auto;
+  padding: 0mm;
+  width: 210mm;
+  /* min-height: 297mm; */
+  text-align: left;
+}
+
+div#hlavicka, div#zapati {
+  background: rgba(226, 226, 226, 0.5);
+  border: 0mm;
+  padding: 2mm 10mm;
+  width: auto;
+}
+
+div#hlavicka {
+  border-bottom: 1px solid #666;
+  text-align: right;
+}
+
+div#menu {
+  background: rgba(226, 226, 226, 0.5);
+  /* border: 1px solid #666; */
+  float: left;
+  margin: 10mm;
+  padding: 5mm;
+  width: 35mm;
+}
+
+div#obsah {
+  background: transparent;
+  float: none;
+  margin: 10mm;
+  margin-left: 65mm;
+  padding: 0mm;
+  width: 130mm;
+}
+
+div#zapati {
+  border-top: 1px solid #666;
+  clear: both;
+  text-align: center;
+}
+
+
+
+/* Vzhled */
+
+* {
+  color: #000;
+  font-family: Calibri, "Trebuchet MS", Arial, Helvetica, sans-serif;
+  font-size: 4mm;
+  quotes: '„' '“' '‚' '‘';
+}
+
+body {
+  background: #555;
+  margin: 0px;
+  padding: 0px;
+}
+
+img {
+  border-style: none;
+  margin: 0px;
+}
+
+form {
+  display: inline;
+  margin: 0px;
+}
+
+h1, h2, h3, h4, h5, h6, a, acronym {
+  color: #222;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0mm;
+}
+
+h1 {
+  font-size: 5.8mm;
+  margin-bottom: 2mm;
+  margin-top: 6mm;
+}
+
+h2 {
+  font-size: 5.0mm;
+  margin-bottom: 1mm;
+  margin-top: 5mm;
+}
+
+h2#nadpis_menu {
+  margin-bottom: 1mm;
+  margin-top: 0mm;
+}
+
+h3 {
+  font-size: 4.5mm;
+  margin-top: 4mm;
+}
+
+h4 {
+  font-size: 4.0mm;
+  margin-top: 3mm;
+}
+
+
+p, blockquote {
+  width: 100%;
+  text-align: justify;
+  /* text-indent: 2.5em; */
+  margin: 0mm 0mm 2mm 0mm;
+}
+
+table {
+  border: 1px solid #777788;
+  border-right-style: none;
+  border-bottom-style: none;
+  margin: 0mm 0mm 10mm 0mm;
+  padding: 0mm;
+  width: auto;
+}
+
+th, td {
+  border: 1px solid #777788;
+  border-top-style: none;
+  border-left-style: none;
+  margin: 0mm;
+  padding: 0.1mm 0.2mm;
+}
+
+th {
+  text-align: center;
+}
+
+td {
+  text-align: left;
+}
+
+td.form {
+  padding: 0.2mm;
+}
+
+table.form, th.form, td.form {
+  border-style: none;
+  text-align: left;
+}
+
+a {
+  text-decoration: underline;
+}
+
+a:hover {
+  color: #000;
+  text-decoration: underline;
+}
+
+hr {
+  width: 100%;
+  height: 1px;
+  color: #cccccc;
+}
+
+iframe {
+  width: 100%;
+  height: 10mm;
+}
+
+ul, ol {
+  margin: 0mm;
+  margin-bottom: 2mm;
+  padding-left: 6mm;
+}
+
+ul {
+  list-style-type: square;
+}
+
+li {
+  margin: 0mm;
+  text-align: justify;
+}
+
+blockquote {
+  font-style: italic;
+  text-indent: 0mm;
+}
+
+input.text, textarea {
+  border: 1px solid grey;
+}
+
+textarea {
+  width: 120mm;
+  height: 100mm;
+  background-color: #f9e96a;
+  padding: 2mm;
+}
+
+div.machineBox {
+  background: rgba(226, 226, 226, 0.5);
+  padding: 3mm;
+}
+
+div.machineBoxWrapper {
+  background-color: transparent;
+  display: inline-block;
+  padding: 3mm;
+  width: 45%;
+}

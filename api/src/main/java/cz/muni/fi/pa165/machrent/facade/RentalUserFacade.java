@@ -8,7 +8,7 @@ import java.util.Collection;
  *
  * @author  Josef Plch
  * @since   2016-11-21
- * @version 2016-11-23
+ * @version 2016-12-16
  */
 public interface RentalUserFacade {
     /**
@@ -19,7 +19,7 @@ public interface RentalUserFacade {
      * @param password The password to try.
      * @return         Password matches (yes/no).
      */
-    public boolean authenticate (String username, String password);
+    public RentalUserDto authenticate (String username, String password);
     
     /**
      * Delete user from the database.
@@ -64,8 +64,9 @@ public interface RentalUserFacade {
      * 
      * @param user     The user to be registered.
      * @param password Unencrypted password.
+     * @return         ID of the new user.
      */
-    public void registerUser (RentalUserDto user, String password);
+    public Long registerUser (RentalUserDto user, String password);
     
     /**
      * Save the data of an existing user.
@@ -73,4 +74,11 @@ public interface RentalUserFacade {
      * @param user The use to be updated.
      */
     public void updateUser (RentalUserDto user);
+       
+    /**
+     *
+     * @param userId
+     * @return
+     */
+    public boolean isUserAdmin(long userId);
 }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package cz.muni.fi.pa165.machrent.service;
 
 import cz.muni.fi.pa165.machrent.BeanMappingService;
@@ -23,13 +18,12 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
- *
- * @author Peter Benus
+ * @author  Peter Benus
+ * @since   2016-11-23
+ * @version 2016-12-13
  */
 @ContextConfiguration(classes = ServiceConfiguration.class)
-public class BeanMappingServiceTest extends AbstractTestNGSpringContextTests
-{
-   
+public class BeanMappingServiceTest extends AbstractTestNGSpringContextTests {
     @Autowired
     private BeanMappingService beanMappingService;
     
@@ -75,9 +69,8 @@ public class BeanMappingServiceTest extends AbstractTestNGSpringContextTests
     }
     
     @Test
-    public void shouldMapRevisions(){
+    public void mapTo_listOfTwoRevisionsToRevisionDtos_noteOfTheFirstRevisionRemainsTheSameAfterConversion () {
     	List<RevisionDto> cdtos = beanMappingService.mapTo(revisions, RevisionDto.class);
     	Assert.assertEquals(cdtos.get(1).getNote(), "revision2");
-    	
     }
 }
