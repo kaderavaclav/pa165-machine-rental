@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.machrent.facade;
 
 import cz.muni.fi.pa165.machrent.BeanMappingService;
 import cz.muni.fi.pa165.machrent.RentalUserService;
+import cz.muni.fi.pa165.machrent.dto.RentalUserAuthenticateDto;
 import cz.muni.fi.pa165.machrent.dto.RentalUserDto;
 import cz.muni.fi.pa165.machrent.entities.RentalUser;
 import java.util.Collection;
@@ -24,11 +25,15 @@ public class RentalUserFacadeImpl implements RentalUserFacade {
     private RentalUserService rentalUserService;
     
     @Override
-    public boolean authenticate (String username, String password) {
-        return rentalUserService.authenticate (
-            rentalUserService.findUserByUsername (username),
-            password
-        );
+    public RentalUserDto authenticate (String username, String password) {
+        RentalUser user = rentalUserService.findUserByUsername(username);
+        if (user == null) {
+            return null;
+        }
+        if (rentalUserService.authenticate(user, password)) {
+            return beanMappingService.mapTo(user, RentalUserDto.class);
+        }
+        return null;
     }
 
     private RentalUserDto convertToDto (RentalUser user) {
@@ -72,5 +77,10 @@ public class RentalUserFacadeImpl implements RentalUserFacade {
     @Override
     public void updateUser (RentalUserDto userDto) {
         rentalUserService.updateUser (convertToEntity (userDto));
+    }
+    
+    @Override
+    public boolean isUserAdmin(long userId) {
+        return rentalUserService.isAdmin(userId);
     }
 }

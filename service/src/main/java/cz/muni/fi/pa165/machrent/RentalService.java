@@ -59,4 +59,5 @@ public interface RentalService {
      * @return          Effective rentals.
      */
     public List<Rental> findAllEffectiveBetween(Date startDate, Date endDate);
+    
 }

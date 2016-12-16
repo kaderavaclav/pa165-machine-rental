@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.machrent.facade;
 
+import cz.muni.fi.pa165.machrent.dto.RentalUserAuthenticateDto;
 import cz.muni.fi.pa165.machrent.dto.RentalUserDto;
 import java.util.Collection;
 
@@ -19,7 +20,7 @@ public interface RentalUserFacade {
      * @param password The password to try.
      * @return         Password matches (yes/no).
      */
-    public boolean authenticate (String username, String password);
+    public RentalUserDto authenticate (String username, String password);
     
     /**
      * Delete user from the database.
@@ -73,4 +74,11 @@ public interface RentalUserFacade {
      * @param user The use to be updated.
      */
     public void updateUser (RentalUserDto user);
+       
+    /**
+     *
+     * @param userId
+     * @return
+     */
+    public boolean isUserAdmin(long userId);
 }
