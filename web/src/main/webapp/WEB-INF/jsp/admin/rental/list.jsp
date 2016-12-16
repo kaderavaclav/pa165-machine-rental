@@ -12,7 +12,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<my:pagetemplate title="Rentals">
+<my:mainPageTag title="Rentals">
 <jsp:attribute name="body">
 
     <a href="${pageContext.request.contextPath}/admin/rental/newRental" class="btn btn-primary">
@@ -31,7 +31,7 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${rentals}" var="rental">
+        <c:forEach items="${rental}" var="rental">
             <tr>
                 <td>${rental.id}</td>
                 <td><c:out value="${rental.customer.name}"/></td>
@@ -54,4 +54,4 @@
         </tbody>
     </table>
 </jsp:attribute>
-</my:pagetemplate>
+</my:mainPageTag>

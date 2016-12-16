@@ -10,20 +10,21 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<my:pagetemplate title="Update rental">
+<my:mainPageTag title="Update rental">
     <jsp:attribute name="body">
 
         <form:form method="post" action="${pageContext.request.contextPath}/admin/rental/updating"
                    modelAttribute="rentalUpdate" cssClass="form-horizontal">
 
-            <div class="form-group ${username_error?'has-error':''}">
-                <form:label path="username" cssClass="col-sm-2 control-label">Customer username</form:label>
+           <%-- <div class="form-group ${name_error?'has-error':''}">
+                <form:label path="name" cssClass="col-sm-2 control-label">Customer username</form:label>
                     <div class="col-sm-10">
-                    <form:input path="username" cssClass="form-control"/>
-                    <form:errors path="username" cssClass="help-block"/>
+                    <form:input path="name" cssClass="form-control"/>
+                    <form:errors path="name" cssClass="help-block"/>
                 </div>
-            </div>
+            </div>--%>
             <div class="form-group">
                 <form:label path="id" cssClass="col-sm-2 control-label">Id</form:label>
                     <div class="col-sm-10">
@@ -61,4 +62,4 @@
             <button class="btn btn-primary" type="submit">Update rental</button>
         </form:form>
     </jsp:attribute>
-</my:pagetemplate>
+</my:mainPageTag>

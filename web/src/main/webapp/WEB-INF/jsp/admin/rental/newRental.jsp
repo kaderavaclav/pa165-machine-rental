@@ -10,8 +10,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<my:pagetemplate title="New rental">
+<my:mainPageTag title="New rental">
 <jsp:attribute name="body">
 
     <form:form method="post" action="${pageContext.request.contextPath}/admin/rental/create"
@@ -54,4 +55,4 @@
         <button class="btn btn-primary" type="submit">Create rental</button>
     </form:form>
 </jsp:attribute>
-</my:pagetemplate>
+</my:mainPageTag>

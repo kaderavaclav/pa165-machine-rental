@@ -50,4 +50,4 @@
         </div>
     </div>
 </jsp:attribute>
-</my:pagetemplate>
+</my:mainPageTag>

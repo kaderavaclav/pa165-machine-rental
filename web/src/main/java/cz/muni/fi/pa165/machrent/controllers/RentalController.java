@@ -8,7 +8,7 @@ package cz.muni.fi.pa165.machrent.controllers;
 import static cz.muni.fi.pa165.machrent.controllers.RevisionController.log;
 import cz.muni.fi.pa165.machrent.dto.RentalCreateDto;
 import cz.muni.fi.pa165.machrent.dto.RentalDto;
-import cz.muni.fi.pa165.machrent.dto.RentalUpdateDto;
+//import cz.muni.fi.pa165.machrent.dto.RentalUpdateDto;
 import cz.muni.fi.pa165.machrent.dto.RentalUserDto;
 import cz.muni.fi.pa165.machrent.facade.MachineFacade;
 import cz.muni.fi.pa165.machrent.facade.RentalFacade;
@@ -51,10 +51,9 @@ public class RentalController {
         log.error("request: GET /admin/rental/list");
         HttpSession session = req.getSession(true);
         RentalUserDto rentalUser = (RentalUserDto) session.getAttribute("authUser");
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-        if (rentalUserFacade.isUserAdmin(rentalUser.getId())) {
+        //if (rentalUserFacade.isUserAdmin(rentalUser.getId())) {
             model.addAttribute("rental", rentalFacade.findAllRentals());
-        }
+        //}
         return "admin/rental/list";
     }
 
@@ -82,7 +81,7 @@ public class RentalController {
             RedirectAttributes redirectAttributes,
             Model model) {
 
-        log.error("request: GET /admin/rental/delete/" + id);
+        log.error("request: GET /admin/rental/deleteRental/" + id);
         RentalDto r = rentalFacade.findRentalWithId(id);
         if (r == null) {
             redirectAttributes.addFlashAttribute("alert_warning", "Unknown rental.");
@@ -101,7 +100,7 @@ public class RentalController {
     public String newRental(Model model) {
         log.error("newRental()");
         model.addAttribute("rentalCreate", new RentalCreateDto());
-        return "admin/rental/new";
+        return "admin/rental/newRental";
     }
 
     @RequestMapping(value = "/updateRental/{id}", method = RequestMethod.GET)
@@ -113,8 +112,8 @@ public class RentalController {
         if (updateRental == null) {
             return "redirect:/admin/rental/list";
         }
-        model.addAttribute("rentalFacade", rentalFacade);
-        return "admin/rental/update";
+        model.addAttribute("updateRental", updateRental);
+        return "admin/rental/updateRental";
     }
 
     @RequestMapping(value = "/createRental", method = RequestMethod.POST)
@@ -143,7 +142,7 @@ public class RentalController {
         return "redirect:" + uriBuilder.path("/admin/rental/view/{id}").buildAndExpand(id).encode().toUriString();
     }
 
-    @RequestMapping(value = "/updating", method = RequestMethod.POST)
+    /*@RequestMapping(value = "/updating", method = RequestMethod.POST)
     public String updatingRental(@Valid @ModelAttribute("rentalUpdate") RentalUpdateDto formBean,
             BindingResult bindingResult,
             Model model,
@@ -167,5 +166,5 @@ public class RentalController {
 
         redirectAttributes.addFlashAttribute("alert_success", "Rental with " + formBean.getId() + " was updated");
         return "redirect:" + uriBuilder.path("/admin/rental/view/{id}").buildAndExpand(formBean.getId()).encode().toUriString();
-    }
+    }*/
 }
