@@ -21,11 +21,11 @@
             <table>
                 <tr>
                     <td><h3>Machine:</h3></td>
-                    <td><h3><c:out value="${revision.machine}"/></h3></td>
+                    <td><h3><c:out value="${revision.machine.name}"/></h3></td>
                 </tr>
                 <tr>
                     <td><h4>Mechanic:</h4></td>
-                    <td><h4><c:out value="${revision.mechanic}"/></h4></td>
+                    <td><h4><c:out value="${revision.mechanic.name}"/></h4></td>
                 </tr>
                 <tr>
                     <td><h4>Revision date:</h4></td>
