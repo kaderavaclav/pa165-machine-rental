@@ -42,6 +42,8 @@ public interface RentalService {
      * @param r object to delete
      */
     public void deleteRental(Rental r);
+    
+    public void updateRental(Rental r);
 
     /**
      * Method that returns list of {@code Rental} objects between specified dates.

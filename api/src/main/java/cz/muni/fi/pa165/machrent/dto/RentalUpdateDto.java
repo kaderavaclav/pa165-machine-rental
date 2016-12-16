@@ -6,21 +6,23 @@
 package cz.muni.fi.pa165.machrent.dto;
 
 import java.util.Date;
+import javax.validation.constraints.NotNull;
 
 /**
  *
  * @author Peter Benus
  */
-public class RentalDto {
-    
+public class RentalUpdateDto {
+    @NotNull
     private Long id;
-    MachineDto machine;    
-    RentalUserDto customer;
+    private MachineDto machine;    
+    @NotNull
+    private RentalUserDto customer;
     private String note;
     private RentalUserDto employee;
     private Date dateStart;
     private Date dateEnd;    
-    Date dateCreated;
+    private Date dateCreated;
 
     public Long getId() {
         return id;
@@ -118,7 +120,6 @@ public class RentalDto {
         }
         return true;
     }
-
 
 
 }

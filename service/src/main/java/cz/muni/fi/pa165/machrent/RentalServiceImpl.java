@@ -64,4 +64,9 @@ public class RentalServiceImpl implements RentalService {
         }
 
     }
+
+    @Override
+    public void updateRental(Rental r) {
+        rentalDao.update(r);
+    }
 }
