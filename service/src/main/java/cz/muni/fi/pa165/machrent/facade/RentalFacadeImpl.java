@@ -9,8 +9,11 @@ import cz.muni.fi.pa165.machrent.BeanMappingService;
 import cz.muni.fi.pa165.machrent.MachineService;
 import cz.muni.fi.pa165.machrent.RentalService;
 import cz.muni.fi.pa165.machrent.RentalUserService;
+import cz.muni.fi.pa165.machrent.dto.MachineUpdateDto;
 import cz.muni.fi.pa165.machrent.dto.RentalCreateDto;
 import cz.muni.fi.pa165.machrent.dto.RentalDto;
+import cz.muni.fi.pa165.machrent.dto.RentalUpdateDto;
+import cz.muni.fi.pa165.machrent.entities.Machine;
 import cz.muni.fi.pa165.machrent.entities.Rental;
 import cz.muni.fi.pa165.machrent.exceptions.RentalServiceException;
 import java.util.Date;
@@ -44,11 +47,11 @@ public class RentalFacadeImpl implements RentalFacade {
     public RentalDto findRentalWithId(Long id) {
         Rental rental = rentalService.findById(id);
 
-        if (rental == null){
+        if (rental == null) {
             throw new RentalServiceException("Machine with id: " + id + " doesn't exist!");
-        }
-        else
+        } else {
             return beanMappingService.mapTo(rental, RentalDto.class);
+        }
     }
 
     @Override
@@ -66,10 +69,11 @@ public class RentalFacadeImpl implements RentalFacade {
     @Override
     public void deleteRental(Long rentalId) {
         Rental rental = rentalService.findById(rentalId);
-        
-        if (rental == null) 
-            throw new RentalServiceException("Machine with id: " + rentalId + " doesn't exist!"); 
-        
+
+        if (rental == null) {
+            throw new RentalServiceException("Machine with id: " + rentalId + " doesn't exist!");
+        }
+
         rentalService.deleteRental(rental);
     }
 
@@ -77,23 +81,29 @@ public class RentalFacadeImpl implements RentalFacade {
     public List<RentalDto> findAllCreatedBetween(Date from, Date to) {
         List<Rental> rentals = rentalService.findAllCreatedBetween(from, to);
 
-        if(rentals == null)
+        if (rentals == null) {
             throw new RentalServiceException("There are no Rentals within specified interval!");
-        else
+        } else {
             return beanMappingService.mapTo(rentals, RentalDto.class);
+        }
     }
 
     @Override
     public List<RentalDto> findAllEffectiveBetween(Date from, Date to) {
         List<Rental> rentals = rentalService.findAllEffectiveBetween(from, to);
 
-        if(rentals == null)
+        if (rentals == null) {
             throw new RentalServiceException("There are no Rentals within specified interval!");
-        else
+        } else {
             return beanMappingService.mapTo(rentals, RentalDto.class);
+        }
     }
 
-
-
+    @Override
+    public void updateRental(RentalUpdateDto r) {
+        Rental rental = beanMappingService.mapTo(r, Rental.class);
+        rentalService.updateRental(rental);
+        
+    }
 
 }

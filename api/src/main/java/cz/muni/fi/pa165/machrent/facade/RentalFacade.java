@@ -7,6 +7,7 @@ package cz.muni.fi.pa165.machrent.facade;
 
 import cz.muni.fi.pa165.machrent.dto.RentalCreateDto;
 import cz.muni.fi.pa165.machrent.dto.RentalDto;
+import cz.muni.fi.pa165.machrent.dto.RentalUpdateDto;
 
 import java.util.Date;
 import java.util.List;
@@ -42,6 +43,8 @@ public interface RentalFacade {
      * @param rentalId id of object to delete
      */
     public void deleteRental(Long rentalId);
+    
+    public void updateRental(RentalUpdateDto r);
 
     /**
      * Method that returns list of {@code RentalDto} created within specified interval.
