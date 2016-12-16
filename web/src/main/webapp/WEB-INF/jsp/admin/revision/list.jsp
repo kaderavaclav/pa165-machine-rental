@@ -18,7 +18,7 @@
 
     <a href="${pageContext.request.contextPath}/admin/revision/new" class="btn btn-primary">
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-        New trip
+        New revision
     </a>
 
     <table class="table">
@@ -35,9 +35,9 @@
         <c:forEach items="${revisions}" var="revision">
             <tr>
                 <td>${revision.id}</td>
-                <td><c:out value="${revision.revisionDate}"/></td>
-                <td><c:out value="${revision.machine}"/></td>
-                <td><c:out value="${revision.mechanic}"/></td>
+                <td><fmt:formatDate value="${revision.revisionDate}" type="date" dateStyle="medium"/></td>
+                <td><c:out value="${revision.machine.name}"/></td>
+                <td><c:out value="${revision.mechanic.name}"/></td>
                 <td><c:out value="${revision.note}"/></td>
                 <td>
                     <a href="/pa165/admin/revision/view/${revision.id}" class="btn btn-primary">Detail</a>

@@ -46,6 +46,8 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         Machine m5 = machine("Machine 5", "Really machine number 5");
         Machine m6 = machine("Machine 6", "Really machine number 6");
 
+
+        RentalUser admin = rentalUser("admin","admin@email.com","Admin", "admin", LegalPersonality.JURIDICAL);
         RentalUser e1 = rentalUser("user1", "user1@email.com", "User 1","userPass1", LegalPersonality.NATURAL);
         RentalUser e2 = rentalUser("user2", "user2@email.com", "User 2","userPass2", LegalPersonality.NATURAL);
         RentalUser e3 = rentalUser("user3", "user3@email.com", "User 3","userPass3", LegalPersonality.NATURAL);
@@ -90,9 +92,16 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         u.setEmail(email);
         u.setLegalPersonality(legalPersonality);
 
+       /* if (password.equals("admin")) {
+            u.setIsAdmin(true);
+        } else {
+            u.setIsAdmin(false);
+        }*/
+
         rentalUserService.registerUser(u, password);
         return u;
     }
+
 
     private Revision revision(RentalUser u, Machine m
             , Date date, String note){

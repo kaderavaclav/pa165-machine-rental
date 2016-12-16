@@ -24,9 +24,9 @@ public class RevisionCreateDtoValidator implements Validator{
         Date revisionDate = revisionCreateDto.getRevisionDate();
         Date today =  new Date();
 
-        if (revisionDate != null && today != null && revisionDate.before(today)) {
+        /*if (revisionDate != null && today != null && (revisionDate.equals(today) || revisionDate.before(today))) {
             errors.rejectValue("today", "notbefore.today", "revisionDate cannot be before today.");
-        }
+        }*/
 
     }
 }

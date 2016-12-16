@@ -75,7 +75,6 @@ public class RevisionController {
         if (revision == null) {
             return "redirect:/index";
         }
-        //TODO SALALALALALALALALALA
         model.addAttribute("revision", revision);
         return "/admin/revision/view";
     }
