@@ -2,7 +2,6 @@ package cz.muni.fi.pa165.machrent.facade;
 
 import cz.muni.fi.pa165.machrent.BeanMappingService;
 import cz.muni.fi.pa165.machrent.RentalUserService;
-import cz.muni.fi.pa165.machrent.dto.RentalUserAuthenticateDto;
 import cz.muni.fi.pa165.machrent.dto.RentalUserDto;
 import cz.muni.fi.pa165.machrent.entities.RentalUser;
 import java.util.Collection;
@@ -13,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * @author  Josef Plch
  * @since   2016-11-21
- * @version 2016-11-23
+ * @version 2016-12-16
  */
 @Service
 @Transactional
@@ -70,8 +69,10 @@ public class RentalUserFacadeImpl implements RentalUserFacade {
     }
 
     @Override
-    public void registerUser (RentalUserDto userDto, String password) {
-        rentalUserService.registerUser (convertToEntity (userDto), password);
+    public Long registerUser (RentalUserDto userDto, String password) {
+        RentalUser rentalUser = convertToEntity (userDto);
+        rentalUserService.registerUser (rentalUser, password);
+        return rentalUser.getId ();
     }
     
     @Override

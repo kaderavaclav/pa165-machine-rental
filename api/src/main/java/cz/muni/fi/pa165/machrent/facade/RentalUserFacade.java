@@ -1,6 +1,5 @@
 package cz.muni.fi.pa165.machrent.facade;
 
-import cz.muni.fi.pa165.machrent.dto.RentalUserAuthenticateDto;
 import cz.muni.fi.pa165.machrent.dto.RentalUserDto;
 import java.util.Collection;
 
@@ -9,7 +8,7 @@ import java.util.Collection;
  *
  * @author  Josef Plch
  * @since   2016-11-21
- * @version 2016-11-23
+ * @version 2016-12-16
  */
 public interface RentalUserFacade {
     /**
@@ -65,8 +64,9 @@ public interface RentalUserFacade {
      * 
      * @param user     The user to be registered.
      * @param password Unencrypted password.
+     * @return         ID of the new user.
      */
-    public void registerUser (RentalUserDto user, String password);
+    public Long registerUser (RentalUserDto user, String password);
     
     /**
      * Save the data of an existing user.
