@@ -39,7 +39,7 @@ public class AuthenticationController {
         log.error("request: GET /authentication/authentication");
         HttpSession session = req.getSession(true);
         if (session.getAttribute("authUser") != null) {
-            return "redirect:/rental";
+            return "redirect:/admin/machine/list";
         }
         return "authentication/authentication";
     }
@@ -65,7 +65,7 @@ public class AuthenticationController {
         user.setIsAdmin(rentalUserFacade.isUserAdmin(user.getId()));
         session.setAttribute("authUser", user);
         redirectAttributes.addFlashAttribute("alert_info", "You have been logged in.");
-        return "redirect:/rental";
+        return "redirect:/admin/machine/list";
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)

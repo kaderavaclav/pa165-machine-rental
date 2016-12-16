@@ -56,12 +56,14 @@
                 </c:if>
             </div>
             <!-- authenticated user info -->
+            <c:if test="${not empty authUser}">
                 <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
                     <div class="panel panel-default">
                         <div class="panel-body">
                         </div>
                     </div>
                 </div>
+            </c:if>
         </div>
 
 

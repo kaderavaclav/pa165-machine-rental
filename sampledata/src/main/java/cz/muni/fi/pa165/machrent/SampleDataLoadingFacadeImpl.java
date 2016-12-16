@@ -21,7 +21,7 @@ import java.util.GregorianCalendar;
  */
 @Component
 @Transactional
-public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
+public class    SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
 
     @Autowired
     private MachineService machineService;
