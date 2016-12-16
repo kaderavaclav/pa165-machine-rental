@@ -53,14 +53,14 @@ public class RevisionController {
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String listRevisions(Model model, HttpServletRequest req) {
-        log.error("request: GET /admin/revision/list");
-        HttpSession session = req.getSession(true);
-        RentalUserDto user = (RentalUserDto) session.getAttribute("authUser");
-        if (rentalUserFacade.isUserAdmin(user.getId())) {
-            model.addAttribute("revisions", revisionFacade.findAllRevisions());
-        } /*else {
-            model.addAttribute("revisions", revisionFacade.getTripsByUser(user.getId()));
-        }*/
+//        log.error("request: GET /admin/revision/list");
+//        HttpSession session = req.getSession(true);
+//        RentalUserDto user = (RentalUserDto) session.getAttribute("authUser");
+//        if (rentalUserFacade.isUserAdmin(user.getId())) {
+//            model.addAttribute("revisions", revisionFacade.findAllRevisions());
+//        } /*else {
+//            model.addAttribute("revisions", revisionFacade.getTripsByUser(user.getId()));
+//        }*/
         return "/admin/revision/list";
     }
 
