@@ -53,8 +53,9 @@ public class RevisionController {
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String listRevisions(Model model, HttpServletRequest req) {
-//        log.error("request: GET /admin/revision/list");
-//        HttpSession session = req.getSession(true);
+        log.error("request: GET /admin/revision/list");
+        HttpSession session = req.getSession(true);
+        model.addAttribute("revisions",revisionFacade.findAllRevisions());
 //        RentalUserDto user = (RentalUserDto) session.getAttribute("authUser");
 //        if (rentalUserFacade.isUserAdmin(user.getId())) {
 //            model.addAttribute("revisions", revisionFacade.findAllRevisions());

@@ -11,11 +11,11 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<my:pagetemplate>
+<my:mainPageTag>
 <jsp:attribute name="body">
 
     <div class="jumbotron">
-        <form method="POST" action="/pa165/auth/login">
+        <form method="POST" action="/pa165/authentication/authentication">
             Username: <input type="text" name="username"/><br/>
             Password: <input type="password" name="password"/><br/>
             <input type="submit"/>
@@ -23,4 +23,4 @@
     </div>
 
 </jsp:attribute>
-</my:pagetemplate>
+</my:mainPageTag>
