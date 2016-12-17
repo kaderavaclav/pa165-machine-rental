@@ -6,9 +6,7 @@
 package cz.muni.fi.pa165.machrent.controllers;
 
 import static cz.muni.fi.pa165.machrent.controllers.RevisionController.log;
-import cz.muni.fi.pa165.machrent.dto.MachineCreateDto;
 import cz.muni.fi.pa165.machrent.dto.MachineDto;
-import cz.muni.fi.pa165.machrent.dto.MachineUpdateDto;
 import cz.muni.fi.pa165.machrent.dto.RentalCreateDto;
 import cz.muni.fi.pa165.machrent.dto.RentalDto;
 import cz.muni.fi.pa165.machrent.dto.RentalUpdateDto;
@@ -18,8 +16,6 @@ import cz.muni.fi.pa165.machrent.exceptions.RentalServiceException;
 import cz.muni.fi.pa165.machrent.facade.MachineFacade;
 import cz.muni.fi.pa165.machrent.facade.RentalFacade;
 import cz.muni.fi.pa165.machrent.facade.RentalUserFacade;
-import cz.muni.fi.pa165.machrent.validators.MachineCreateDtoValidator;
-import cz.muni.fi.pa165.machrent.validators.MachineUpdateDtoValidator;
 import cz.muni.fi.pa165.machrent.validators.RentalCreateDtoValidator;
 import cz.muni.fi.pa165.machrent.validators.RentalUpdateDtoValidator;
 import java.util.ArrayList;
