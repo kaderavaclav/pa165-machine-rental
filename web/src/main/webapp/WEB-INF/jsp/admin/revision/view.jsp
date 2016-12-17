@@ -20,7 +20,7 @@
         <div class="col-xs-6">
             <table>
                 <tr>
-                    <td><h3>Machine:</h3></td>
+                    <td><h4>Machine:</h4></td>
                     <td><h3><c:out value="${revision.machine.name}"/></h3></td>
                 </tr>
                 <tr>
