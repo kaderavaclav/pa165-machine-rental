@@ -22,6 +22,21 @@ public class RentalDto {
     private Date dateEnd;    
     Date dateCreated;
 
+    public RentalDto(){
+        
+    }
+    
+    public RentalDto(RentalDto r){
+        id = r.getId();
+        machine = r.getMachine();
+        customer = r.getCustomer();
+        note = r.getNote();
+        employee = r.getEmployee();
+        dateStart = r.getDateStart();
+        dateEnd = r.getDateEnd();
+        dateCreated = r.getDateCreated();
+    }
+    
     public Long getId() {
         return id;
     }
