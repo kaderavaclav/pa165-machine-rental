@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.machrent.controllers;
 
 import cz.muni.fi.pa165.machrent.SampleDataLoadingFacadeImpl;
+import cz.muni.fi.pa165.machrent.dto.MachineDto;
 import cz.muni.fi.pa165.machrent.dto.RentalUserDto;
 import cz.muni.fi.pa165.machrent.dto.RevisionCreateDto;
 import cz.muni.fi.pa165.machrent.dto.RevisionDto;
@@ -27,7 +28,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by zuz-schwarzova on 15. 12. 2016.
@@ -56,12 +60,13 @@ public class RevisionController {
         log.error("request: GET /admin/revision/list");
         HttpSession session = req.getSession(true);
         model.addAttribute("revisions",revisionFacade.findAllRevisions());
-//        RentalUserDto user = (RentalUserDto) session.getAttribute("authUser");
-//        if (rentalUserFacade.isUserAdmin(user.getId())) {
-//            model.addAttribute("revisions", revisionFacade.findAllRevisions());
-//        } /*else {
-//            model.addAttribute("revisions", revisionFacade.getTripsByUser(user.getId()));
-//        }*/
+        RentalUserDto user = (RentalUserDto) session.getAttribute("authUser");
+       /* if (rentalUserFacade.isUserAdmin(user.getId())) {
+            model.addAttribute("revisions", revisionFacade.findAllRevisions());
+            return "/admin/revision/list";
+        } else {
+
+        }*/
         return "/admin/revision/list";
     }
 
@@ -97,6 +102,27 @@ public class RevisionController {
     @RequestMapping(value = "/new", method = RequestMethod.GET)
     public String newRevision(Model model){
         log.error("new()");
+        List machines = machineFacade.findAllMachines();
+        ArrayList names = new ArrayList();
+        for (int i = 0; i < machines.size(); i++){
+            MachineDto m = (MachineDto) machines.get(i);
+            names.add(m.getName());
+        }
+        model.addAttribute("machineList",names);
+
+        Collection<RentalUserDto> users = rentalUserFacade.getAllUsers();
+
+
+        /*List machines = machineFacade.findAllMachines();
+        ArrayList names = new ArrayList();
+        for (int i = 0; i < machines.size(); i++){
+            MachineDto m = (MachineDto) machines.get(i);
+            names.add(m.getName());
+        }*/
+        model.addAttribute("machineList",machines);
+        model.addAttribute("userList",users);
+
+
         model.addAttribute("revisionCreate", new RevisionCreateDto());
         return "admin/revision/new";
     }
