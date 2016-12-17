@@ -28,10 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by zuz-schwarzova on 15. 12. 2016.
@@ -60,13 +57,6 @@ public class RevisionController {
         log.error("request: GET /admin/revision/list");
         HttpSession session = req.getSession(true);
         model.addAttribute("revisions",revisionFacade.findAllRevisions());
-        RentalUserDto user = (RentalUserDto) session.getAttribute("authUser");
-       /* if (rentalUserFacade.isUserAdmin(user.getId())) {
-            model.addAttribute("revisions", revisionFacade.findAllRevisions());
-            return "/admin/revision/list";
-        } else {
-
-        }*/
         return "/admin/revision/list";
     }
 
@@ -103,22 +93,9 @@ public class RevisionController {
     public String newRevision(Model model){
         log.error("new()");
         List machines = machineFacade.findAllMachines();
-        ArrayList names = new ArrayList();
-        for (int i = 0; i < machines.size(); i++){
-            MachineDto m = (MachineDto) machines.get(i);
-            names.add(m.getName());
-        }
-        model.addAttribute("machineList",names);
 
         Collection<RentalUserDto> users = rentalUserFacade.getAllUsers();
 
-
-        /*List machines = machineFacade.findAllMachines();
-        ArrayList names = new ArrayList();
-        for (int i = 0; i < machines.size(); i++){
-            MachineDto m = (MachineDto) machines.get(i);
-            names.add(m.getName());
-        }*/
         model.addAttribute("machineList",machines);
         model.addAttribute("userList",users);
 
@@ -143,7 +120,7 @@ public class RevisionController {
 
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd");
         CustomDateEditor editor = new CustomDateEditor(dateFormat, true);
         binder.registerCustomEditor(Date.class, editor);
         if (binder.getTarget() instanceof RevisionCreateDto) {
