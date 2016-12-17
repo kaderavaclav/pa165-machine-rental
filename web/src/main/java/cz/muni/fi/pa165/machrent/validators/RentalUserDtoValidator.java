@@ -9,7 +9,7 @@ import org.springframework.validation.Validator;
  * 
  * @author   Josef Plch
  * @since    2016-12-16
- * @version  2016-12-16
+ * @version  2016-12-17
  */
 public class RentalUserDtoValidator implements Validator {
 
@@ -27,7 +27,7 @@ public class RentalUserDtoValidator implements Validator {
             errors.rejectValue ("email", "empty email");
         }
         else if (! email.matches ("[a-zA-Z0-9.-_]+@[a-zA-Z0-9.-_]+[.][a-zA-Z]+")) {
-            errors.rejectValue ("email", email, "invalid email");
+            errors.rejectValue ("email", "invalid email: " + email);
         }
         
         String username = rentalUserDto.getUsername ();

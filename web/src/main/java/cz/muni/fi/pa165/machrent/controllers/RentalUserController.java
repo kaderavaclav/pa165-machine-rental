@@ -39,7 +39,7 @@ public class RentalUserController {
     private RentalUserFacade rentalUserFacade;
 
     @RequestMapping (value = "/new", method = RequestMethod.GET)
-    public String createByGet (Model model) {
+    public String createPrepare (Model model) {
         LOGGER.info ("new()");
         
         model.addAttribute ("rentalUserCreate", new RentalUserDto ());
@@ -47,8 +47,8 @@ public class RentalUserController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String createByPost (
-        @Valid @ModelAttribute("rentalUserCreate") RentalUserDto formBean,
+    public String create (
+        @Valid @ModelAttribute("rentalUserDto") RentalUserDto formBean,
         @ModelAttribute("newPassword") String newPassword,
         BindingResult bindingResult,
         Model model,
@@ -80,7 +80,7 @@ public class RentalUserController {
     }
 
     @RequestMapping (value = "/delete/{id}", method = RequestMethod.POST)
-    public String deleteByPost (
+    public String delete (
         @PathVariable long id,
         Model model,
         UriComponentsBuilder uriBuilder,
@@ -122,17 +122,16 @@ public class RentalUserController {
     }
 
     @RequestMapping (value = "/view/{id}", method = RequestMethod.GET)
-    public String findById (@PathVariable("id") long id, Model model) {
+    public String viewDetails (@PathVariable("id") long id, Model model) {
         LOGGER.info ("request: GET /admin/rental_user/view/" + id);
         
         String result;
-        RentalUserDto rentalUser = rentalUserFacade.findUserById (id);
-        if (rentalUser == null) {
+        RentalUserDto rentalUserDto = rentalUserFacade.findUserById (id);
+        if (rentalUserDto == null) {
             result = "redirect:/index";
         }
         else {
-            // TODO
-            model.addAttribute ("rentalUser", rentalUser);
+            model.addAttribute ("rentalUserDto", rentalUserDto);
             result = ("/admin/rental_user/view");
         }
         
@@ -140,28 +139,28 @@ public class RentalUserController {
     }
 
     @RequestMapping (value = "/update/{id}", method = RequestMethod.GET)
-    public String updateByGet (@PathVariable long id, Model model) {
-        RentalUserDto updateRentalUser = rentalUserFacade.findUserById (id);
+    public String updatePrepare (@PathVariable long id, Model model) {
+        RentalUserDto rentalUserDto = rentalUserFacade.findUserById (id);
         String result;
-        if (updateRentalUser == null) {
+        if (rentalUserDto == null) {
             result = "redirect:/admin/rental_user/list";
         }
         else {
-            model.addAttribute ("rentalUserFacade", rentalUserFacade);
+            model.addAttribute ("rentalUserDto", rentalUserDto);
             result = "admin/rental_user/update";
         }
         return result;
     }
 
     @RequestMapping (value = "/updating", method = RequestMethod.POST)
-    public String updateByPost (
-        @Valid @ModelAttribute("rentalUserUpdate") RentalUserDto formBean,
+    public String update (
+        @Valid @ModelAttribute("rentalUserDto") RentalUserDto formBean,
         BindingResult bindingResult,
         Model model,
         RedirectAttributes redirectAttributes,
         UriComponentsBuilder uriBuilder
     ) {
-        LOGGER.info ("update(rentalUserUpdate={})", formBean);
+        LOGGER.info ("update(rentalUserDto={})", formBean);
         
         String result;
         if (bindingResult.hasErrors ()) {
@@ -169,7 +168,7 @@ public class RentalUserController {
                 LOGGER.error ("ObjectError: {}", error);
             }
             for (FieldError error : bindingResult.getFieldErrors ()) {
-                model.addAttribute(error.getField() + "_error", true);
+                model.addAttribute (error.getField () + "_error", true);
                 LOGGER.error ("FieldError: {}", error);
             }
             result = "/admin/rental_user/update";
