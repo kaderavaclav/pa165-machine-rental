@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  * RentalUser represent users of the evidence system - both employees and
- * customers (they can be distinguished by attríbute "roles").
+ * customers (they can be distinguished by attrï¿½bute "roles").
  *
  * @author  Josef Plch
  * @since   2016-10-26
@@ -46,7 +46,7 @@ public class RentalUser implements Serializable {
     @Column(nullable = false)
     @NotNull
     private String username;
-    
+
     @Override
     public boolean equals (Object object) {
         boolean result;
