@@ -37,13 +37,13 @@ public class RevisionCreateDtoValidator implements Validator{
             errors.rejectValue("revisionDate", "invalidDate", "revisionDate cannot be before today.");
         }
 
-        MachineDto mach = revisionCreateDto.getMachine();
-        if (mach == null){
-            errors.rejectValue("machine","null");
+        Long machineId = revisionCreateDto.getMachineId();
+        if (machineId == null){
+            errors.rejectValue("machineId","null");
         }
-        RentalUserDto mech = revisionCreateDto.getMechanic();
-        if (mech == null){
-            errors.rejectValue("mechanic","null");
+        Long mechanicId = revisionCreateDto.getMechanicId();
+        if (mechanicId == null){
+            errors.rejectValue("mechanicId","null");
         }
     }
 
