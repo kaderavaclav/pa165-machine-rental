@@ -5,6 +5,7 @@ import cz.muni.fi.pa165.machrent.dto.MachineDto;
 import cz.muni.fi.pa165.machrent.dto.RentalUserDto;
 import cz.muni.fi.pa165.machrent.dto.RevisionCreateDto;
 import cz.muni.fi.pa165.machrent.dto.RevisionDto;
+import cz.muni.fi.pa165.machrent.entities.Machine;
 import cz.muni.fi.pa165.machrent.facade.MachineFacade;
 import cz.muni.fi.pa165.machrent.facade.RentalFacade;
 import cz.muni.fi.pa165.machrent.facade.RentalUserFacade;
@@ -94,10 +95,24 @@ public class RevisionController {
         log.error("new()");
         List machines = machineFacade.findAllMachines();
 
-        Collection<RentalUserDto> users = rentalUserFacade.getAllUsers();
+        ArrayList users = (ArrayList) rentalUserFacade.getAllUsers();
 
-        model.addAttribute("machineList",machines);
-        model.addAttribute("userList",users);
+        Map<Long, String> names = new LinkedHashMap<>();
+        for (int i = 0; i < machines.size(); i++){
+            MachineDto mach = (MachineDto) machines.get(i);
+            names.put(mach.getId(), mach.getName());
+
+        }
+
+        Map<Long, String> mechs = new LinkedHashMap<>();
+        for (int i = 0; i < users.size(); i++){
+            RentalUserDto mech = (RentalUserDto) users.get(i);
+            mechs.put(mech.getId(), mech.getName());
+
+        }
+
+        model.addAttribute("machineList",names);
+        model.addAttribute("userList",mechs);
 
 
         model.addAttribute("revisionCreate", new RevisionCreateDto());
