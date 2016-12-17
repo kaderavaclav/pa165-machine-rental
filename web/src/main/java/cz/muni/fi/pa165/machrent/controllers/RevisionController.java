@@ -140,9 +140,12 @@ public class RevisionController {
                                  RedirectAttributes redirectAttributes,
                                  UriComponentsBuilder uriBuilder) {
 
+
         log.error("create(revisionCreate={})", formBean);
 
         if (bindingResult.hasErrors()) {
+
+
             for (ObjectError ge : bindingResult.getGlobalErrors()) {
                 log.error("ObjectError: {}", ge);
             }
@@ -150,6 +153,27 @@ public class RevisionController {
                 model.addAttribute(fe.getField() + "_error", true);
                 log.error("FieldError: {}", fe);
             }
+
+            List machines = machineFacade.findAllMachines();
+            ArrayList users = (ArrayList) rentalUserFacade.getAllUsers();
+
+            Map<Long, String> names = new LinkedHashMap<>();
+            for (int i = 0; i < machines.size(); i++) {
+                MachineDto mach = (MachineDto) machines.get(i);
+                names.put(mach.getId(), mach.getName());
+
+            }
+
+            Map<Long, String> mechs = new LinkedHashMap<>();
+            for (int i = 0; i < users.size(); i++) {
+                RentalUserDto mech = (RentalUserDto) users.get(i);
+                if (mech.getRoles().contains(RentalUserRole.EMPLOYEE) && !mech.getUsername().equals("admin")){
+                    mechs.put(mech.getId(), mech.getName());
+                }
+            }
+
+            model.addAttribute("machineList", names);
+            model.addAttribute("userList", mechs);
             return "/admin/revision/new";
         }
 
