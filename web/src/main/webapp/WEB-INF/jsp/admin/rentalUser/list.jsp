@@ -14,7 +14,7 @@
 
 <my:mainPageTag title="Users">
 <jsp:attribute name="body">
-    <a href="${pageContext.request.contextPath}/admin/rental_user/new" class="btn btn-primary">
+    <a href="${pageContext.request.contextPath}/admin/rentalUser/new" class="btn btn-primary">
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
         New user
     </a>
@@ -40,13 +40,13 @@
                 <td><c:out value="${rentalUser.roles}"/></td>
                 <td><c:out value="${rentalUser.legalPersonality}"/></td>
                 <td>
-                    <a href="/pa165/admin/rental_user/view/${rentalUser.id}" class="btn btn-primary">Detail</a>
+                    <a href="/pa165/admin/rentalUser/view/${rentalUser.id}" class="btn btn-primary">Detail</a>
                 </td>
                 <td>
-                    <a href="${pageContext.request.contextPath}/admin/rental_user/update/${rentalUser.id}" class="btn btn-primary">Update</a>
+                    <a href="${pageContext.request.contextPath}/admin/rentalUser/update/${rentalUser.id}" class="btn btn-primary">Update</a>
                 </td>
                 <td>
-                    <form method="post" action="${pageContext.request.contextPath}/admin/rental_user/delete/${rentalUser.id}">
+                    <form method="post" action="${pageContext.request.contextPath}/admin/rentalUser/delete/${rentalUser.id}">
                         <button type="submit" class="btn btn-primary">Delete</button>
                     </form>
                 </td>
