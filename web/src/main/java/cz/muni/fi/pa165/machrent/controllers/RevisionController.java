@@ -26,8 +26,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -54,10 +52,20 @@ public class RevisionController {
     @Autowired
     private RentalFacade rentalFacade;
 
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        CustomDateEditor editor = new CustomDateEditor(dateFormat, true);
+        binder.registerCustomEditor(Date.class, editor);
+        if (binder.getTarget() instanceof RevisionCreateDto) {
+            RevisionCreateDtoValidator validator = new RevisionCreateDtoValidator();
+            binder.addValidators(validator);
+        }
+    }
+
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public String listRevisions(Model model, HttpServletRequest req) {
+    public String listRevisions(Model model) {
         log.error("request: GET /admin/revision/list");
-        HttpSession session = req.getSession(true);
         model.addAttribute("revisions", revisionFacade.findAllRevisions());
         return "/admin/revision/list";
     }
@@ -74,21 +82,6 @@ public class RevisionController {
         }
         model.addAttribute("revision", revision);
         return "/admin/revision/view";
-    }
-
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
-    public String delete(@PathVariable long id,
-                         Model model,
-                         UriComponentsBuilder uriBuilder,
-                         RedirectAttributes redirectAttributes) {
-
-        RevisionDto revision = revisionFacade.findById(id);
-
-        revisionFacade.deleteRevision(id);
-        log.debug("delete({})", id);
-
-        redirectAttributes.addFlashAttribute("alert_success", "Revision \"" + revision.getRevisionDate() + "\" was deleted.");
-        return "redirect:" + uriBuilder.path("/admin/revision/list").toUriString();
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.GET)
@@ -120,18 +113,6 @@ public class RevisionController {
         model.addAttribute("revisionCreate", new RevisionCreateDto());
         return "admin/revision/new";
     }
-
-    @InitBinder
-    protected void initBinder(WebDataBinder binder) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        CustomDateEditor editor = new CustomDateEditor(dateFormat, true);
-        binder.registerCustomEditor(Date.class, editor);
-        if (binder.getTarget() instanceof RevisionCreateDto) {
-            RevisionCreateDtoValidator validator = new RevisionCreateDtoValidator();
-            binder.addValidators(validator);
-        }
-    }
-
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String createRevision(@Valid @ModelAttribute("revisionCreate") RevisionCreateDto formBean,
@@ -185,4 +166,21 @@ public class RevisionController {
         redirectAttributes.addFlashAttribute("alert_success", "Revision with " + id + " was created");
         return "redirect:" + uriBuilder.path("/admin/revision/view/{id}").buildAndExpand(id).encode().toUriString();
     }
+
+
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
+    public String delete(@PathVariable long id,
+                         Model model,
+                         UriComponentsBuilder uriBuilder,
+                         RedirectAttributes redirectAttributes) {
+
+        RevisionDto revision = revisionFacade.findById(id);
+
+        revisionFacade.deleteRevision(id);
+        log.debug("delete({})", id);
+
+        redirectAttributes.addFlashAttribute("alert_success", "Revision \"" + revision.getRevisionDate() + "\" was deleted.");
+        return "redirect:" + uriBuilder.path("/admin/revision/list").toUriString();
+    }
+
 }

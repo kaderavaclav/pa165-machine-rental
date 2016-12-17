@@ -22,8 +22,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 /**
@@ -70,17 +68,24 @@ public class MachineController {
 
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String createMachine(
-            @ModelAttribute("newMachine") MachineCreateDto formBean,
+    public String createMachine(@Valid
+            @ModelAttribute("newMachine") MachineCreateDto formBean, BindingResult bindingResult,
             Model model,
             RedirectAttributes redirectAttributes,
-            UriComponentsBuilder uriBuilder,
-            HttpServletRequest req,
-            HttpServletResponse res
-    ) {
+            UriComponentsBuilder uriBuilder) {
+
         log.debug("create(machineCreate={})", formBean);
 
-        HttpSession session = req.getSession(true);
+        if (bindingResult.hasErrors()) {
+            for (ObjectError ge : bindingResult.getGlobalErrors()) {
+                log.error("ObjectError: {}", ge);
+            }
+            for (FieldError fe : bindingResult.getFieldErrors()) {
+                model.addAttribute(fe.getField() + "_error", true);
+                log.error("FieldError: {}", fe);
+            }
+            return "/admin/machine/new";
+        }
 
         try {
             Long id = machineFacade.createMachine(formBean);
@@ -163,7 +168,7 @@ public class MachineController {
 
         } catch(Exception e) {
 
-            redirectAttributes.addFlashAttribute("alert_danger", "Attempt to delete machine failed.");
+            redirectAttributes.addFlashAttribute("alert_danger", "Attempt to delete machine failed. Machine is used in Revisions or Rentals.");
         }
         return "redirect:/admin/machine/list";
     }

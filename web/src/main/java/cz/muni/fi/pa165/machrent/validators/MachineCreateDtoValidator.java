@@ -28,7 +28,7 @@ public class MachineCreateDtoValidator implements Validator{
         String name = machineCreateDto.getName();
 
 
-        if (name == null || name == "") {
+        if (name == null || name.isEmpty()) {
             errors.rejectValue("name", "notNull", "Machine name cannot be empty!");
         }
     }
