@@ -165,6 +165,9 @@ public class RevisionController {
             return "/admin/revision/new";
         }
 
+        formBean.setMachine(machineFacade.findById(formBean.getMachineId()));
+        formBean.setMechanic(rentalUserFacade.findUserById(formBean.getMechanicId()));
+
         Long id = revisionFacade.createRevision(formBean);
 
         redirectAttributes.addFlashAttribute("alert_success", "Revision with " + id + " was created");
