@@ -1,5 +1,7 @@
 package cz.muni.fi.pa165.machrent.validators;
 
+import cz.muni.fi.pa165.machrent.dto.MachineDto;
+import cz.muni.fi.pa165.machrent.dto.RentalUserDto;
 import cz.muni.fi.pa165.machrent.dto.RevisionCreateDto;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -21,6 +23,28 @@ public class RevisionCreateDtoValidator implements Validator{
     public void validate(Object target, Errors errors) {
         RevisionCreateDto revisionCreateDto = (RevisionCreateDto) target;
 
+        String note = revisionCreateDto.getNote();
+        if (note.length() > 254) {
+            errors.rejectValue("note", "tooLong");
+        }
 
+        Date today = new Date();
+        Date revisionDate = revisionCreateDto.getRevisionDate();
+        if (revisionDate == null){
+            errors.rejectValue("revisionDate","null");
+        }
+        if (revisionDate != null && today.before(revisionDate)) {
+            errors.rejectValue("revisionDate", "invalidDate", "revisionDate cannot be before today.");
+        }
+
+        MachineDto mach = revisionCreateDto.getMachine();
+        if (mach == null){
+            errors.rejectValue("machine","null");
+        }
+        RentalUserDto mech = revisionCreateDto.getMechanic();
+        if (mech == null){
+            errors.rejectValue("mechanic","null");
+        }
     }
+
 }

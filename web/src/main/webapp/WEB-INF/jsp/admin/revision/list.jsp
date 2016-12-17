@@ -16,9 +16,9 @@
 <my:mainPageTag title="Revisions">
 <jsp:attribute name="body">
 
-    <a href="${pageContext.request.contextPath}/admin/revision/new" class="btn btn-primary">
+    <a href="${pageContext.request.contextPath}/admin/revision/new" class="btn btn-success">
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-        New revision
+        Create
     </a>
 
     <table class="table">
@@ -40,14 +40,11 @@
                 <td><c:out value="${revision.mechanic.name}"/></td>
                 <td><c:out value="${revision.note}"/></td>
                 <td>
-                    <a href="/pa165/admin/revision/view/${revision.id}" class="btn btn-primary">Detail</a>
-                </td>
-                <td>
-                    <a href="${pageContext.request.contextPath}/admin/revision/update/${revision.id}" class="btn btn-primary">Update</a>
+                    <a href="/pa165/admin/revision/view/${revision.id}" class="btn btn-default">Details</a>
                 </td>
                 <td>
                     <form method="post" action="${pageContext.request.contextPath}/admin/revision/delete/${revision.id}">
-                        <button type="submit" class="btn btn-primary">Delete</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
                 </td>
             </tr>
