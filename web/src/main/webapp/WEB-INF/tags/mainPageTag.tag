@@ -122,9 +122,18 @@
         </div>
     </div>
     <!-- footer -->
-    <footer class="footer">
-
-    </footer>
+    <div class="row">
+        <div class="col-lg-12">
+            <footer class="footer">
+                <hr/>
+                <div class="container">
+                    <p class="text-muted">&copy; PA165 Machine Rental</p>
+                    <li>Václav Kaděra, Peter Beňuš, Zuzana Schwarzová, Josef Plch</li>
+                </div>
+            </footer>
+        </div>
+    </div>
+</div>
 </div>
 <!-- javascripts placed at the end of the document so the pages load faster -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
