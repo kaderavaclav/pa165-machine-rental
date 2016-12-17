@@ -14,7 +14,6 @@
 
 <my:mainPageTag title="New rental">
     <jsp:attribute name="body">
-
         <form:form method="post" action="${pageContext.request.contextPath}/admin/rental/createRental"
                    modelAttribute="newRental" cssClass="form-horizontal">
             <div class="form-group ${customerId_error?'has-error':''}">
