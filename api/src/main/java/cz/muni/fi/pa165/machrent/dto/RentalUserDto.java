@@ -70,6 +70,10 @@ public class RentalUserDto {
         return username;
     }
 
+    public boolean getIsAdmin(){
+        return isAdmin;
+    }
+
     @Override
     public int hashCode () {
         int hash = 7;

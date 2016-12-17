@@ -5,6 +5,7 @@ import cz.muni.fi.pa165.machrent.entities.Rental;
 import cz.muni.fi.pa165.machrent.entities.RentalUser;
 import cz.muni.fi.pa165.machrent.entities.Revision;
 import cz.muni.fi.pa165.machrent.enums.LegalPersonality;
+import cz.muni.fi.pa165.machrent.enums.RentalUserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +15,9 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.EnumSet;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
 
 /**
  * Created by vaclav.kadera on 11-Dec-16.
@@ -47,13 +50,13 @@ public class    SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         Machine m6 = machine("Machine 6", "Really machine number 6");
 
 
-        RentalUser admin = rentalUser("admin","admin@email.com","Admin", "admin", LegalPersonality.JURIDICAL);
-        RentalUser e1 = rentalUser("user1", "user1@email.com", "User 1","userPass1", LegalPersonality.NATURAL);
-        RentalUser e2 = rentalUser("user2", "user2@email.com", "User 2","userPass2", LegalPersonality.NATURAL);
-        RentalUser e3 = rentalUser("user3", "user3@email.com", "User 3","userPass3", LegalPersonality.NATURAL);
-        RentalUser c1 = rentalUser("user4", "user4@email.com", "User 4","userPass4", LegalPersonality.NATURAL);
-        RentalUser c2 = rentalUser("user5", "user5@email.com", "User 5","userPass5", LegalPersonality.JURIDICAL);
-        RentalUser c3 = rentalUser("user6", "user6@email.com", "User 6","userPass6", LegalPersonality.JURIDICAL);
+        RentalUser admin = rentalUser("admin","admin@email.com","Admin", "admin", LegalPersonality.JURIDICAL, EnumSet.of(RentalUserRole.EMPLOYEE));
+        RentalUser e1 = rentalUser("user1", "user1@email.com", "User 1","userPass1", LegalPersonality.NATURAL, EnumSet.of(RentalUserRole.CUSTOMER));
+        RentalUser e2 = rentalUser("user2", "user2@email.com", "User 2","userPass2", LegalPersonality.NATURAL, EnumSet.of(RentalUserRole.CUSTOMER));
+        RentalUser e3 = rentalUser("user3", "user3@email.com", "User 3","userPass3", LegalPersonality.NATURAL, EnumSet.of(RentalUserRole.CUSTOMER));
+        RentalUser c1 = rentalUser("user4", "user4@email.com", "User 4","userPass4", LegalPersonality.NATURAL, EnumSet.of(RentalUserRole.CUSTOMER));
+        RentalUser c2 = rentalUser("user5", "user5@email.com", "User 5","userPass5", LegalPersonality.JURIDICAL, EnumSet.of(RentalUserRole.CUSTOMER));
+        RentalUser c3 = rentalUser("user6", "user6@email.com", "User 6","userPass6", LegalPersonality.JURIDICAL, EnumSet.of(RentalUserRole.CUSTOMER));
 
         Revision v1 = revision(e1, m1, getDate("2016-01-02"), "note 1");
         Revision v2 = revision(e2, m1, getDate("2016-02-02"), "note 2");
@@ -84,19 +87,14 @@ public class    SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
     }
 
     private RentalUser rentalUser(String username, String email, String name
-            , String password, LegalPersonality legalPersonality){
+            , String password, LegalPersonality legalPersonality, EnumSet<RentalUserRole> roles){
 
         RentalUser u = new RentalUser();
         u.setUsername(username);
         u.setName(name);
         u.setEmail(email);
         u.setLegalPersonality(legalPersonality);
-
-       /* if (password.equals("admin")) {
-            u.setIsAdmin(true);
-        } else {
-            u.setIsAdmin(false);
-        }*/
+        u.setRoles(roles);
 
         rentalUserService.registerUser(u, password);
         return u;
