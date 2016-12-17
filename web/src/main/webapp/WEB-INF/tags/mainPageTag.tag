@@ -1,5 +1,6 @@
 <%@ tag pageEncoding="utf-8" dynamic-attributes="dynattrs" trimDirectiveWhitespaces="true" %>
 <%@ attribute name="title" required="false" %>
+<%@ attribute name="subtitle" required="false" %>
 <%@ attribute name="head" fragment="true" %>
 <%@ attribute name="body" fragment="true" required="true" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="my" %>
@@ -80,7 +81,8 @@
         <div class="col-xs-6 col-sm-8 col-md-9 col-lg-10">
             <c:if test="${not empty title}">
                 <h1><c:out value="${title}"/>
-                    <small></small>
+                    &nbsp;
+                    <small><c:out value="${subtitle}" /></small>
                 </h1>
             </c:if>
         </div>

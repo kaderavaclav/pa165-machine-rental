@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<my:mainPageTag title="Machines">
+<my:mainPageTag title="Machines" subtitle="List">
 <jsp:attribute name="body">
    <a href="/pa165/admin/machine/new" class="btn btn-default">Create machine</a>
 
@@ -23,8 +23,12 @@
                 <td><c:out value="${machine.name}"/></td>
                 <td><c:out value="${machine.description}"/></td>
                 <td>
+                    <a href="/pa165/admin/machine/view/${machine.id}" class="btn btn-default">Detail</a>
+                </td>
+                <td>
                     <a href="/pa165/admin/machine/update/${machine.id}" class="btn btn-default">Edit</a>
                 </td>
+
                 <td>
                     <form method="post" action="${pageContext.request.contextPath}/admin/machine/delete/${machine.id}">
                         <button type="submit" class="btn btn-danger">Delete</button>

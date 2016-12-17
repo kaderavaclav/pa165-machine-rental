@@ -65,6 +65,12 @@ public class RevisionFacadeImpl implements RevisionFacade {
 	}
 
 	@Override
+	public List<RevisionDto> findAllMachineRevisions(long machineId) {
+		return beanMappingService.mapTo(revs.findAllMachineRevisions(machineId), RevisionDto.class);
+	}
+
+
+	@Override
 	public RevisionDto findById(Long id) {
 		Revision r = revs.findById(id);
 		if (r == null) {

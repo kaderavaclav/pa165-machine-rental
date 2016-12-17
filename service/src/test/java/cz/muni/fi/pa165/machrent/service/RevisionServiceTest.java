@@ -75,4 +75,10 @@ public class RevisionServiceTest extends AbstractTestNGSpringContextTests{
         Revision r = revisionService.findById(testRevision.getId());
         verify(revisionDao).findById(testRevision.getId());
     }
+
+    @Test
+    public void findAllMachineRevisions_idOfExistingMachine_returnCorrectRevisions(){
+        List<Revision> actual = revisionService.findAllMachineRevisions(1L);
+        verify(revisionDao).findAllByMachineId(1L);
+    }
 }

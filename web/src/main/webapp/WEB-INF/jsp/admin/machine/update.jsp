@@ -6,7 +6,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<my:mainPageTag title="Machines > Update machine">
+<my:mainPageTag title="Machines" subtitle="Update">
 <jsp:attribute name="body">
     <form:form method="post" action="${pageContext.request.contextPath}/admin/machine/updateMachine"
                modelAttribute="updateMachine" cssClass="form-vertical">

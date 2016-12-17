@@ -6,7 +6,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<my:mainPageTag title="Machines > Create new">
+<my:mainPageTag title="Machines" subtitle="Create new">
 <jsp:attribute name="body">
     <form:form method="post" action="${pageContext.request.contextPath}/admin/machine/create"
                modelAttribute="newMachine" cssClass="form-vertical">

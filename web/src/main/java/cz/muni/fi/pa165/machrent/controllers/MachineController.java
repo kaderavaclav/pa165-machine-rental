@@ -4,8 +4,10 @@ import cz.muni.fi.pa165.machrent.SampleDataLoadingFacadeImpl;
 import cz.muni.fi.pa165.machrent.dto.MachineCreateDto;
 import cz.muni.fi.pa165.machrent.dto.MachineDto;
 import cz.muni.fi.pa165.machrent.dto.MachineUpdateDto;
+import cz.muni.fi.pa165.machrent.dto.RevisionDto;
 import cz.muni.fi.pa165.machrent.exceptions.MachineServiceException;
 import cz.muni.fi.pa165.machrent.facade.MachineFacade;
+import cz.muni.fi.pa165.machrent.facade.RevisionFacade;
 import cz.muni.fi.pa165.machrent.validators.MachineCreateDtoValidator;
 import cz.muni.fi.pa165.machrent.validators.MachineUpdateDtoValidator;
 import org.slf4j.Logger;
@@ -23,6 +25,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * Created by vaclav.kadera on 16-Dec-16.
@@ -36,6 +39,8 @@ public class MachineController {
     @Autowired
     private MachineFacade machineFacade;
 
+    @Autowired
+    private RevisionFacade revisionFacade;
 
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
@@ -58,6 +63,27 @@ public class MachineController {
         model.addAttribute("machines", machineFacade.findAllMachines());
         return "/admin/machine/list";
     }
+
+    @RequestMapping(value = "/view/{id}", method = RequestMethod.GET)
+    public String viewMachine(
+            @PathVariable("id") long id,
+            Model model) {
+
+        log.error("request: GET /admin/machine/view/" + id);
+        MachineDto machine = machineFacade.findById(id);
+        if (machine == null) {
+            return "redirect:/admin/machine/list";
+        }
+
+        List<RevisionDto> revisions = revisionFacade.findAllMachineRevisions(id);
+
+        model.addAttribute("machine", machine);
+        model.addAttribute("revisions", revisions);
+
+        return "/admin/machine/view";
+    }
+
+
 
     @RequestMapping(value = "/new", method = RequestMethod.GET)
     public String create(Model model){
