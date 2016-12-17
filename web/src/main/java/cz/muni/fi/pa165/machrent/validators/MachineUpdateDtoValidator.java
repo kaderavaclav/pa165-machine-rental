@@ -29,7 +29,7 @@ public class MachineUpdateDtoValidator implements Validator{
         String name = machineUpdateDto.getName();
 
 
-        if (name == null || name == "") {
+        if (name == null || name.isEmpty()) {
             errors.rejectValue("name", "notNull", "Machine name cannot be empty!");
         }
     }

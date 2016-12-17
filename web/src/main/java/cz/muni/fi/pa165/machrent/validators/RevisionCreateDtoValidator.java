@@ -25,25 +25,25 @@ public class RevisionCreateDtoValidator implements Validator{
 
         String note = revisionCreateDto.getNote();
         if (note.length() > 254) {
-            errors.rejectValue("note", "tooLong");
+            errors.rejectValue("note", "tooLong", "The note is too long.");
         }
 
         Date today = new Date();
         Date revisionDate = revisionCreateDto.getRevisionDate();
         if (revisionDate == null){
-            errors.rejectValue("revisionDate","null");
+            errors.rejectValue("revisionDate","null","Shouldnt be null.");
         }
         if (revisionDate != null && today.before(revisionDate)) {
-            errors.rejectValue("revisionDate", "invalidDate", "revisionDate cannot be before today.");
+            errors.rejectValue("revisionDate", "invalidDate", "Revision should be in the past.");
         }
 
         Long machineId = revisionCreateDto.getMachineId();
         if (machineId == null){
-            errors.rejectValue("machineId","null");
+            errors.rejectValue("machineId","null","Shouldnt be null.");
         }
         Long mechanicId = revisionCreateDto.getMechanicId();
         if (mechanicId == null){
-            errors.rejectValue("mechanicId","null");
+            errors.rejectValue("mechanicId","null", "Shouldnt be null.");
         }
     }
 
