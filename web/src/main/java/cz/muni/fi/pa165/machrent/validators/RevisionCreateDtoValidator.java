@@ -8,7 +8,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * Created by Falka on 16. 12. 2016.
+ * Created by zuz-schwarzova on 16. 12. 2016.
  */
 public class RevisionCreateDtoValidator implements Validator{
 
@@ -21,12 +21,6 @@ public class RevisionCreateDtoValidator implements Validator{
     public void validate(Object target, Errors errors) {
         RevisionCreateDto revisionCreateDto = (RevisionCreateDto) target;
 
-        Date revisionDate = revisionCreateDto.getRevisionDate();
-        Date today =  new Date();
-
-        /*if (revisionDate != null && today != null && (revisionDate.equals(today) || revisionDate.before(today))) {
-            errors.rejectValue("today", "notbefore.today", "revisionDate cannot be before today.");
-        }*/
 
     }
 }
