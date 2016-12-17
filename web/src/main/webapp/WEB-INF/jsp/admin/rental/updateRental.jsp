@@ -15,7 +15,7 @@
 <my:mainPageTag title="Rentals > Update rental">
     <jsp:attribute name="body">
         <form:form method="post" action="${pageContext.request.contextPath}/admin/rental/updatingRental"
-                   modelAttribute="updateRental" cssClass="form-vertical">
+                   modelAttribute="updateRental" cssClass="form-horizontal">
             <div class="form-group ${customer_error?'has-error':''}">
                 <form:label path="customer" cssClass="col-sm-2 control-label">Customer</form:label>
                     <div class="col-sm-10">
