@@ -14,8 +14,10 @@ public class RevisionCreateDto {
 	private Long id;
 	private String note;
 	private Date revisionDate;
-	private RentalUser mechanic;
-	private Machine machine;
+	private RentalUserDto mechanic;
+	private MachineDto machine;
+	private Long machineId;
+	private Long mechanicId;
 
 	public Long getId() {
 		return id;
@@ -41,20 +43,36 @@ public class RevisionCreateDto {
 		this.revisionDate = revisionDate;
 	}
 
-	public RentalUser getMechanic() {
+	public RentalUserDto getMechanic() {
 		return mechanic;
 	}
 
-	public void setMechanic(RentalUser mechanic) {
+	public void setMechanic(RentalUserDto mechanic) {
 		this.mechanic = mechanic;
 	}
 
-	public Machine getMachine() {
+	public MachineDto getMachine() {
 		return machine;
 	}
 
-	public void setMachine(Machine machine) {
+	public void setMachine(MachineDto machine) {
 		this.machine = machine;
+	}
+
+	public Long getMachineId() {
+		return machineId;
+	}
+
+	public void setMachineId(Long machineId) {
+		this.machineId = machineId;
+	}
+
+	public Long getMechanicId() {
+		return mechanicId;
+	}
+
+	public void setMechanicId(Long mechanicId) {
+		this.mechanicId = mechanicId;
 	}
 
 	@Override

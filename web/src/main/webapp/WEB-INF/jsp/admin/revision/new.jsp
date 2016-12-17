@@ -16,18 +16,18 @@
 <jsp:attribute name="body">
     <form:form method="post" action="${pageContext.request.contextPath}/admin/revision/create"
                modelAttribute="revisionCreate" cssClass="form-horizontal">
-        <div class="form-group">
-            <form:label path="machine" cssClass="col-sm-2 control-label">machine</form:label>
+        <div class="form-group ${machine_error?'has-error':''}">
+            <form:label path="machineId" cssClass="col-sm-2 control-label">machine</form:label>
             <div class="col-sm-10">
-                 <form:select path="machine" cssClass="form-control">
+                 <form:select path="machineId" cssClass="form-control" id="machineId">
                      <form:options items="${machineList}"/>
                  </form:select>
             </div>
         </div>
         <div class="form-group ${mechanic_error?'has-error':''}">
-            <form:label path="mechanic" cssClass="col-sm-2 control-label">mechanic</form:label>
+            <form:label path="mechanicId" cssClass="col-sm-2 control-label">mechanic</form:label>
             <div class="col-sm-10">
-                 <form:select path="mechanic" cssClass="form-control">
+                 <form:select path="mechanicId" cssClass="form-control" id="mechanicId">
                      <form:options items="${userList}"/>
                  </form:select>
             </div>

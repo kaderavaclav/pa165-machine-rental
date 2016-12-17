@@ -51,6 +51,9 @@ public class    SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
 
 
         RentalUser admin = rentalUser("admin","admin@email.com","Admin", "admin", LegalPersonality.JURIDICAL, EnumSet.of(RentalUserRole.EMPLOYEE));
+        RentalUser mech1 = rentalUser("mechanic1", "mechanic1@email.com", "Mechanic 1","mechPass1", LegalPersonality.NATURAL, EnumSet.of(RentalUserRole.EMPLOYEE));
+        RentalUser mech2 = rentalUser("mechanic2", "mechanic2@email.com", "Mechanic 2","mechPass2", LegalPersonality.NATURAL, EnumSet.of(RentalUserRole.EMPLOYEE));
+        RentalUser mech3 = rentalUser("mechanic3", "mechanic3@email.com", "Mechanic 3","mechPass3", LegalPersonality.NATURAL, EnumSet.of(RentalUserRole.EMPLOYEE));
         RentalUser e1 = rentalUser("user1", "user1@email.com", "User 1","userPass1", LegalPersonality.NATURAL, EnumSet.of(RentalUserRole.CUSTOMER));
         RentalUser e2 = rentalUser("user2", "user2@email.com", "User 2","userPass2", LegalPersonality.NATURAL, EnumSet.of(RentalUserRole.CUSTOMER));
         RentalUser e3 = rentalUser("user3", "user3@email.com", "User 3","userPass3", LegalPersonality.NATURAL, EnumSet.of(RentalUserRole.CUSTOMER));
@@ -58,12 +61,12 @@ public class    SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         RentalUser c2 = rentalUser("user5", "user5@email.com", "User 5","userPass5", LegalPersonality.JURIDICAL, EnumSet.of(RentalUserRole.CUSTOMER));
         RentalUser c3 = rentalUser("user6", "user6@email.com", "User 6","userPass6", LegalPersonality.JURIDICAL, EnumSet.of(RentalUserRole.CUSTOMER));
 
-        Revision v1 = revision(e1, m1, getDate("2016-01-02"), "note 1");
-        Revision v2 = revision(e2, m1, getDate("2016-02-02"), "note 2");
-        Revision v3 = revision(e3, m2, getDate("2016-03-02"), "note 3");
-        Revision v4 = revision(e1, m2, getDate("2016-04-02"), "note 4");
-        Revision v5 = revision(e2, m5, getDate("2016-05-02"), "note 5");
-        Revision v6 = revision(e3, m6, getDate("2016-06-02"), "note 6");
+        Revision v1 = revision(mech1, m1, getDate("2016-01-02"), "note 1");
+        Revision v2 = revision(mech2, m1, getDate("2016-02-02"), "note 2");
+        Revision v3 = revision(mech3, m2, getDate("2016-03-02"), "note 3");
+        Revision v4 = revision(mech1, m2, getDate("2016-04-02"), "note 4");
+        Revision v5 = revision(mech2, m5, getDate("2016-05-02"), "note 5");
+        Revision v6 = revision(mech3, m6, getDate("2016-06-02"), "note 6");
 
         Rental r1 = rental(c1, e3, m1, "note 1", getDate("2017-01-11"), getDate("2017-01-01"), getDate("2016-01-11"));
         Rental r2 = rental(c2, e3, m2, "note 2", getDate("2017-01-12"), getDate("2017-02-02"), getDate("2016-01-12"));
