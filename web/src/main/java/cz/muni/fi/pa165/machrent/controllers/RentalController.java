@@ -110,6 +110,23 @@ public class RentalController {
     @RequestMapping(value = "/newRental", method = RequestMethod.GET)
     public String newRental(Model model) {
         log.error("newRental()");
+        
+        List<String> machineList = new ArrayList();
+        List<MachineDto> machines = machineFacade.findAllMachines();
+        for (int i = 0; i < machines.size(); i++){
+             machineList.add(machines.get(i).getName() + " (id: " + machines.get(i).getId() + ")");
+        }
+        
+        List<String> customerList = new ArrayList();
+        Collection<RentalUserDto> customers = rentalUserFacade.getAllUsers();
+        for (RentalUserDto tmpCustomer : customers) {
+            if (tmpCustomer.getRoles().contains(RentalUserRole.CUSTOMER)){
+                customerList.add(tmpCustomer.getUsername() + " (id: " + tmpCustomer.getId() + ")");
+            }
+        }
+        model.addAttribute("customerList", customerList);
+        model.addAttribute("machineList", machineList);
+        
         model.addAttribute("newRental", new RentalCreateDto());
         return "admin/rental/newRental";
     }
