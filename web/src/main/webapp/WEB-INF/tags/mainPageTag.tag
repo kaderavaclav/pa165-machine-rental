@@ -141,8 +141,8 @@
             <footer class="footer">
                 <hr/>
                 <div class="container">
-                    <p class="text-muted">&copy; PA165 Machine Rental</p>
-                    <li>Václav Kaděra, Peter Beňuš, Zuzana Schwarzová, Josef Plch</li>
+                    <p class="text-muted">PA165 Machine Rental</p>
+                    <p class="text-muted">Václav Kaděra, Peter Beňuš, Zuzana Schwarzová, Josef Plch</p>
                 </div>
             </footer>
         </div>

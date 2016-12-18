@@ -52,7 +52,7 @@
             </div>
             <div class="row">
                 <div class="form-group">
-                    <form:label path="passwordHash" cssClass="col-sm-1 control-label">Legal Personality</form:label>
+                    <form:label path="passwordHash" cssClass="col-sm-1 control-label">Password</form:label>
                     <div class="col-sm-5">
                         <form:input path="passwordHash" readonly="true" type="password" cssClass="form-control"/>
                     </div>
@@ -60,7 +60,7 @@
             </div>
             <div class="row">
                 <div class="form-group">
-                    <form:label path="roles" cssClass="col-sm-1 control-label">Legal Personality</form:label>
+                    <form:label path="roles" cssClass="col-sm-1 control-label">User Role</form:label>
                     <div class="col-sm-5">
                         <form:input path="roles" readonly="true" cssClass="form-control"/>
                     </div>
