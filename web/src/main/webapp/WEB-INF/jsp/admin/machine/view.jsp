@@ -8,40 +8,38 @@
 
 <my:mainPageTag title="Machines" subtitle="View detail">
 <jsp:attribute name="body">
-    <table>
-        <tr>
-            <td>
-                Name:
-            </td>
-            <td>
+    <div class="row">
+        <div class="col-md-1">
+            <label>Name:</label>
+        </div>
+        <div class="col-md-11">
                 ${machine.name}
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Description:
-            </td>
-            <td>
+        </div>
+    </div>
+    <div class="row" style="margin-bottom:50px;">
+        <div class="col-md-1">
+            <label>Description:</label>
+        </div>
+        <div class="col-md-11">
                 ${machine.description}
-            </td>
-        </tr>
-    </table>
-    <h3>Machine revisions:</h3>
-    <table>
+        </div>
+    </div>
+    <h3>Machine revisions</h3>
+    <table class="table table-striped table-bordered table-hover col-md-12">
         <thead>
-            <th>ID</th>
-            <th>Date</th>
+            <th class="col-md-1">ID</th>
+            <th class="col-md-2">Date</th>
             <th>Note</th>
-            <th>Actions</th>
+            <th class="col-md-1">Actions</th>
         </thead>
         <tbody>
         <c:forEach items="${revisions}" var="revision">
             <tr>
                 <td>${revision.id}</td>
-                <td><c:out value="${revision.revisionDate}"/></td>
+                <td><fmt:formatDate value="${revision.revisionDate}" type="date" dateStyle="medium"/></td>
                 <td><c:out value="${revision.note}"/></td>
                 <td>
-                    <a href="/pa165/admin/revision/view/${machine.id}" class="btn btn-default">View</a>
+                    <a href="/pa165/admin/revision/view/${revision.id}" class="btn btn-default">View</a>
                 </td>
             </tr>
         </c:forEach>
