@@ -32,7 +32,7 @@ public class MachineDaoImpl implements MachineDao {
 
     @Override
     public List<Machine> findAll() {
-        return em.createQuery("SELECT m FROM Machine m", Machine.class).getResultList();
+        return em.createQuery("SELECT m FROM " + Machine.class.getName() + " m", Machine.class).getResultList();
     }
 
     @Override

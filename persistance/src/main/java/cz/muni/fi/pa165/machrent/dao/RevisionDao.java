@@ -19,6 +19,16 @@ public interface RevisionDao {
     public Revision findById(Long id);
 
     /**
+     * Finds revision with given id database.
+     *
+     * @throws IllegalArgumentException when parameter is null
+     *
+     * @param id to of machine
+     * @return revision with given id
+     */
+    public List<Revision> findAllByMachineId(Long id);
+
+    /**
      * Saves created revision entity given by parameter into database.
      *
      * @throws IllegalArgumentException when parameter is null

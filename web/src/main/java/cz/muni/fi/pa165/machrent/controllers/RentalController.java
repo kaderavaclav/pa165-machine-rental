@@ -6,22 +6,32 @@
 package cz.muni.fi.pa165.machrent.controllers;
 
 import static cz.muni.fi.pa165.machrent.controllers.RevisionController.log;
+import cz.muni.fi.pa165.machrent.dto.MachineDto;
 import cz.muni.fi.pa165.machrent.dto.RentalCreateDto;
 import cz.muni.fi.pa165.machrent.dto.RentalDto;
-//import cz.muni.fi.pa165.machrent.dto.RentalUpdateDto;
+import cz.muni.fi.pa165.machrent.dto.RentalUpdateDto;
 import cz.muni.fi.pa165.machrent.dto.RentalUserDto;
+import cz.muni.fi.pa165.machrent.enums.RentalUserRole;
+import cz.muni.fi.pa165.machrent.exceptions.RentalServiceException;
 import cz.muni.fi.pa165.machrent.facade.MachineFacade;
 import cz.muni.fi.pa165.machrent.facade.RentalFacade;
 import cz.muni.fi.pa165.machrent.facade.RentalUserFacade;
+import cz.muni.fi.pa165.machrent.validators.RentalCreateDtoValidator;
+import cz.muni.fi.pa165.machrent.validators.RentalUpdateDtoValidator;
+
+import java.text.SimpleDateFormat;
+import java.util.*;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,14 +56,28 @@ public class RentalController {
     @Autowired
     private RentalFacade rentalFacade;
 
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        CustomDateEditor editor = new CustomDateEditor(dateFormat, true);
+        binder.registerCustomEditor(Date.class, editor);
+
+        if (binder.getTarget() instanceof RentalCreateDto) {
+            RentalCreateDtoValidator validator = new RentalCreateDtoValidator();
+            validator.setRentalFacade(rentalFacade);
+            binder.addValidators(validator);
+        }
+        if (binder.getTarget() instanceof RentalUpdateDto){
+            RentalUpdateDtoValidator validator = new RentalUpdateDtoValidator();
+            validator.setRentalFacade(rentalFacade);
+            //binder.addValidators(validator);
+        }
+    }
+    
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String listRentals(Model model, HttpServletRequest req) {
         log.error("request: GET /admin/rental/list");
-        HttpSession session = req.getSession(true);
-        RentalUserDto rentalUser = (RentalUserDto) session.getAttribute("authUser");
-        //if (rentalUserFacade.isUserAdmin(rentalUser.getId())) {
-            model.addAttribute("rental", rentalFacade.findAllRentals());
-        //}
+        model.addAttribute("rental", rentalFacade.findAllRentals());
         return "admin/rental/list";
     }
 
@@ -65,8 +89,10 @@ public class RentalController {
             Model model) {
 
         log.error("request: GET /admin/rental/view/" + id);
-        RentalDto r = rentalFacade.findRentalWithId(id);
-        if (r == null) {
+        RentalDto r;
+        try {
+            r = rentalFacade.findRentalWithId(id);
+        } catch (RentalServiceException e) {
             redirectAttributes.addFlashAttribute("alert_warning", "Unknown rental");
             return "redirect:/admin/rental/list";
         }
@@ -99,6 +125,24 @@ public class RentalController {
     @RequestMapping(value = "/newRental", method = RequestMethod.GET)
     public String newRental(Model model) {
         log.error("newRental()");
+
+        List<MachineDto> machines = machineFacade.findAllMachines();
+        Map<Long,String> machineList = new LinkedHashMap<>();
+        for (int i = 0; i < machines.size(); i++) {
+            MachineDto mach = machines.get(i);
+            machineList.put(mach.getId(),mach.getName() + " (id: " + mach.getId() + ")");
+        }
+
+        Map<Long,String> customerList = new LinkedHashMap<>();
+        Collection<RentalUserDto> customers = rentalUserFacade.getAllUsers();
+        for (RentalUserDto tmpCustomer : customers) {
+            if (tmpCustomer.getRoles().contains(RentalUserRole.CUSTOMER)) {
+                customerList.put(tmpCustomer.getId(),tmpCustomer.getUsername() + " (id: " + tmpCustomer.getId() + ")");
+            }
+        }
+        model.addAttribute("customerList", customerList);
+        model.addAttribute("machineList", machineList);
+
         model.addAttribute("rentalCreate", new RentalCreateDto());
         return "admin/rental/newRental";
     }
@@ -108,10 +152,40 @@ public class RentalController {
             @PathVariable long id,
             Model model) {
 
-        RentalDto updateRental = rentalFacade.findRentalWithId(id);
-        if (updateRental == null) {
+        RentalDto rental = rentalFacade.findRentalWithId(id);
+        if (rental == null) {
             return "redirect:/admin/rental/list";
         }
+
+        RentalUpdateDto updateRental = new RentalUpdateDto();
+        updateRental.setCustomer(rental.getCustomer());
+        updateRental.setCustomerId(rental.getCustomer().getId());
+        updateRental.setEmployee(rental.getEmployee());
+        updateRental.setEmployeeId(rental.getEmployee().getId());
+        updateRental.setDateEnd(rental.getDateEnd());
+        updateRental.setDateStart(rental.getDateStart());
+        updateRental.setDateCreated(rental.getDateCreated());
+        updateRental.setId(rental.getId());
+        updateRental.setMachine(rental.getMachine());
+        updateRental.setMachineId(rental.getMachine().getId());
+        updateRental.setNote(rental.getNote());
+        
+        List<MachineDto> machines = machineFacade.findAllMachines();
+        Map<Long,String> machineList = new LinkedHashMap<>();
+        for (int i = 0; i < machines.size(); i++) {
+            MachineDto mach = machines.get(i);
+            machineList.put(mach.getId(),mach.getName() + " (id: " + mach.getId() + ")");
+        }
+
+        Map<Long,String> customerList = new LinkedHashMap<>();
+        Collection<RentalUserDto> customers = rentalUserFacade.getAllUsers();
+        for (RentalUserDto tmpCustomer : customers) {
+            if (tmpCustomer.getRoles().contains(RentalUserRole.CUSTOMER)) {
+                customerList.put(tmpCustomer.getId(),tmpCustomer.getUsername() + " (id: " + tmpCustomer.getId() + ")");
+            }
+        }
+        model.addAttribute("customerList", customerList);
+        model.addAttribute("machineList", machineList);
         model.addAttribute("updateRental", updateRental);
         return "admin/rental/updateRental";
     }
@@ -133,8 +207,31 @@ public class RentalController {
                 model.addAttribute(fe.getField() + "_error", true);
                 log.error("FieldError: {}", fe);
             }
+            List<MachineDto> machines = machineFacade.findAllMachines();
+            Map<Long,String> machineList = new LinkedHashMap<>();
+            for (int i = 0; i < machines.size(); i++) {
+                MachineDto mach = machines.get(i);
+                machineList.put(mach.getId(),mach.getName() + " (id: " + mach.getId() + ")");
+            }
+
+            Map<Long,String> customerList = new LinkedHashMap<>();
+            Collection<RentalUserDto> customers = rentalUserFacade.getAllUsers();
+            for (RentalUserDto tmpCustomer : customers) {
+                if (tmpCustomer.getRoles().contains(RentalUserRole.CUSTOMER)) {
+                    customerList.put(tmpCustomer.getId(),tmpCustomer.getUsername() + " (id: " + tmpCustomer.getId() + ")");
+                }
+            }
+            model.addAttribute("customerList", customerList);
+            model.addAttribute("machineList", machineList);
             return "/admin/rental/newRental";
         }
+
+        formBean.setCustomer(rentalUserFacade.findUserById(formBean.getCustomerId()));
+        formBean.setMachine(machineFacade.findById(formBean.getMachineId()));
+        Date today = new Date();
+        formBean.setDateCreated(today);
+       // TODO formBean.setEmployeeId(prihlasenyuser.id);
+
 
         Long id = rentalFacade.createRental(formBean);
 
@@ -142,15 +239,20 @@ public class RentalController {
         return "redirect:" + uriBuilder.path("/admin/rental/view/{id}").buildAndExpand(id).encode().toUriString();
     }
 
-    /*@RequestMapping(value = "/updating", method = RequestMethod.POST)
-    public String updatingRental(@Valid @ModelAttribute("rentalUpdate") RentalUpdateDto formBean,
+    @RequestMapping(value = "/updatingRental", method = RequestMethod.POST)
+    public String updatingRental(@Valid @ModelAttribute("updateRental") RentalUpdateDto formBean,
             BindingResult bindingResult,
             Model model,
             RedirectAttributes redirectAttributes,
             UriComponentsBuilder uriBuilder) {
 
-        log.error("updating(rentalUpdate={})", formBean);
-
+        log.error("updating(updateRental ={})", formBean);
+        
+        //System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        //System.out.println(formBean.getId());
+        //System.out.println(bindingResult.getAllErrors());
+        
+        
         if (bindingResult.hasErrors()) {
             for (ObjectError ge : bindingResult.getGlobalErrors()) {
                 log.error("ObjectError: {}", ge);
@@ -159,12 +261,34 @@ public class RentalController {
                 model.addAttribute(fe.getField() + "_error", true);
                 log.error("FieldError: {}", fe);
             }
+            List<MachineDto> machines = machineFacade.findAllMachines();
+            Map<Long,String> machineList = new LinkedHashMap<>();
+            for (int i = 0; i < machines.size(); i++) {
+                MachineDto mach = machines.get(i);
+                machineList.put(mach.getId(),mach.getName() + " (id: " + mach.getId() + ")");
+            }
+
+            Map<Long,String> customerList = new LinkedHashMap<>();
+            Collection<RentalUserDto> customers = rentalUserFacade.getAllUsers();
+            for (RentalUserDto tmpCustomer : customers) {
+                if (tmpCustomer.getRoles().contains(RentalUserRole.CUSTOMER)) {
+                    customerList.put(tmpCustomer.getId(),tmpCustomer.getUsername() + " (id: " + tmpCustomer.getId() + ")");
+                }
+            }
+            
+            model.addAttribute("customerList", customerList);
+            model.addAttribute("machineList", machineList);
             return "/admin/rental/updateRental";
         }
 
+        formBean.setEmployeeId(1L);
+        formBean.setEmployee(rentalUserFacade.findUserById(1L));
+        formBean.setDateCreated(new Date());
+        formBean.setCustomer(rentalUserFacade.findUserById(formBean.getCustomerId()));
+        formBean.setMachine(machineFacade.findById(formBean.getMachineId()));
         rentalFacade.updateRental(formBean);
 
         redirectAttributes.addFlashAttribute("alert_success", "Rental with " + formBean.getId() + " was updated");
         return "redirect:" + uriBuilder.path("/admin/rental/view/{id}").buildAndExpand(formBean.getId()).encode().toUriString();
-    }*/
+    }
 }

@@ -15,14 +15,43 @@ import javax.validation.constraints.NotNull;
 public class RentalUpdateDto {
     @NotNull
     private Long id;
-    private MachineDto machine;    
-    @NotNull
+    private MachineDto machine;
     private RentalUserDto customer;
+    @NotNull
+    private Long machineId;
+    @NotNull
+    private Long customerId;
+    private Long employeeId;
     private String note;
     private RentalUserDto employee;
     private Date dateStart;
     private Date dateEnd;    
     private Date dateCreated;
+
+
+    public Long getMachineId() {
+        return machineId;
+    }
+
+    public Long getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(Long employeeId) {
+        this.employeeId = employeeId;
+    }
+
+    public void setMachineId(Long machineId) {
+        this.machineId = machineId;
+    }
+
+    public Long getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
+    }
 
     public Long getId() {
         return id;

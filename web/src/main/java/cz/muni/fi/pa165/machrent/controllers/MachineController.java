@@ -4,8 +4,10 @@ import cz.muni.fi.pa165.machrent.SampleDataLoadingFacadeImpl;
 import cz.muni.fi.pa165.machrent.dto.MachineCreateDto;
 import cz.muni.fi.pa165.machrent.dto.MachineDto;
 import cz.muni.fi.pa165.machrent.dto.MachineUpdateDto;
+import cz.muni.fi.pa165.machrent.dto.RevisionDto;
 import cz.muni.fi.pa165.machrent.exceptions.MachineServiceException;
 import cz.muni.fi.pa165.machrent.facade.MachineFacade;
+import cz.muni.fi.pa165.machrent.facade.RevisionFacade;
 import cz.muni.fi.pa165.machrent.validators.MachineCreateDtoValidator;
 import cz.muni.fi.pa165.machrent.validators.MachineUpdateDtoValidator;
 import org.slf4j.Logger;
@@ -22,9 +24,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * Created by vaclav.kadera on 16-Dec-16.
@@ -38,18 +39,18 @@ public class MachineController {
     @Autowired
     private MachineFacade machineFacade;
 
+    @Autowired
+    private RevisionFacade revisionFacade;
 
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
 
         if (binder.getTarget() instanceof MachineCreateDto) {
             MachineCreateDtoValidator validator = new MachineCreateDtoValidator();
-            validator.setMachineFacade(machineFacade);
             binder.addValidators(validator);
         }
         if (binder.getTarget() instanceof MachineUpdateDto){
             MachineUpdateDtoValidator validator = new MachineUpdateDtoValidator();
-            validator.setMachineFacade(machineFacade);
             binder.addValidators(validator);
         }
     }
@@ -61,6 +62,27 @@ public class MachineController {
         return "/admin/machine/list";
     }
 
+    @RequestMapping(value = "/view/{id}", method = RequestMethod.GET)
+    public String viewMachine(
+            @PathVariable("id") long id,
+            Model model) {
+
+        log.error("request: GET /admin/machine/view/" + id);
+        MachineDto machine = machineFacade.findById(id);
+        if (machine == null) {
+            return "redirect:/admin/machine/list";
+        }
+
+        List<RevisionDto> revisions = revisionFacade.findAllMachineRevisions(id);
+
+        model.addAttribute("machine", machine);
+        model.addAttribute("revisions", revisions);
+
+        return "/admin/machine/view";
+    }
+
+
+
     @RequestMapping(value = "/new", method = RequestMethod.GET)
     public String create(Model model){
         log.error("new()");
@@ -70,17 +92,24 @@ public class MachineController {
 
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String createMachine(
-            @ModelAttribute("newMachine") MachineCreateDto formBean,
+    public String createMachine(@Valid
+            @ModelAttribute("newMachine") MachineCreateDto formBean, BindingResult bindingResult,
             Model model,
             RedirectAttributes redirectAttributes,
-            UriComponentsBuilder uriBuilder,
-            HttpServletRequest req,
-            HttpServletResponse res
-    ) {
+            UriComponentsBuilder uriBuilder) {
+
         log.debug("create(machineCreate={})", formBean);
 
-        HttpSession session = req.getSession(true);
+        if (bindingResult.hasErrors()) {
+            for (ObjectError ge : bindingResult.getGlobalErrors()) {
+                log.error("ObjectError: {}", ge);
+            }
+            for (FieldError fe : bindingResult.getFieldErrors()) {
+                model.addAttribute(fe.getField() + "_error", true);
+                log.error("FieldError: {}", fe);
+            }
+            return "/admin/machine/new";
+        }
 
         try {
             Long id = machineFacade.createMachine(formBean);
@@ -163,7 +192,7 @@ public class MachineController {
 
         } catch(Exception e) {
 
-            redirectAttributes.addFlashAttribute("alert_danger", "Attempt to delete machine failed.");
+            redirectAttributes.addFlashAttribute("alert_danger", "Attempt to delete machine failed. Machine is used in Revisions or Rentals.");
         }
         return "redirect:/admin/machine/list";
     }

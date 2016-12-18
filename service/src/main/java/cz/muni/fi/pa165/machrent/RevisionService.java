@@ -37,6 +37,13 @@ public interface RevisionService {
 	List<Revision> findAllRevisions();
 
 	/**
+	 * Returns all revisions of machine.
+	 * @param machineId id of machine
+	 * @return all revisions
+	 */
+	List<Revision> findAllMachineRevisions(long machineId);
+
+	/**
 	 * Returns revision with given id
 	 * @param id of revision
 	 * @return revision with given id

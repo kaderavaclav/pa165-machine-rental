@@ -13,46 +13,47 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <my:mainPageTag title="New rental">
-<jsp:attribute name="body">
-
-    <form:form method="post" action="${pageContext.request.contextPath}/admin/rental/create"
-               modelAttribute="rentalCreate" cssClass="form-horizontal">
-        <div class="form-group ${username_error?'has-error':''}">
-            <form:label path="username" cssClass="col-sm-2 control-label">Customer username</form:label>
-            <div class="col-sm-10">
-                <form:input path="username" cssClass="form-control"/>
-                <form:errors path="username" cssClass="help-block"/>
+    <jsp:attribute name="body">
+        <form:form method="post" action="${pageContext.request.contextPath}/admin/rental/createRental"
+                   modelAttribute="rentalCreate" cssClass="form-horizontal">
+            <div class="form-group ${customerId_error?'has-error':''}">
+                <form:label path="customerId" cssClass="col-sm-2 control-label">Customer</form:label>
+                    <div class="col-sm-10">
+                    <form:select path="customerId" cssClass="form-control" id="customerId">
+                        <form:options items="${customerList}"/>
+                    </form:select>
+                </div>
             </div>
-        </div>
-        <div class="form-group ${machine_error?'has-error':''}">
-            <form:label path="machine" cssClass="col-sm-2 control-label">Machine</form:label>
-            <div class="col-sm-10">
-                <form:input path="machine" cssClass="form-control"/>
-                <form:errors path="machine" cssClass="help-block"/>
+            <div class="form-group ${machineId_error?'has-error':''}">
+                <form:label path="machineId" cssClass="col-sm-2 control-label">Machine</form:label>
+                    <div class="col-sm-10">
+                    <form:select path="machineId" cssClass="form-control" id="machineId">
+                        <form:options items="${machineList}"/>
+                    </form:select>
+                </div>
             </div>
-        </div>
-        <div class="form-group ${note_error?'has-error':''}">
-            <form:label path="note" cssClass="col-sm-2 control-label">Note</form:label>
-            <div class="col-sm-10">
-                <form:textarea cols="80" rows="20" path="note" cssClass="form-control"/>
-                <form:errors path="note" cssClass="help-block"/>
+            <div class="form-group ${note_error?'has-error':''}">
+                <form:label path="note" cssClass="col-sm-2 control-label">Note</form:label>
+                    <div class="col-sm-10">
+                    <form:input path="note" cssClass="form-control"/>
+                    <form:errors path="note" cssClass="help-block"/>
+                </div>
             </div>
-        </div>
-        <div class="form-group ${dateFrom_error?'has-error':''}">
-            <form:label path="dateFrom" cssClass="col-sm-2 control-label">Date from (dd.mm.yyyy)</form:label>
-            <div class="col-sm-10">
-                <form:input path="dateFrom" cssClass="form-control"/>
-                <form:errors path="dateFrom" cssClass="help-block"/>
+            <div class="form-group ${dateStart_error?'has-error':''}">
+                <form:label path="dateStart" cssClass="col-sm-2 control-label">Date from (dd.mm.yyyy)</form:label>
+                    <div class="col-sm-10">
+                    <form:input path="dateStart" cssClass="form-control"/>
+                    <form:errors path="dateStart" cssClass="help-block"/>
+                </div>
             </div>
-        </div>
-        <div class="form-group ${dateTo_error?'has-error':''}">
-            <form:label path="dateTo" cssClass="col-sm-2 control-label">Date to (dd.mm.yyyy)</form:label>
-            <div class="col-sm-10">
-                <form:input path="dateTo" cssClass="form-control"/>
-                <form:errors path="dateTo" cssClass="help-block"/>
+            <div class="form-group ${dateEnd_error?'has-error':''}">
+                <form:label path="dateEnd" cssClass="col-sm-2 control-label">Date to (dd.mm.yyyy)</form:label>
+                    <div class="col-sm-10">
+                    <form:input path="dateEnd" cssClass="form-control"/>
+                    <form:errors path="dateEnd" cssClass="help-block"/>
+                </div>
             </div>
-        </div>
-        <button class="btn btn-primary" type="submit">Create rental</button>
-    </form:form>
-</jsp:attribute>
+            <button class="btn btn-primary" type="submit">Create rental</button>
+        </form:form>
+    </jsp:attribute>
 </my:mainPageTag>

@@ -57,7 +57,17 @@ public interface RentalDao {
      * 
      * @return List of Rent entities.
      */
-    public List<Rental> findAll(); 
+    public List<Rental> findAll();
+
+    /**
+     * Find all rents with given customerID in database.
+     *
+     * @throws IllegalArgumentException when parameter is null
+     *
+     * @param customerId ID of customer
+     * @return all rentals with given customerID
+     */
+    public List<Rental> findAllByCustomerId(long customerId);
     
     public List<Rental> findAllCreatedBetween(Date startDate, Date endDate);
     

@@ -5,7 +5,10 @@ import cz.muni.fi.pa165.machrent.entities.RentalUser;
 import cz.muni.fi.pa165.machrent.entities.Revision;
 import cz.muni.fi.pa165.machrent.PersistenceApplicationContext;
 import cz.muni.fi.pa165.machrent.enums.LegalPersonality;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -38,9 +41,10 @@ public class RevisionDaoTest extends AbstractTestNGSpringContextTests {
     
     private Date timestamp;
 
+    private Machine machine;
+
     @BeforeMethod
     public void createRevision() {
-        Machine machine;
         revision = new Revision();
         machine = new Machine();
         machine.setName("machine");
@@ -123,6 +127,13 @@ public class RevisionDaoTest extends AbstractTestNGSpringContextTests {
     @Test()
     public void findById_idOfExistingMachine_hasCorrectRevisionDate () {
         Assert.assertEquals(revisionDao.findById(revision.getId()).getRevisionDate(), revision.getRevisionDate());
+    }
+
+    @Test()
+    public void findByMachineId_idOfExistingMachine_hasCorrectRevisions(){
+        List<Revision> expected = new ArrayList<Revision>();
+        expected.add(revision);
+        Assert.assertEquals(revisionDao.findAllByMachineId(machine.getId()), expected);
     }
     
     @Test()

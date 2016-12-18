@@ -45,13 +45,18 @@ public class RentalDaoImpl implements RentalDao{
 
     @Override
     public List<Rental> findAll() {
-        return em.createQuery("SELECT r FROM Rental r", Rental.class).getResultList();
+        return em.createQuery("SELECT r FROM "+ Rental.class.getName() + " r", Rental.class).getResultList();
+    }
+
+    @Override
+    public List<Rental> findAllByCustomerId(long customerId) {
+        return em.createQuery("FROM "+ Rental.class.getName() + " AS r WHERE r.customer.id = "+ customerId, Rental.class).getResultList();
     }
 
     @Override
     public List<Rental> findAllEffectiveBetween(Date startDate, Date endDate) {
         String sqlQuery =
-            "SELECT r FROM Rental r WHERE ("
+            "SELECT r FROM " + Rental.class.getName() + " r WHERE ("
                 + "(r.dateStart   >= :startDate AND r.dateCreated <= :endDate)"
                 + " OR (r.dateEnd >= :startDate AND r.dateEnd     <= :endDate)"
             + ")";
@@ -66,7 +71,7 @@ public class RentalDaoImpl implements RentalDao{
     
     @Override
     public List<Rental> findAllCreatedBetween(Date startDate, Date endDate) {
-        return em.createQuery("SELECT r FROM Rental r WHERE r.dateCreated >= :startDate" 
+        return em.createQuery("SELECT r FROM " + Rental.class.getName() + " r WHERE r.dateCreated >= :startDate"
                 + " AND r.dateCreated <= :endDate", Rental.class).
                 setParameter("startDate", startDate).setParameter("endDate", endDate).getResultList();
     }

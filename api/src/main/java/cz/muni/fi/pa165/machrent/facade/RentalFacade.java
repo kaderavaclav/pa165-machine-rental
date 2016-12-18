@@ -47,6 +47,13 @@ public interface RentalFacade {
     public void updateRental(RentalUpdateDto r);
 
     /**
+     * Method that returns list of {@code Rental} objects with specified customerId.
+     * @param customerId customerId
+     * @return list of Rental objects
+     */
+    public List<RentalDto> findAllByCustomerId(long customerId);
+
+    /**
      * Method that returns list of {@code RentalDto} created within specified interval.
      * @param from {@code Date} start of interval
      * @param to {@code Date} end of interval

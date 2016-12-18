@@ -39,6 +39,11 @@ public class RevisionServiceImpl implements RevisionService {
 	}
 
 	@Override
+	public List<Revision> findAllMachineRevisions(long machineId){
+		return revisionDao.findAllByMachineId(machineId);
+	}
+
+	@Override
 	public Revision findById(Long id) {
 
 		return  revisionDao.findById(id);

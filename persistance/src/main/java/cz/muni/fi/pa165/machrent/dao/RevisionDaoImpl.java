@@ -22,6 +22,11 @@ public class RevisionDaoImpl implements RevisionDao {
     }
 
     @Override
+    public List<Revision> findAllByMachineId(Long machineId) {
+        return em.createQuery("FROM " + Revision.class.getName() + " AS r WHERE r.machine.id = " + machineId, Revision.class).getResultList();
+    }
+
+    @Override
     public void create(Revision r) {
         em.persist(r);
     }
@@ -36,8 +41,8 @@ public class RevisionDaoImpl implements RevisionDao {
         em.merge(r);
     }
 
+    @Override
     public List<Revision> findAll() {
-        return em.createQuery("SELECT r FROM Revision r", Revision.class).getResultList();
+        return em.createQuery("SELECT r FROM "+ Revision.class.getName() + " r", Revision.class).getResultList();
     }
-
 }

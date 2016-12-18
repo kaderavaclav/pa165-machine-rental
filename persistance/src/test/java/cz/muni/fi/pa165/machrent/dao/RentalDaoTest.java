@@ -8,6 +8,7 @@ import cz.muni.fi.pa165.machrent.enums.LegalPersonality;
 import cz.muni.fi.pa165.machrent.enums.RentalUserRole;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -36,6 +37,7 @@ public class RentalDaoTest extends AbstractTestNGSpringContextTests {
     private MachineDao machineDao;
     
     private Rental rentalA;
+    private RentalUser customerA;
     
     @Autowired
     private RentalDao rentalDao;
@@ -45,11 +47,10 @@ public class RentalDaoTest extends AbstractTestNGSpringContextTests {
 
     @BeforeMethod
     public void beforeMethod () {
-        RentalUser customerA;
         customerA = new RentalUser ();
         customerA.setEmail ("zednicek@email.cz");
         customerA.setLegalPersonality (LegalPersonality.NATURAL);
-        customerA.setName ("Pavel Zedníèek");
+        customerA.setName ("Pavel Zednï¿½ï¿½ek");
         customerA.setRoles (Collections.singleton (RentalUserRole.CUSTOMER));
         customerA.setUsername ("zednicek");
         userDao.create (customerA);
@@ -65,7 +66,7 @@ public class RentalDaoTest extends AbstractTestNGSpringContextTests {
         
         Machine machineA;
         machineA = new Machine ();
-        machineA.setDescription ("malý žlutý bagøík");
+        machineA.setDescription ("malï¿½ ï¿½lutï¿½ bagï¿½ï¿½k");
         machineA.setName ("BAGR 01");
         machineDao.create (machineA);
         
@@ -75,7 +76,7 @@ public class RentalDaoTest extends AbstractTestNGSpringContextTests {
         rentalA.setDateEnd     (parseDate ("2016-10-28"));
         rentalA.setDateStart   (parseDate ("2016-10-25"));
         rentalA.setMachine (machineA);
-        rentalA.setNote ("The first rent of Pavel Zedníèek");
+        rentalA.setNote ("The first rent of Pavel Zednï¿½ï¿½ek");
         rentalDao.create (rentalA);
     }
 
@@ -101,7 +102,7 @@ public class RentalDaoTest extends AbstractTestNGSpringContextTests {
     @Test
     public void findAll_twoMachinesCreated_returnTwoMachines () {
         Machine machineB = new Machine ();
-        machineB.setDescription ("velký žlutý bagr");
+        machineB.setDescription ("velkï¿½ ï¿½lutï¿½ bagr");
         machineB.setName ("BAGR 02");
         machineDao.create (machineB);
         
@@ -117,7 +118,7 @@ public class RentalDaoTest extends AbstractTestNGSpringContextTests {
         employeeB = new RentalUser ();
         employeeB.setEmail ("descartes@machinerentals.com");
         employeeB.setLegalPersonality (LegalPersonality.NATURAL);
-        employeeB.setName ("René Descartes");
+        employeeB.setName ("Renï¿½ Descartes");
         employeeB.setRoles (Collections.singleton (RentalUserRole.EMPLOYEE));
         employeeB.setUsername ("rene");
         userDao.create (employeeB);
@@ -145,6 +146,15 @@ public class RentalDaoTest extends AbstractTestNGSpringContextTests {
     @Test
     public void findById_nonExistentId_returnNull () {
         Assert.assertNull (rentalDao.findById (-1L));
+    }
+
+    @Test
+    public void findAllByCustomerId_idOfExistingCustomer_returnCorrectRentalList(){
+        List<Rental> expected = new ArrayList<>();
+        expected.add(rentalA);
+
+        List<Rental> actual = rentalDao.findAllByCustomerId(customerA.getId());
+        Assert.assertEquals(actual, expected);
     }
     
     /**

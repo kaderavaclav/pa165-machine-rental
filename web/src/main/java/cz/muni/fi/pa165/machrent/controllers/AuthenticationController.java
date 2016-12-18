@@ -58,7 +58,7 @@ public class AuthenticationController {
         authDto.setPassword(password);
         RentalUserDto user = rentalUserFacade.authenticate(username, password);
         if (user == null) {
-            redirectAttributes.addFlashAttribute("alert_info", "Wrong email or password");
+            redirectAttributes.addFlashAttribute("alert_danger", "Wrong username or password");
             return "redirect:/authentication/authentication";
         }
         HttpSession session = req.getSession(true);

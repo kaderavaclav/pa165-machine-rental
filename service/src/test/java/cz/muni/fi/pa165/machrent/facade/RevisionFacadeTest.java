@@ -3,6 +3,8 @@ package cz.muni.fi.pa165.machrent.facade;
 import cz.muni.fi.pa165.machrent.BeanMappingService;
 import cz.muni.fi.pa165.machrent.RevisionService;
 import cz.muni.fi.pa165.machrent.config.ServiceConfiguration;
+import cz.muni.fi.pa165.machrent.dto.MachineDto;
+import cz.muni.fi.pa165.machrent.dto.RentalUserDto;
 import cz.muni.fi.pa165.machrent.dto.RevisionCreateDto;
 import cz.muni.fi.pa165.machrent.dto.RevisionDto;
 import cz.muni.fi.pa165.machrent.entities.Machine;
@@ -65,10 +67,10 @@ public class RevisionFacadeTest extends AbstractTestNGSpringContextTests {
         revisionDto.setNote("Test note");
         timestamp = new Date();
         revisionDto.setRevisionDate(timestamp);
-        Machine machine = new Machine();
+        MachineDto machine = new MachineDto();
         machine.setName("machine");
         revisionDto.setMachine(machine);
-        RentalUser mechanic = new RentalUser();
+        RentalUserDto mechanic = new RentalUserDto();
         mechanic.setName("Janko");
         mechanic.setEmail("janko@mail.com");
         mechanic.setUsername("johny");
@@ -92,14 +94,17 @@ public class RevisionFacadeTest extends AbstractTestNGSpringContextTests {
         revision.setId(1L);
         revision.setNote("Test note");
         timestamp = new Date();
-        revision.setRevisionDate(timestamp);       
+        revision.setRevisionDate(timestamp);
+        Machine mach= new Machine();
         machine.setName("machine");
-        revision.setMachine(machine);
-        mechanic.setName("Janko");
-        mechanic.setEmail("janko@mail.com");
-        mechanic.setUsername("johny");
-        mechanic.setLegalPersonality(LegalPersonality.NATURAL);
-        revision.setMechanic(mechanic);
+        machine.setName("machine");
+        revision.setMachine(mach);
+        RentalUserDto mech= new RentalUserDto();
+        mech.setName("Janko");
+        mech.setEmail("janko@mail.com");
+        mech.setUsername("johny");
+        mech.setLegalPersonality(LegalPersonality.NATURAL);
+        revisionDto.setMechanic(mech);
         
         revisions = new ArrayList<>();
         revisions.add(revision);
@@ -149,5 +154,19 @@ public class RevisionFacadeTest extends AbstractTestNGSpringContextTests {
         
         RevisionDto rev = revisionFacade.findById(revisionDto.getId());
         Assert.assertEquals(rev, revisionDto);
+    }
+
+    @Test
+    public void findAllMachineRevisions_idOfExistingMachine_returnCorrectRevisions(){
+        List<Revision> expected = new ArrayList<Revision>();
+        expected.add(revision);
+        List<RevisionDto> expectedDto = new ArrayList<RevisionDto>();
+        expectedDto.add(revisionDto);
+
+        when(revisionService.findAllMachineRevisions(1L)).thenReturn(expected);
+        when(beanMappingService.mapTo(expected, RevisionDto.class)).thenReturn(expectedDto);
+
+        List<RevisionDto> actual = revisionFacade.findAllMachineRevisions(1L);
+        Assert.assertEquals(actual, expectedDto);
     }
 }
