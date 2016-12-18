@@ -33,13 +33,25 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Machine rental portal</a>
+            <c:if test="${!authUser.getIsAdmin()}">
+            <a class="navbar-brand" href="${pageContext.request.contextPath}/public/dashboard">Machine rental portal</a>
+            </c:if>
+            <c:if test="${authUser.getIsAdmin()}">
+                <%--<a class="navbar-brand" href="${pageContext.request.contextPath}/admin/dashboard">Machine rental portal</a>--%>
+                <a class="navbar-brand" href="">Machine rental portal</a>
+            </c:if>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <c:if test="${!authUser.getIsAdmin()}">
                     <li>
                         <a href="${pageContext.request.contextPath}/public/machineList">All machines</a>
+                    </li>
+                    <li>
+                        <a href="${pageContext.request.contextPath}/public/rentalList">Your rentals</a>
+                    </li>
+                    <li>
+                        <a href="${pageContext.request.contextPath}/public/profileView">Your profile</a>
                     </li>
                 </c:if>
 

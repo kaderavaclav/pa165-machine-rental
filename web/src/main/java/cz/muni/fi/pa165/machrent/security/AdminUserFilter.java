@@ -38,7 +38,7 @@ public class AdminUserFilter implements Filter {
         RentalUserFacade rentalUserFacade = WebApplicationContextUtils.getWebApplicationContext(r.getServletContext()).getBean(RentalUserFacade.class);
         log.error(userDto.toString());
         if (!rentalUserFacade.isUserAdmin(userDto.getId())) {
-            response.sendRedirect("/pa165/public/machineList");
+            response.sendRedirect("/pa165/public/dashboard");
             return;
         }
         request.setAttribute("authUser", userDto);

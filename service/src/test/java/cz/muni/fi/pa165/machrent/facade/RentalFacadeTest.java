@@ -142,4 +142,14 @@ public class RentalFacadeTest extends AbstractTestNGSpringContextTests {
         List<RentalDto> createdDto = rentalFacade.findAllEffectiveBetween(dateFrom, dateTo);
         Assert.assertEquals(allRentalsDto, createdDto);
     }
+
+    @Test
+    public void findAllByCustomerId_idOfExistingCustomer_returnCorrectRentalDtos(){
+        long cId = customer.getId();
+        when(rentalService.findAllByCustomerId(cId)).thenReturn(allRentals);
+        when(beanMappingService.mapTo(allRentals, RentalDto.class)).thenReturn(allRentalsDto);
+
+        List<RentalDto> actual = rentalFacade.findAllByCustomerId(cId);
+        Assert.assertEquals(actual, allRentalsDto);
+    }
 }
