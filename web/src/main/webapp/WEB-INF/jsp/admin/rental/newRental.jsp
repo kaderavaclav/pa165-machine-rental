@@ -15,11 +15,11 @@
 <my:mainPageTag title="New rental">
     <jsp:attribute name="body">
         <form:form method="post" action="${pageContext.request.contextPath}/admin/rental/createRental"
-                   modelAttribute="newRental" cssClass="form-horizontal">
+                   modelAttribute="rentalCreate" cssClass="form-horizontal">
             <div class="form-group ${customerId_error?'has-error':''}">
                 <form:label path="customerId" cssClass="col-sm-2 control-label">Customer</form:label>
                     <div class="col-sm-10">
-                    <form:select path="customerId" cssClass="form-control" id="rentalUser">
+                    <form:select path="customerId" cssClass="form-control" id="customerId">
                         <form:options items="${customerList}"/>
                     </form:select>
                 </div>
@@ -27,7 +27,7 @@
             <div class="form-group ${machineId_error?'has-error':''}">
                 <form:label path="machineId" cssClass="col-sm-2 control-label">Machine</form:label>
                     <div class="col-sm-10">
-                    <form:select path="machineId" cssClass="form-control" id="rentalUser">
+                    <form:select path="machineId" cssClass="form-control" id="machineId">
                         <form:options items="${machineList}"/>
                     </form:select>
                 </div>

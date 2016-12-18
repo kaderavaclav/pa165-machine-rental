@@ -22,11 +22,28 @@ public class RentalCreateDto {
     private Long customerId;
     @Size(min = 0,max = 2000) 
     private String note;
-    @NotNull 
     private Long employeeId;
     private Date dateStart;
     private Date dateEnd;    
     private Date dateCreated;
+    private RentalUserDto customer;
+    private MachineDto machine;
+
+    public RentalUserDto getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(RentalUserDto customer) {
+        this.customer = customer;
+    }
+
+    public MachineDto getMachine() {
+        return machine;
+    }
+
+    public void setMachine(MachineDto machine) {
+        this.machine = machine;
+    }
 
     public Long getId() {
         return id;

@@ -18,12 +18,13 @@ import cz.muni.fi.pa165.machrent.facade.RentalFacade;
 import cz.muni.fi.pa165.machrent.facade.RentalUserFacade;
 import cz.muni.fi.pa165.machrent.validators.RentalCreateDtoValidator;
 import cz.muni.fi.pa165.machrent.validators.RentalUpdateDtoValidator;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+
+import java.text.SimpleDateFormat;
+import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -57,6 +58,9 @@ public class RentalController {
 
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        CustomDateEditor editor = new CustomDateEditor(dateFormat, true);
+        binder.registerCustomEditor(Date.class, editor);
 
         if (binder.getTarget() instanceof RentalCreateDto) {
             RentalCreateDtoValidator validator = new RentalCreateDtoValidator();
@@ -122,23 +126,24 @@ public class RentalController {
     public String newRental(Model model) {
         log.error("newRental()");
 
-        List<String> machineList = new ArrayList();
         List<MachineDto> machines = machineFacade.findAllMachines();
+        Map<Long,String> machineList = new LinkedHashMap<>();
         for (int i = 0; i < machines.size(); i++) {
-            machineList.add(machines.get(i).getName() + " (id: " + machines.get(i).getId() + ")");
+            MachineDto mach = machines.get(i);
+            machineList.put(mach.getId(),mach.getName() + " (id: " + mach.getId() + ")");
         }
 
-        List<String> customerList = new ArrayList();
+        Map<Long,String> customerList = new LinkedHashMap<>();
         Collection<RentalUserDto> customers = rentalUserFacade.getAllUsers();
         for (RentalUserDto tmpCustomer : customers) {
             if (tmpCustomer.getRoles().contains(RentalUserRole.CUSTOMER)) {
-                customerList.add(tmpCustomer.getUsername() + " (id: " + tmpCustomer.getId() + ")");
+                customerList.put(tmpCustomer.getId(),tmpCustomer.getUsername() + " (id: " + tmpCustomer.getId() + ")");
             }
         }
         model.addAttribute("customerList", customerList);
         model.addAttribute("machineList", machineList);
 
-        model.addAttribute("newRental", new RentalCreateDto());
+        model.addAttribute("rentalCreate", new RentalCreateDto());
         return "admin/rental/newRental";
     }
 
@@ -188,8 +193,31 @@ public class RentalController {
                 model.addAttribute(fe.getField() + "_error", true);
                 log.error("FieldError: {}", fe);
             }
+            List<MachineDto> machines = machineFacade.findAllMachines();
+            Map<Long,String> machineList = new LinkedHashMap<>();
+            for (int i = 0; i < machines.size(); i++) {
+                MachineDto mach = machines.get(i);
+                machineList.put(mach.getId(),mach.getName() + " (id: " + mach.getId() + ")");
+            }
+
+            Map<Long,String> customerList = new LinkedHashMap<>();
+            Collection<RentalUserDto> customers = rentalUserFacade.getAllUsers();
+            for (RentalUserDto tmpCustomer : customers) {
+                if (tmpCustomer.getRoles().contains(RentalUserRole.CUSTOMER)) {
+                    customerList.put(tmpCustomer.getId(),tmpCustomer.getUsername() + " (id: " + tmpCustomer.getId() + ")");
+                }
+            }
+            model.addAttribute("customerList", customerList);
+            model.addAttribute("machineList", machineList);
             return "/admin/rental/newRental";
         }
+
+        formBean.setCustomer(rentalUserFacade.findUserById(formBean.getCustomerId()));
+        formBean.setMachine(machineFacade.findById(formBean.getMachineId()));
+        Date today = new Date();
+        formBean.setDateCreated(today);
+       // TODO formBean.setEmployeeId(prihlasenyuser.id);
+
 
         Long id = rentalFacade.createRental(formBean);
 
