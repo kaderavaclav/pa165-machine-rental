@@ -100,21 +100,19 @@ public class MachineDaoTest extends AbstractTestNGSpringContextTests {
     
     @Test()
     public void update_changedName_findReturnsCorrectMachine () {
-        Machine updated = machineDao.findById(machine.getId());
-        updated.setName("updated name");
-        machineDao.update(updated);
+        Machine expected = machineDao.findById(machine.getId());
+        expected.setName("updated name");
 
-        updated = machineDao.findById(updated.getId());
-        Assert.assertEquals(updated.getName(), "updated name");
+        Machine actual = machineDao.update(expected);
+        Assert.assertEquals(actual.getName(),expected.getName());
     }
     
     @Test()
     public void update_changedDescrription_findReturnsCorrectMachine () {
-        Machine updated = machineDao.findById(machine.getId());
-        updated.setDescription("updated description");
-        machineDao.update(updated);
+        Machine expected = machineDao.findById(machine.getId());
+        expected.setDescription("updated description");
 
-        updated = machineDao.findById(updated.getId());
-        Assert.assertEquals(updated.getDescription(),"updated description");
+        Machine actual = machineDao.update(expected);
+        Assert.assertEquals(actual.getDescription(),expected.getDescription());
     }
 }

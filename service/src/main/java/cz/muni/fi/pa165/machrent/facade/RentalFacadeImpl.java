@@ -106,4 +106,15 @@ public class RentalFacadeImpl implements RentalFacade {
         
     }
 
+    @Override
+    public List<RentalDto> findAllByCustomerId(long customerId) {
+        List<Rental> rentals = rentalService.findAllByCustomerId(customerId);
+
+        if (rentals == null) {
+            throw new RentalServiceException("There are no Rentals with this customerId!");
+        } else {
+            return beanMappingService.mapTo(rentals, RentalDto.class);
+        }
+    }
+
 }

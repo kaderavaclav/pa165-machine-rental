@@ -46,13 +46,20 @@ public interface RentalService {
     public void updateRental(Rental r);
 
     /**
+     * Method that returns list of {@code Rental} objects with specified customerId.
+     * @param customerId customerId
+     * @return list of Rental objects
+     */
+    public List<Rental> findAllByCustomerId(long customerId);
+
+    /**
      * Method that returns list of {@code Rental} objects between specified dates.
      * @param startDate first date of acceptable creation date in Rental object
      * @param endDate last date of acceptable creation date in Rental object
      * @return list of Rental objects
      */
     public List<Rental> findAllCreatedBetween(Date startDate, Date endDate);
-    
+
     /**
      * Find all rentals which are in effect between given dates.
      * 

@@ -1,5 +1,6 @@
 <%@ tag pageEncoding="utf-8" dynamic-attributes="dynattrs" trimDirectiveWhitespaces="true" %>
 <%@ attribute name="title" required="false" %>
+<%@ attribute name="subtitle" required="false" %>
 <%@ attribute name="head" fragment="true" %>
 <%@ attribute name="body" fragment="true" required="true" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="my" %>
@@ -32,13 +33,25 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Machine rental portal</a>
+            <c:if test="${!authUser.getIsAdmin()}">
+            <a class="navbar-brand" href="${pageContext.request.contextPath}/public/dashboard">Machine rental portal</a>
+            </c:if>
+            <c:if test="${authUser.getIsAdmin()}">
+                <%--<a class="navbar-brand" href="${pageContext.request.contextPath}/admin/dashboard">Machine rental portal</a>--%>
+                <a class="navbar-brand" href="">Machine rental portal</a>
+            </c:if>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <c:if test="${!authUser.getIsAdmin()}">
                     <li>
                         <a href="${pageContext.request.contextPath}/public/machineList">All machines</a>
+                    </li>
+                    <li>
+                        <a href="${pageContext.request.contextPath}/public/rentalList">Your rentals</a>
+                    </li>
+                    <li>
+                        <a href="${pageContext.request.contextPath}/public/profileView">Your profile</a>
                     </li>
                 </c:if>
 
@@ -80,7 +93,8 @@
         <div class="col-xs-6 col-sm-8 col-md-9 col-lg-10">
             <c:if test="${not empty title}">
                 <h1><c:out value="${title}"/>
-                    <small></small>
+                    &nbsp;
+                    <small><c:out value="${subtitle}" /></small>
                 </h1>
             </c:if>
         </div>

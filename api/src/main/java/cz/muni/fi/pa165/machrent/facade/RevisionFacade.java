@@ -36,6 +36,14 @@ public interface RevisionFacade {
 	List<RevisionDto> findAllRevisions();
 
 	/**
+	 * Returns all revisions with specified machineId.
+	 * @param machineId id of machine
+	 * @return all revisions of machine
+	 */
+	List<RevisionDto> findAllMachineRevisions(long machineId);
+
+
+	/**
 	 * Returns revision with given id
 	 * @param id of revision
 	 * @return revision with given id

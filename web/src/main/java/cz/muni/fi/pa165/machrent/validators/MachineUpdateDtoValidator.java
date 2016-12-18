@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.machrent.validators;
 import cz.muni.fi.pa165.machrent.dto.MachineCreateDto;
 import cz.muni.fi.pa165.machrent.dto.MachineUpdateDto;
 import cz.muni.fi.pa165.machrent.facade.MachineFacade;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
@@ -11,12 +12,6 @@ import org.springframework.validation.Validator;
  */
 public class MachineUpdateDtoValidator implements Validator{
 
-    private MachineFacade machineFacade;
-
-    public void setMachineFacade(MachineFacade machineFacade) {
-        this.machineFacade = machineFacade;
-    }
-    
     @Override
     public boolean supports(Class<?> type) {
         return MachineUpdateDto.class.isAssignableFrom(type);
@@ -27,10 +22,8 @@ public class MachineUpdateDtoValidator implements Validator{
         MachineUpdateDto machineUpdateDto = (MachineUpdateDto) target;
 
         String name = machineUpdateDto.getName();
-
-
-        if (name == null || name.isEmpty()) {
-            errors.rejectValue("name", "notNull", "Machine name cannot be empty!");
+        if (name == null || StringUtils.trimAllWhitespace(name).length() == 0) {
+            errors.rejectValue("name", "notNull", "Machine name cannot be empty or whitespace!");
         }
     }
 

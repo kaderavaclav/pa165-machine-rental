@@ -155,4 +155,18 @@ public class RevisionFacadeTest extends AbstractTestNGSpringContextTests {
         RevisionDto rev = revisionFacade.findById(revisionDto.getId());
         Assert.assertEquals(rev, revisionDto);
     }
+
+    @Test
+    public void findAllMachineRevisions_idOfExistingMachine_returnCorrectRevisions(){
+        List<Revision> expected = new ArrayList<Revision>();
+        expected.add(revision);
+        List<RevisionDto> expectedDto = new ArrayList<RevisionDto>();
+        expectedDto.add(revisionDto);
+
+        when(revisionService.findAllMachineRevisions(1L)).thenReturn(expected);
+        when(beanMappingService.mapTo(expected, RevisionDto.class)).thenReturn(expectedDto);
+
+        List<RevisionDto> actual = revisionFacade.findAllMachineRevisions(1L);
+        Assert.assertEquals(actual, expectedDto);
+    }
 }

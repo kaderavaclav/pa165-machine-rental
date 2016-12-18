@@ -62,11 +62,15 @@ public class RentalServiceImpl implements RentalService {
         else {
             return null;
         }
-
     }
 
     @Override
     public void updateRental(Rental r) {
         rentalDao.update(r);
+    }
+
+    @Override
+    public List<Rental> findAllByCustomerId(long customerId) {
+        return rentalDao.findAllByCustomerId(customerId);
     }
 }

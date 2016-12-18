@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.machrent.validators;
 
 import cz.muni.fi.pa165.machrent.dto.RentalUserDto;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
@@ -23,16 +24,16 @@ public class RentalUserDtoValidator implements Validator {
         RentalUserDto rentalUserDto = (RentalUserDto) target;
         
         String email = rentalUserDto.getEmail ();
-        if (email == null || email.isEmpty ()) {
-            errors.rejectValue ("email", "empty email");
+        if (email == null || StringUtils.trimAllWhitespace(email).length() == 0) {
+            errors.rejectValue ("email", "Email cannot be empty or whitespace.");
         }
         else if (! email.matches ("[a-zA-Z0-9.-_]+@[a-zA-Z0-9.-_]+[.][a-zA-Z]+")) {
-            errors.rejectValue ("email", "invalid email: " + email);
+            errors.rejectValue ("email", "Inserted email: " + email + " is invalid.");
         }
         
         String username = rentalUserDto.getUsername ();
-        if (username == null || username.isEmpty ()) {
-            errors.rejectValue ("username", "empty username");
+        if (username == null || StringUtils.trimAllWhitespace(username).length() == 0) {
+            errors.rejectValue ("username", "Username cannot be empty or whitespace.");
         }
     }
 }

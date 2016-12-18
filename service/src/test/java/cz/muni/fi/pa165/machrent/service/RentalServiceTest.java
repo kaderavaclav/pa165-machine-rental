@@ -121,4 +121,12 @@ public class RentalServiceTest extends AbstractTestNGSpringContextTests {
         List<Rental> foundRentals = rentalService.findAllEffectiveBetween(date19980101, date19990101);
         assertEquals(emptyList, foundRentals);
     }
+
+    @Test
+    public void findAllByCustomerId_idOfNonExistingCustomer_returnsCorrectList(){
+        List <Rental> emptyList = new ArrayList <> ();
+        when(rentalDao.findAllByCustomerId(0L)).thenReturn(emptyList);
+        List<Rental> actual = rentalService.findAllByCustomerId(0L);
+        assertEquals(actual, emptyList);
+    }
 }
