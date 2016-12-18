@@ -10,6 +10,8 @@ import cz.muni.fi.pa165.machrent.facade.RentalFacade;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import java.util.Date;
+
 /**
  *
  * @author Peter Benus
@@ -41,8 +43,22 @@ public class RentalCreateDtoValidator implements Validator{
         if (customerId == null){
             errors.rejectValue("customerId", "notNull", "CustomerId cannot be empty!");
         }
-        if (employeeId == null){
-            errors.rejectValue("employeeId", "notNull", "EmployeeId cannot be empty!");
+
+        String note = rentalCreateDto.getNote();
+        if (note.length() > 254) {
+            errors.rejectValue("note", "tooLong", "The note is too long.");
+        }
+
+        Date dateStart = rentalCreateDto.getDateStart();
+        Date dateEnd = rentalCreateDto.getDateEnd();
+        if (dateStart == null){
+            errors.rejectValue("dateStart","null","Shouldnt be null.");
+        }
+        if (dateEnd == null){
+            errors.rejectValue("dateEnd","null","Shouldnt be null.");
+        }
+        if ((dateStart != null && dateEnd != null) && dateEnd.before(dateStart)) {
+            errors.rejectValue("dateEnd", "invalidDate", "DateEnd before DateCreated.");
         }
     }
     
