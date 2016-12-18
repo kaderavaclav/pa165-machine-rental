@@ -55,8 +55,6 @@ public class RentalController {
 
     @Autowired
     private RentalFacade rentalFacade;
-    
-    RentalUpdateDtoValidator rentalUpdateDtoValidator;
 
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
@@ -288,20 +286,6 @@ public class RentalController {
         formBean.setDateCreated(new Date());
         formBean.setCustomer(rentalUserFacade.findUserById(formBean.getCustomerId()));
         formBean.setMachine(machineFacade.findById(formBean.getMachineId()));
-        /*System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-        System.out.println(formBean.getId());
-        System.out.println(formBean.getCustomer());
-        System.out.println(formBean.getCustomerId());
-        System.out.println(formBean.getEmployee());
-        System.out.println(formBean.getEmployeeId());
-        System.out.println(formBean.getMachine().getName());
-        System.out.println(formBean.getMachineId());
-        System.out.println(formBean.getNote());
-        System.out.println(formBean.getDateCreated());
-        System.out.println(formBean.getDateEnd());
-        System.out.println(formBean.getDateStart());
-        System.out.println(bindingResult.getAllErrors());*/
-        //rentalUpdateDtoValidator.validate(formBean, bindingResult);
         rentalFacade.updateRental(formBean);
 
         redirectAttributes.addFlashAttribute("alert_success", "Rental with " + formBean.getId() + " was updated");

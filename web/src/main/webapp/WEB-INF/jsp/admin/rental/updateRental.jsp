@@ -17,7 +17,7 @@
         <form:form method="post" action="${pageContext.request.contextPath}/admin/rental/updatingRental"
                    modelAttribute="updateRental" cssClass="form-horizontal">
             <div class="form-group ${id_error?'has-error':''}">
-                <form:label path="id" cssClass="col-sm-2 control-label">Customer ID</form:label>
+                <form:label path="id" cssClass="col-sm-2 control-label">Rental ID</form:label>
                     <div class="col-sm-10">
                     <form:input path="id" readonly="true" cssClass="form-control"/>
                     <form:errors path="id" cssClass="help-block"/>
