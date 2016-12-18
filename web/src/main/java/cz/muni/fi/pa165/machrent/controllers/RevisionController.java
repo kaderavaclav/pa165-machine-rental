@@ -179,7 +179,8 @@ public class RevisionController {
         revisionFacade.deleteRevision(id);
         log.debug("delete({})", id);
 
-        redirectAttributes.addFlashAttribute("alert_success", "Revision \"" + revision.getRevisionDate() + "\" was deleted.");
+        redirectAttributes.addFlashAttribute("alert_success", "Revision for machine \"" + revision.getMachine().getName() +"\""+
+                " on " + revision.getRevisionDate() + "\" was deleted.");
         return "redirect:" + uriBuilder.path("/admin/revision/list").toUriString();
     }
 

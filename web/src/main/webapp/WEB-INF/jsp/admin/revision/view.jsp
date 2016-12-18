@@ -15,28 +15,38 @@
 
 <my:mainPageTag title="Revision detail">
 <jsp:attribute name="body">
-
     <div class="row">
-        <div class="col-xs-6">
-            <table>
-                <tr>
-                    <td><h4>Machine:</h4></td>
-                    <td><h3><c:out value="${revision.machine.name}"/></h3></td>
-                </tr>
-                <tr>
-                    <td><h4>Mechanic:</h4></td>
-                    <td><h4><c:out value="${revision.mechanic.name}"/></h4></td>
-                </tr>
-                <tr>
-                    <td><h4>Revision date:</h4></td>
-                    <td><h4><fmt:formatDate value="${revision.revisionDate}" type="date" dateStyle="medium"/></h4></td>
-                </tr>
-                <tr>
-                    <td><h4>Note:</h4></td>
-                    <td><h4><c:out value="${revision.note}"/></h4></td>
-                </tr>
-            </table>
+        <div class="col-md-1">
+            <label>Machine:</label>
+        </div>
+        <div class="col-md-11">
+                ${revision.machine.name}
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-1">
+            <label>RevisionDate:</label>
+        </div>
+        <div class="col-md-11">
+            <fmt:formatDate value="${revision.revisionDate}" type="date" dateStyle="medium"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-1">
+            <label>Mechanic:</label>
+        </div>
+        <div class="col-md-11">
+                ${revision.mechanic.name}
+        </div>
+    </div>
+    <div class="row" style="margin-bottom:50px;">
+        <div class="col-md-1">
+            <label>Note:</label>
+        </div>
+        <div class="col-md-11">
+                ${revision.note}
+        </div>
+    </div>
+
 </jsp:attribute>
 </my:mainPageTag>

@@ -26,8 +26,6 @@
                 <th>Name</th>
                 <th>Username</th>
                 <th>E-mail</th>
-                <th>Roles</th>
-                <th>Legal personality</th>
             </tr>
         </thead>
         <tbody>
@@ -37,8 +35,6 @@
                 <td><c:out value="${rentalUser.name}"/></td>
                 <td><c:out value="${rentalUser.username}"/></td>
                 <td><c:out value="${rentalUser.email}"/></td>
-                <td><c:out value="${rentalUser.roles}"/></td>
-                <td><c:out value="${rentalUser.legalPersonality}"/></td>
                 <td>
                     <a href="/pa165/admin/rentalUser/view/${rentalUser.id}" class="btn btn-primary">Detail</a>
                 </td>
