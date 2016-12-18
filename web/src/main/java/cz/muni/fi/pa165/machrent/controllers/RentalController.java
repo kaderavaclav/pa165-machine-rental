@@ -70,7 +70,7 @@ public class RentalController {
         if (binder.getTarget() instanceof RentalUpdateDto){
             RentalUpdateDtoValidator validator = new RentalUpdateDtoValidator();
             validator.setRentalFacade(rentalFacade);
-            binder.addValidators(validator);
+            //binder.addValidators(validator);
         }
     }
     
@@ -152,22 +152,36 @@ public class RentalController {
             @PathVariable long id,
             Model model) {
 
-        RentalDto updateRental = rentalFacade.findRentalWithId(id);
-        if (updateRental == null) {
+        RentalDto rental = rentalFacade.findRentalWithId(id);
+        if (rental == null) {
             return "redirect:/admin/rental/list";
         }
 
-        List<String> machineList = new ArrayList();
+        RentalUpdateDto updateRental = new RentalUpdateDto();
+        updateRental.setCustomer(rental.getCustomer());
+        updateRental.setCustomerId(rental.getCustomer().getId());
+        updateRental.setEmployee(rental.getEmployee());
+        updateRental.setEmployeeId(rental.getEmployee().getId());
+        updateRental.setDateEnd(rental.getDateEnd());
+        updateRental.setDateStart(rental.getDateStart());
+        updateRental.setDateCreated(rental.getDateCreated());
+        updateRental.setId(rental.getId());
+        updateRental.setMachine(rental.getMachine());
+        updateRental.setMachineId(rental.getMachine().getId());
+        updateRental.setNote(rental.getNote());
+        
         List<MachineDto> machines = machineFacade.findAllMachines();
+        Map<Long,String> machineList = new LinkedHashMap<>();
         for (int i = 0; i < machines.size(); i++) {
-            machineList.add(machines.get(i).getName() + " (id: " + machines.get(i).getId() + ")");
+            MachineDto mach = machines.get(i);
+            machineList.put(mach.getId(),mach.getName() + " (id: " + mach.getId() + ")");
         }
 
-        List<String> customerList = new ArrayList();
+        Map<Long,String> customerList = new LinkedHashMap<>();
         Collection<RentalUserDto> customers = rentalUserFacade.getAllUsers();
         for (RentalUserDto tmpCustomer : customers) {
             if (tmpCustomer.getRoles().contains(RentalUserRole.CUSTOMER)) {
-                customerList.add(tmpCustomer.getUsername() + " (id: " + tmpCustomer.getId() + ")");
+                customerList.put(tmpCustomer.getId(),tmpCustomer.getUsername() + " (id: " + tmpCustomer.getId() + ")");
             }
         }
         model.addAttribute("customerList", customerList);
@@ -226,14 +240,19 @@ public class RentalController {
     }
 
     @RequestMapping(value = "/updatingRental", method = RequestMethod.POST)
-    public String updatingRental(@Valid @ModelAttribute("rentalUpdate") RentalUpdateDto formBean,
+    public String updatingRental(@Valid @ModelAttribute("updateRental") RentalUpdateDto formBean,
             BindingResult bindingResult,
             Model model,
             RedirectAttributes redirectAttributes,
             UriComponentsBuilder uriBuilder) {
 
-        log.error("updating(rentalUpdate={})", formBean);
-
+        log.error("updating(updateRental ={})", formBean);
+        
+        //System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        //System.out.println(formBean.getId());
+        //System.out.println(bindingResult.getAllErrors());
+        
+        
         if (bindingResult.hasErrors()) {
             for (ObjectError ge : bindingResult.getGlobalErrors()) {
                 log.error("ObjectError: {}", ge);
@@ -242,9 +261,31 @@ public class RentalController {
                 model.addAttribute(fe.getField() + "_error", true);
                 log.error("FieldError: {}", fe);
             }
-            return "/admin/rental/list";
+            List<MachineDto> machines = machineFacade.findAllMachines();
+            Map<Long,String> machineList = new LinkedHashMap<>();
+            for (int i = 0; i < machines.size(); i++) {
+                MachineDto mach = machines.get(i);
+                machineList.put(mach.getId(),mach.getName() + " (id: " + mach.getId() + ")");
+            }
+
+            Map<Long,String> customerList = new LinkedHashMap<>();
+            Collection<RentalUserDto> customers = rentalUserFacade.getAllUsers();
+            for (RentalUserDto tmpCustomer : customers) {
+                if (tmpCustomer.getRoles().contains(RentalUserRole.CUSTOMER)) {
+                    customerList.put(tmpCustomer.getId(),tmpCustomer.getUsername() + " (id: " + tmpCustomer.getId() + ")");
+                }
+            }
+            
+            model.addAttribute("customerList", customerList);
+            model.addAttribute("machineList", machineList);
+            return "/admin/rental/updateRental";
         }
 
+        formBean.setEmployeeId(1L);
+        formBean.setEmployee(rentalUserFacade.findUserById(1L));
+        formBean.setDateCreated(new Date());
+        formBean.setCustomer(rentalUserFacade.findUserById(formBean.getCustomerId()));
+        formBean.setMachine(machineFacade.findById(formBean.getMachineId()));
         rentalFacade.updateRental(formBean);
 
         redirectAttributes.addFlashAttribute("alert_success", "Rental with " + formBean.getId() + " was updated");
