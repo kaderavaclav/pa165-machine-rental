@@ -10,6 +10,13 @@
 <jsp:attribute name="body">
     <form:form method="post" action="${pageContext.request.contextPath}/admin/machine/updateMachine"
                modelAttribute="updateMachine" cssClass="form-vertical">
+
+        <div class="form-group">
+            <form:label path="id" cssClass="col-sm-2 control-label">ID</form:label>
+            <div class="col-sm-10">
+                <form:input path="id" readonly="true" cssClass="form-control"/>
+            </div>
+        </div>
         <div class="form-group ${name_error?'has-error':''}">
             <form:label path="name" cssClass="col-sm-2 control-label">Name</form:label>
             <div class="col-sm-10">

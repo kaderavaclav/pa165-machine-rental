@@ -47,12 +47,10 @@ public class MachineController {
 
         if (binder.getTarget() instanceof MachineCreateDto) {
             MachineCreateDtoValidator validator = new MachineCreateDtoValidator();
-            validator.setMachineFacade(machineFacade);
             binder.addValidators(validator);
         }
         if (binder.getTarget() instanceof MachineUpdateDto){
             MachineUpdateDtoValidator validator = new MachineUpdateDtoValidator();
-            validator.setMachineFacade(machineFacade);
             binder.addValidators(validator);
         }
     }
