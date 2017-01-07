@@ -13,37 +13,54 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <my:mainPageTag title="User profile">
-<jsp:attribute name="body">
-    <div class="row">
-        <div class="col-xs-6">
-            <table>
-                <tr>
-                    <td><h4>ID:</h4></td>
-                    <td><c:out value="${rentalUserDto.id}"/></td>
-                </tr>
-                <tr>
-                    <td><h4>Name:</h4></td>
-                    <td><c:out value="${rentalUserDto.name}"/></td>
-                </tr>
-                <tr>
-                    <td><h4>Username</h4></td>
-                    <td><c:out value="${rentalUserDto.username}"/></td>
-                </tr>
-                <tr>
-                    <td><h4>E-mail:</h4></td>
-                    <td><c:out value="${rentalUserDto.email}"/></td>
-                </tr>
-                <tr>
-                    <td><h4>Roles:</h4></td>
-                    <td><c:out value="${rentalUserDto.roles}"/></td>
-                    <%--  <td><c:forEach items="${rentalUserDto.roles}" var="role"><c:out value="${role}"/></c:forEach></td> --%>
-                </tr>
-                <tr>
-                    <td><h4>Legal personality:</h4></td>
-                    <td><c:out value="${rentalUserDto.legalPersonality}"/></td>
-                </tr>
-            </table>
+    <jsp:attribute name="body">
+        <div class="row">
+            <div class="col-md-1">
+                <label>ID:</label>
+            </div>
+            <div class="col-md-11">
+                ${rentalUserDto.id}
+            </div>
         </div>
-    </div>
-</jsp:attribute>
+        <div class="row">
+            <div class="col-md-1">
+                <label>Name:</label>
+            </div>
+            <div class="col-md-11">
+                ${rentalUserDto.name}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1">
+                <label>Username:</label>
+            </div>
+            <div class="col-md-11">
+                ${rentalUserDto.username}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1">
+                <label>E-mail:</label>
+            </div>
+            <div class="col-md-11">
+                ${rentalUserDto.email}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1">
+                <label>Roles:</label>
+            </div>
+            <div class="col-md-11">
+                ${rentalUserDto.roles}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1">
+                <label>Legal personality:</label>
+            </div>
+            <div class="col-md-11">
+                ${rentalUserDto.legalPersonality}
+            </div>
+        </div>
+    </jsp:attribute>
 </my:mainPageTag>
