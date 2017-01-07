@@ -66,7 +66,7 @@
             <div class="row">
                 <div class="col-md-3 col-md-offset-2">
                     <button class="btn btn-success" type="submit">Create rental</button>
-                    <a class="btn btn-default" href="/pa165/admin/rental/list">Cancel</a>
+                    <a class="btn btn-default" href="${pageContext.request.contextPath}/admin/rental/list">Cancel</a>
                 </div>
             </div>
 

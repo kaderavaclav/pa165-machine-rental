@@ -16,7 +16,7 @@
     <jsp:attribute name="body">
         <div class="row" style="margin-bottom: 50px;">
             <div class="col-md-2">
-                <a href="/pa165/admin/rentalUser/new" class="btn btn-success">New user</a>
+                <a href="${pageContext.request.contextPath}/admin/rentalUser/new" class="btn btn-success">New user</a>
             </div>
         </div>
 
@@ -39,7 +39,7 @@
                         <td><c:out value="${rentalUser.username}"/></td>
                         <td><c:out value="${rentalUser.email}"/></td>
                         <td>
-                            <a href="/pa165/admin/rentalUser/view/${rentalUser.id}" class="btn btn-default">Detail</a>
+                            <a href="${pageContext.request.contextPath}/admin/rentalUser/view/${rentalUser.id}" class="btn btn-default">Detail</a>
                         </td>
                         <td>
                             <a href="${pageContext.request.contextPath}/admin/rentalUser/update/${rentalUser.id}" class="btn btn-default">Edit</a>

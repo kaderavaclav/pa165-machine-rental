@@ -17,7 +17,7 @@
 
     <div class="row" style="margin-bottom: 50px;">
         <div class="col-md-2">
-            <a href="/pa165/admin/rental/newRental" class="btn btn-success">New rental</a>
+            <a href="${pageContext.request.contextPath}/admin/rental/newRental" class="btn btn-success">New rental</a>
         </div>
     </div>
     

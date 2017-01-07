@@ -7,7 +7,7 @@
 <jsp:attribute name="body">
     <div class="row" style="margin-bottom: 50px;">
         <div class="col-md-2">
-            <a href="/pa165/admin/machine/new" class="btn btn-success">Create machine</a>
+            <a href="${pageContext.request.contextPath}/admin/machine/new" class="btn btn-success">Create machine</a>
         </div>
     </div>
 
@@ -29,10 +29,10 @@
                     <td><c:out value="${machine.name}"/></td>
                     <td><c:out value="${machine.description}"/></td>
                     <td>
-                        <a href="/pa165/admin/machine/view/${machine.id}" class="btn btn-default">Detail</a>
+                        <a href="${pageContext.request.contextPath}/admin/machine/view/${machine.id}" class="btn btn-default">Detail</a>
                     </td>
                     <td>
-                        <a href="/pa165/admin/machine/update/${machine.id}" class="btn btn-default">Edit</a>
+                        <a href="${pageContext.request.contextPath}/admin/machine/update/${machine.id}" class="btn btn-default">Edit</a>
                     </td>
 
                     <td>

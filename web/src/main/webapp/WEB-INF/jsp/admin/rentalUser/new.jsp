@@ -56,7 +56,7 @@
             <div class="row">
                 <div class="col-md-3 col-md-offset-1">
                     <button class="btn btn-success" type="submit">Create user</button>
-                    <a class="btn btn-default" href="/pa165/admin/rentalUser/list">Cancel</a>
+                    <a class="btn btn-default" href="${pageContext.request.contextPath}/admin/rentalUser/list">Cancel</a>
                 </div>
             </div>
 
