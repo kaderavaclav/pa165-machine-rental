@@ -13,41 +13,63 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <my:mainPageTag title="Rental detail">
-<jsp:attribute name="body">
-    
-    <div class="row">
-        <div class="col-xs-6">
-            <table>
-                <tr>
-                    <td><h3>Customer name:</h3></td>
-                    <td><h3><c:out value="${rental.customer.name}"/></h3></td>
-                </tr>
-                <tr>
-                    <td><h4>Machine name:</h4></td>
-                    <td><h4><c:out value="${rental.machine.name}"/></h4></td>
-                </tr>
-                <tr>
-                    <td><h4>Date from:</h4></td>
-                    <td><h4><fmt:formatDate value="${rental.dateStart}" type="date" dateStyle="medium"/></h4></td>
-                </tr>
-                <tr>
-                    <td><h4>Date to:</h4></td>
-                    <td><h4><fmt:formatDate value="${rental.dateEnd}" type="date" dateStyle="medium"/></h4></td>
-                </tr>
-                <tr>
-                    <td><h4>Date of creation:</h4></td>
-                    <td><h4><fmt:formatDate value="${rental.dateCreated}" type="date" dateStyle="medium"/></h4></td>
-                </tr>
-                <tr>
-                    <td><h4>Note:</h4></td>
-                    <td><h4><c:out value="${rental.note}"/></h4></td>
-                </tr>
-                <tr>
-                    <td><h4>Employee:</h4></td>
-                    <td><h4><c:out value="${rental.employee.name}"/></h4></td>
-                </tr>
-            </table>
+    <jsp:attribute name="body">
+
+        <div class="row">
+            <div class="col-md-2">
+                <label>Customer name:</label>
+            </div>
+            <div class="col-md-10">
+                ${rental.customer.name}
+            </div>
         </div>
-    </div>
-</jsp:attribute>
+        <div class="row">
+            <div class="col-md-2">
+                <label>Machine name:</label>
+            </div>
+            <div class="col-md-10">
+                ${rental.machine.name}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <label>Date start:</label>
+            </div>
+            <div class="col-md-10">
+                <fmt:formatDate value="${rental.dateStart}" type="date" dateStyle="medium"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <label>Date end:</label>
+            </div>
+            <div class="col-md-10">
+                <fmt:formatDate value="${rental.dateEnd}" type="date" dateStyle="medium"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <label>Date of creation:</label>
+            </div>
+            <div class="col-md-10">
+                <fmt:formatDate value="${rental.dateCreated}" type="date" dateStyle="medium"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <label>Note:</label>
+            </div>
+            <div class="col-md-10">
+                ${rental.note}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <label>Employee:</label>
+            </div>
+            <div class="col-md-10">
+                ${rental.employee.name}
+            </div>
+        </div>
+    </jsp:attribute>
 </my:mainPageTag>

@@ -15,19 +15,21 @@
 <my:mainPageTag title="Rentals">
 <jsp:attribute name="body">
 
-    <a href="${pageContext.request.contextPath}/admin/rental/newRental" class="btn btn-primary">
-        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-        New rental
-    </a>
+    <div class="row" style="margin-bottom: 50px;">
+        <div class="col-md-2">
+            <a href="${pageContext.request.contextPath}/admin/rental/newRental" class="btn btn-success">New rental</a>
+        </div>
+    </div>
     
-    <table class="table">
+    <table class="table table-striped table-hover">
         <thead>
         <tr>
-            <th>id</th>
-            <th>customer</th>
-            <th>machine</th>
-            <th>start date</th>
-            <th>end date</th>
+            <th class="col-md-1">ID</th>
+            <th>Customer</th>
+            <th>Machine</th>
+            <th>Start date</th>
+            <th>End date</th>
+            <th colspan="3" class="col-md-3">Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -39,14 +41,14 @@
                 <td><fmt:formatDate value="${rental.dateStart}" type="date" dateStyle="medium"/></td>
                 <td><fmt:formatDate value="${rental.dateEnd}" type="date" dateStyle="medium"/></td>
                 <td>
-                    <a href="${pageContext.request.contextPath}/admin/rental/view/${rental.id}" class="btn btn-primary">Detail</a>
+                    <a href="${pageContext.request.contextPath}/admin/rental/view/${rental.id}" class="btn btn-default">Detail</a>
                 </td>
                 <td>
-                    <a href="${pageContext.request.contextPath}/admin/rental/updateRental/${rental.id}" class="btn btn-primary">Update</a>
+                    <a href="${pageContext.request.contextPath}/admin/rental/updateRental/${rental.id}" class="btn btn-default">Edit</a>
                 </td>
                 <td>
                     <form method="post" action="${pageContext.request.contextPath}/admin/rental/deleteRental/${rental.id}">
-                        <button type="submit" class="btn btn-primary">Delete</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
                 </td>
             </tr>

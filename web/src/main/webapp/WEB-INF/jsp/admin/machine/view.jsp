@@ -39,7 +39,7 @@
                 <td><fmt:formatDate value="${revision.revisionDate}" type="date" dateStyle="medium"/></td>
                 <td><c:out value="${revision.note}"/></td>
                 <td>
-                    <a href="/pa165/admin/revision/view/${revision.id}" class="btn btn-default">View</a>
+                    <a href="${pageContext.request.contextPath}/admin/revision/view/${revision.id}" class="btn btn-default">View</a>
                 </td>
             </tr>
         </c:forEach>

@@ -60,7 +60,12 @@
                     <form:errors path="dateEnd" cssClass="help-block"/>
                 </div>
             </div>
-            <button class="btn btn-primary" type="submit">Update rental</button>
+            <div class="row">
+            <div class="col-md-3 col-md-offset-2">
+                <button class="btn btn-success" type="submit">Update rental</button>
+                <a class="btn btn-default" href="${pageContext.request.contextPath}/admin/rental/list">Cancel</a>
+            </div>
+        </div>
         </form:form>
     </jsp:attribute>
 </my:mainPageTag>

@@ -36,7 +36,7 @@
                 <td><fmt:formatDate value="${revision.revisionDate}" type="date" dateStyle="medium"/></td>
                 <td><c:out value="${revision.machine.name}"/></td>
                 <td>
-                    <a href="/pa165/admin/revision/view/${revision.id}" class="btn btn-default">Details</a>
+                    <a href="${pageContext.request.contextPath}/admin/revision/view/${revision.id}" class="btn btn-default">Details</a>
                 </td>
                 <td>
                     <a href="${pageContext.request.contextPath}/admin/revision/update/${revision.id}" class="btn btn-primary">Update</a>
