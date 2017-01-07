@@ -24,7 +24,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="form-group ${name_error?'has-error':''}">
+                <div class="form-group ${name_error ? 'has-error' : ''}">
                     <form:label path="name" cssClass="col-sm-1 control-label">Name</form:label>
                     <div class="col-md-5">
                         <form:input path="name" cssClass="form-control"/>
@@ -33,7 +33,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="form-group ${name_error?'has-error':''}">
+                <div class="form-group ${username_error ? 'has-error': ''}">
                     <form:label path="username" cssClass="col-sm-1 control-label">Username</form:label>
                     <div class="col-md-5">
                         <form:input path="username" cssClass="form-control"/>
@@ -42,7 +42,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="form-group ${name_error?'has-error':''}">
+                <div class="form-group ${email_error ? 'has-error' : ''}">
                     <form:label path="email" cssClass="col-sm-1 control-label">E-mail</form:label>
                     <div class="col-md-5">
                         <form:input path="email" cssClass="form-control"/>

@@ -25,15 +25,15 @@ public class RentalUserDtoValidator implements Validator {
         
         String email = rentalUserDto.getEmail ();
         if (email == null || StringUtils.trimAllWhitespace(email).length() == 0) {
-            errors.rejectValue ("email", "Email cannot be empty or whitespace.");
+            errors.rejectValue ("email","notNull", "Email cannot be empty or whitespace.");
         }
         else if (! email.matches ("[a-zA-Z0-9.-_]+@[a-zA-Z0-9.-_]+[.][a-zA-Z]+")) {
-            errors.rejectValue ("email", "Inserted email: " + email + " is invalid.");
+            errors.rejectValue ("email","notNull", "Inserted email: " + email + " is invalid.");
         }
         
         String username = rentalUserDto.getUsername ();
         if (username == null || StringUtils.trimAllWhitespace(username).length() == 0) {
-            errors.rejectValue ("username", "Username cannot be empty or whitespace.");
+            errors.rejectValue ("username","notNull", "Username cannot be empty or whitespace.");
         }
     }
 }
