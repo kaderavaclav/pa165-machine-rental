@@ -39,6 +39,9 @@
                     <a href="/pa165/admin/revision/view/${revision.id}" class="btn btn-default">Details</a>
                 </td>
                 <td>
+                    <a href="${pageContext.request.contextPath}/admin/revision/update/${revision.id}" class="btn btn-primary">Update</a>
+                </td>
+                <td>
                     <form method="post" action="${pageContext.request.contextPath}/admin/revision/delete/${revision.id}">
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </form>

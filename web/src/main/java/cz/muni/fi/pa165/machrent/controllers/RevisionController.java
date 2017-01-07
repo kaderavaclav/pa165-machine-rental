@@ -163,10 +163,102 @@ public class RevisionController {
 
         Long id = revisionFacade.createRevision(formBean);
 
-        redirectAttributes.addFlashAttribute("alert_success", "Revision with " + id + " was created");
+        redirectAttributes.addFlashAttribute("alert_success", "Revision (id " + id + ") was updated");
         return "redirect:" + uriBuilder.path("/admin/revision/view/{id}").buildAndExpand(id).encode().toUriString();
     }
 
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
+    public String updateRevision(
+            @PathVariable long id,
+            Model model) {
+
+        RevisionDto rev = revisionFacade.findById(id);
+        if (rev == null) {
+            return "redirect:/admin/revision/list";
+        }
+
+        RevisionCreateDto updateRev = new RevisionCreateDto();
+        updateRev.setId(rev.getId());
+        updateRev.setMachine(rev.getMachine());
+        updateRev.setMachineId(rev.getMachine().getId());
+        updateRev.setMechanic(rev.getMechanic());
+        updateRev.setMechanicId(rev.getMechanic().getId());
+        updateRev.setNote(rev.getNote());
+        updateRev.setRevisionDate(rev.getRevisionDate());
+
+        List machines = machineFacade.findAllMachines();
+        ArrayList users = (ArrayList) rentalUserFacade.getAllUsers();
+
+        Map<Long, String> names = new LinkedHashMap<>();
+        for (int i = 0; i < machines.size(); i++) {
+            MachineDto mach = (MachineDto) machines.get(i);
+            names.put(mach.getId(), mach.getName());
+
+        }
+
+        Map<Long, String> mechs = new LinkedHashMap<>();
+        for (int i = 0; i < users.size(); i++) {
+            RentalUserDto mech = (RentalUserDto) users.get(i);
+            if (mech.getRoles().contains(RentalUserRole.EMPLOYEE) && !mech.getUsername().equals("admin")){
+                mechs.put(mech.getId(), mech.getName());
+            }
+        }
+
+        model.addAttribute("machineList", names);
+        model.addAttribute("userList", mechs);
+        model.addAttribute("updateRev", updateRev);
+        return "admin/revision/update";
+    }
+
+    @RequestMapping(value = "/updating", method = RequestMethod.POST)
+    public String updatingRental(@Valid @ModelAttribute("updateRev") RevisionCreateDto formBean,
+                                 BindingResult bindingResult,
+                                 Model model,
+                                 RedirectAttributes redirectAttributes,
+                                 UriComponentsBuilder uriBuilder) {
+
+        log.error("updating(updateRevision ={})", formBean);
+
+        if (bindingResult.hasErrors()) {
+            for (ObjectError ge : bindingResult.getGlobalErrors()) {
+                log.error("ObjectError: {}", ge);
+            }
+            for (FieldError fe : bindingResult.getFieldErrors()) {
+                model.addAttribute(fe.getField() + "_error", true);
+                log.error("FieldError: {}", fe);
+            }
+
+            List machines = machineFacade.findAllMachines();
+            ArrayList users = (ArrayList) rentalUserFacade.getAllUsers();
+
+            Map<Long, String> names = new LinkedHashMap<>();
+            for (int i = 0; i < machines.size(); i++) {
+                MachineDto mach = (MachineDto) machines.get(i);
+                names.put(mach.getId(), mach.getName());
+
+            }
+
+            Map<Long, String> mechs = new LinkedHashMap<>();
+            for (int i = 0; i < users.size(); i++) {
+                RentalUserDto mech = (RentalUserDto) users.get(i);
+                if (mech.getRoles().contains(RentalUserRole.EMPLOYEE) && !mech.getUsername().equals("admin")){
+                    mechs.put(mech.getId(), mech.getName());
+                }
+            }
+
+            model.addAttribute("machineList", names);
+            model.addAttribute("userList", mechs);
+            return "/admin/revision/update";
+        }
+
+        formBean.setMachine(machineFacade.findById(formBean.getMachineId()));
+        formBean.setMechanic(rentalUserFacade.findUserById(formBean.getMechanicId()));
+
+        revisionFacade.updateRevision(formBean);
+
+        redirectAttributes.addFlashAttribute("alert_success", "Revision (id " + formBean.getId() + ") was updated");
+        return "redirect:" + uriBuilder.path("/admin/revision/view/{id}").buildAndExpand(formBean.getId()).encode().toUriString();
+    }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
     public String delete(@PathVariable long id,

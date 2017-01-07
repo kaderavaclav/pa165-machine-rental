@@ -37,7 +37,7 @@ public class RevisionFacadeImpl implements RevisionFacade {
 	}
 
 	@Override
-	public void updateRevision(RevisionDto r) {
+	public void updateRevision(RevisionCreateDto r) {
 		if (r == null) {
 			throw new IllegalArgumentException("Revision is null.");
 		}
