@@ -54,7 +54,12 @@ To change this template use File | Settings | File Templates.
             </div>
         </div>
 
-         <button class="btn btn-success" type="submit">Update revision</button>
+        <div class="row">
+            <div class="col-md-3 col-md-offset-1">
+                <button class="btn btn-success" type="submit">Update revision</button>
+                <a class="btn btn-default" href="${pageContext.request.contextPath}/admin/revision/list">Cancel</a>
+            </div>
+        </div>
     </form:form>
     </jsp:attribute>
 </my:mainPageTag>

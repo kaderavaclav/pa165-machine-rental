@@ -7,7 +7,7 @@
 <jsp:attribute name="body">
     <div class="row" style="margin-bottom: 50px;">
         <div class="col-md-2">
-            <a href="${pageContext.request.contextPath}/admin/machine/new" class="btn btn-success">Create machine</a>
+            <a href="${pageContext.request.contextPath}/admin/machine/new" class="btn btn-success">New machine</a>
         </div>
     </div>
 
