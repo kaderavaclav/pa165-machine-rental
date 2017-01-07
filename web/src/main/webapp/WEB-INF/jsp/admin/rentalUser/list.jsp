@@ -24,7 +24,6 @@
             <thead>
                 <tr>
                     <th class="col-md-1">ID</th>
-                    <th>ID</th>
                     <th>Name</th>
                     <th>Username</th>
                     <th>E-mail</th>
