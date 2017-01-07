@@ -10,7 +10,6 @@ import cz.muni.fi.pa165.machrent.validators.RentalUserDtoValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,8 +26,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -88,7 +85,6 @@ public class PublicController {
 
     @RequestMapping(value = "/updateProfile", method = RequestMethod.GET)
     public String updateProfile(Model model,
-                         UriComponentsBuilder uriBuilder,
                          HttpServletRequest req) {
 
         HttpSession session = req.getSession(true);
@@ -105,7 +101,8 @@ public class PublicController {
                                 BindingResult bindingResult,
                                 Model model,
                                 RedirectAttributes redirectAttributes,
-                                UriComponentsBuilder uriBuilder) {
+                                UriComponentsBuilder uriBuilder,
+                                HttpServletRequest req) {
 
         log.error("update(profileUpdate={})", formBean);
 
@@ -119,6 +116,9 @@ public class PublicController {
             }
             return "/public/updateProfile";
         }
+
+        HttpSession session = req.getSession(true);
+        session.setAttribute("authUser", formBean);
 
         rentalUserFacade.updateUser(formBean);
 
