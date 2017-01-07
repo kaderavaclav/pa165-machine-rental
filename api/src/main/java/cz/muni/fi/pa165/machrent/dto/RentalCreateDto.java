@@ -28,6 +28,15 @@ public class RentalCreateDto {
     private Date dateCreated;
     private RentalUserDto customer;
     private MachineDto machine;
+    private RentalUserDto employee;
+
+    public RentalUserDto getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(RentalUserDto employee) {
+        this.employee = employee;
+    }
 
     public RentalUserDto getCustomer() {
         return customer;

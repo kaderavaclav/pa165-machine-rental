@@ -22,6 +22,7 @@ import cz.muni.fi.pa165.machrent.validators.RentalUpdateDtoValidator;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -195,6 +196,7 @@ public class RentalController {
             BindingResult bindingResult,
             Model model,
             RedirectAttributes redirectAttributes,
+            HttpServletRequest req,
             UriComponentsBuilder uriBuilder) {
 
         log.error("createRental(rentalCreate={})", formBean);
@@ -230,8 +232,10 @@ public class RentalController {
         formBean.setMachine(machineFacade.findById(formBean.getMachineId()));
         Date today = new Date();
         formBean.setDateCreated(today);
-       // TODO formBean.setEmployeeId(prihlasenyuser.id);
-
+        HttpSession session = req.getSession(true);
+        RentalUserDto user = (RentalUserDto) session.getAttribute("authUser");
+        formBean.setEmployeeId(user.getId());
+        formBean.setEmployee(rentalUserFacade.findUserById(user.getId()));
 
         Long id = rentalFacade.createRental(formBean);
 
