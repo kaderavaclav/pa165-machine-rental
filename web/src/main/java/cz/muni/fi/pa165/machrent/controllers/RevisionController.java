@@ -163,7 +163,7 @@ public class RevisionController {
 
         Long id = revisionFacade.createRevision(formBean);
 
-        redirectAttributes.addFlashAttribute("alert_success", "Revision (id " + id + ") was updated");
+        redirectAttributes.addFlashAttribute("alert_success", "Revision (id " + id + ") was created");
         return "redirect:" + uriBuilder.path("/admin/revision/view/{id}").buildAndExpand(id).encode().toUriString();
     }
 
