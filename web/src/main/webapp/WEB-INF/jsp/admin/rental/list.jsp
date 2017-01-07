@@ -44,7 +44,7 @@
                     <a href="${pageContext.request.contextPath}/admin/rental/view/${rental.id}" class="btn btn-default">Detail</a>
                 </td>
                 <td>
-                    <a href="${pageContext.request.contextPath}/admin/rental/updateRental/${rental.id}" class="btn btn-default">Update</a>
+                    <a href="${pageContext.request.contextPath}/admin/rental/updateRental/${rental.id}" class="btn btn-default">Edit</a>
                 </td>
                 <td>
                     <form method="post" action="${pageContext.request.contextPath}/admin/rental/deleteRental/${rental.id}">

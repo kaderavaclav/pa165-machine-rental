@@ -42,7 +42,7 @@
                             <a href="/pa165/admin/rentalUser/view/${rentalUser.id}" class="btn btn-default">Detail</a>
                         </td>
                         <td>
-                            <a href="${pageContext.request.contextPath}/admin/rentalUser/update/${rentalUser.id}" class="btn btn-default">Update</a>
+                            <a href="${pageContext.request.contextPath}/admin/rentalUser/update/${rentalUser.id}" class="btn btn-default">Edit</a>
                         </td>
                         <td>
                             <form method="post" action="${pageContext.request.contextPath}/admin/rentalUser/delete/${rentalUser.id}">

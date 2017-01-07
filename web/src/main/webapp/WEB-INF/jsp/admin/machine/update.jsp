@@ -39,7 +39,7 @@
         <div class="row">
             <div class="col-md-3 col-md-offset-1">
                 <button class="btn btn-success" type="submit">Update machine</button>
-                <a class="btn btn-default" href="${pageContext.request.contextPath}/pa165/admin/machine/list">Cancel</a>
+                <a class="btn btn-default" href="${pageContext.request.contextPath}/admin/machine/list">Cancel</a>
             </div>
         </div>
     </form:form>
