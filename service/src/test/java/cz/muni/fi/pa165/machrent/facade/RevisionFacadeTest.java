@@ -131,9 +131,9 @@ public class RevisionFacadeTest extends AbstractTestNGSpringContextTests {
     
     @Test
     public void updateRevision_validDto_serviceMethodIsCalled () {
-        when(beanMappingService.mapTo(revisionDto, Revision.class)).thenReturn(revision);
+        when(beanMappingService.mapTo(revisionCreateDto, Revision.class)).thenReturn(revision);
         
-        revisionFacade.updateRevision(revisionDto);
+        revisionFacade.updateRevision(revisionCreateDto);
         
         verify(revisionService).updateRevision(revision);
     }

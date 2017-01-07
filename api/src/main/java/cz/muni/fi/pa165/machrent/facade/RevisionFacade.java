@@ -21,7 +21,7 @@ public interface RevisionFacade {
 	 *Updates existing revision.
 	 * @param r revision to be updated
 	 */
-	void updateRevision(RevisionDto r);
+	void updateRevision(RevisionCreateDto r);
 
 	/**
 	 * Deletes existing revision.
