@@ -22,11 +22,6 @@ public class Rental implements Serializable {
     @OneToOne
     private RentalUser customer;
     private String note;
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     @OneToOne
     private RentalUser employee;
     private Date dateStart;
@@ -44,6 +39,9 @@ public class Rental implements Serializable {
      */
     public Long getId() {
         return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Rental(Long rentalId) {
