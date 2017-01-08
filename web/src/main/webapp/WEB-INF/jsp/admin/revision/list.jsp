@@ -16,17 +16,19 @@
 <my:mainPageTag title="Revisions">
 <jsp:attribute name="body">
 
-    <a href="${pageContext.request.contextPath}/admin/revision/new" class="btn btn-success">
-        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-        Create
-    </a>
+    <div class="row" style="margin-bottom: 50px;">
+        <div class="col-md-2">
+            <a href="${pageContext.request.contextPath}/admin/revision/new" class="btn btn-success">New revision</a>
+        </div>
+    </div>
 
-    <table class="table">
+    <table class="table table-striped table-hover">
         <thead>
         <tr>
-            <th>id</th>
+            <th class="col-md-1">ID</th>
             <th>revisionDate</th>
             <th>machine</th>
+            <th colspan="3" class="col-md-3">Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -36,7 +38,10 @@
                 <td><fmt:formatDate value="${revision.revisionDate}" type="date" dateStyle="medium"/></td>
                 <td><c:out value="${revision.machine.name}"/></td>
                 <td>
-                    <a href="/pa165/admin/revision/view/${revision.id}" class="btn btn-default">Details</a>
+                    <a href="${pageContext.request.contextPath}/admin/revision/view/${revision.id}" class="btn btn-default">Detail</a>
+                </td>
+                <td>
+                    <a href="${pageContext.request.contextPath}/admin/revision/update/${revision.id}" class="btn btn-default">Edit</a>
                 </td>
                 <td>
                     <form method="post" action="${pageContext.request.contextPath}/admin/revision/delete/${revision.id}">

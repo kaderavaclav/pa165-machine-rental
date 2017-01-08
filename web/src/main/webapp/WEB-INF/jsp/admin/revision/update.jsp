@@ -1,9 +1,9 @@
 <%--
-  Created by IntelliJ IDEA.
-  User: zuz-schwarzova
-  Date: 15. 12. 2016
-  Time: 12:51
-  To change this template use File | Settings | File Templates.
+    Created by IntelliJ IDEA.
+    User: zuz-schwarzova
+Date: 07. 12. 2016
+Time: 17:23
+To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="utf-8" trimDirectiveWhitespaces="true" session="false" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="my" %>
@@ -12,24 +12,31 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<my:mainPageTag title="New revision">
-<jsp:attribute name="body">
-    <form:form method="post" action="${pageContext.request.contextPath}/admin/revision/create"
-               modelAttribute="revisionCreate" cssClass="form-horizontal">
+<my:mainPageTag title="Update revision">
+    <jsp:attribute name="body">
+    <form:form method="post" action="${pageContext.request.contextPath}/admin/revision/updating"
+               modelAttribute="updateRev" cssClass="form-horizontal">
+         <div class="form-group ${id_error?'has-error':''}">
+             <form:label path="id" cssClass="col-sm-2 control-label">Revision ID</form:label>
+             <div class="col-sm-10">
+                 <form:input path="id" readonly="true" cssClass="form-control"/>
+                 <form:errors path="id" cssClass="help-block"/>
+             </div>
+         </div>
         <div class="form-group ${machine_error?'has-error':''}">
             <form:label path="machineId" cssClass="col-sm-2 control-label">machine</form:label>
             <div class="col-sm-10">
-                 <form:select path="machineId" cssClass="form-control" id="machineId">
-                     <form:options items="${machineList}"/>
-                 </form:select>
+        <form:select path="machineId" cssClass="form-control" id="machineId">
+        <form:options items="${machineList}"/>
+        </form:select>
             </div>
         </div>
         <div class="form-group ${mechanic_error?'has-error':''}">
             <form:label path="mechanicId" cssClass="col-sm-2 control-label">mechanic</form:label>
             <div class="col-sm-10">
-                 <form:select path="mechanicId" cssClass="form-control" id="mechanicId">
-                     <form:options items="${userList}"/>
-                 </form:select>
+            <form:select path="mechanicId" cssClass="form-control" id="mechanicId">
+            <form:options items="${userList}"/>
+            </form:select>
             </div>
         </div>
         <div class="form-group ${note_error?'has-error':''}">
@@ -49,12 +56,10 @@
 
         <div class="row">
             <div class="col-md-3 col-md-offset-1">
-                <button class="btn btn-success" type="submit">Create revision</button>
+                <button class="btn btn-success" type="submit">Update revision</button>
                 <a class="btn btn-default" href="${pageContext.request.contextPath}/admin/revision/list">Cancel</a>
             </div>
         </div>
     </form:form>
-
-
-</jsp:attribute>
+    </jsp:attribute>
 </my:mainPageTag>

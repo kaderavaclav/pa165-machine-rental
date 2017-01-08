@@ -9,8 +9,19 @@ package cz.muni.fi.pa165.machrent.enums;
  * 
  * @author  Josef Plch
  * @since   2016-10-30
- * @version 2016-11-20
+ * @version 2017-01-08
  */
 public enum LegalPersonality {
-    JURIDICAL, NATURAL
+    JURIDICAL ("juridical"),
+    NATURAL ("natural");
+    private final String userFriendlyName;
+    
+    private LegalPersonality (String userFriendlyName) {
+        this.userFriendlyName = userFriendlyName;
+    }
+    
+    @Override
+    public String toString () {
+        return this.userFriendlyName;
+    }    
 }
