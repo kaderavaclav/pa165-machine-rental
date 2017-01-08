@@ -107,11 +107,31 @@ public class RentalUserController {
         LOGGER.info ("delete({})", id);
         
         RentalUserDto rentalUser = rentalUserFacade.findUserById (id);
-        rentalUserFacade.deleteUser(id);
-        redirectAttributes.addFlashAttribute (
-            "alert_success",
-            "RentalUser " + rentalUser.getUsername () + "(id = " + id + ") was deleted."
-        );
+        
+        if (rentalUser == null) {
+            redirectAttributes.addFlashAttribute (
+                "alert_warning",
+                "User not found."
+            );
+        }
+        else {
+            try {
+                rentalUserFacade.deleteUser (id);
+                redirectAttributes.addFlashAttribute (
+                    "alert_success",
+                    "User " + rentalUser.getUsername () + " (id = " + id + ") was successfully deleted."
+                );
+            }
+            catch (Exception exception) {
+                redirectAttributes.addFlashAttribute (
+                    "alert_danger",
+                    "User " + rentalUser.getUsername () + " (id = " + id + ") cannot be deleted,"
+                    + " because he participates in some revision or rental."
+                );
+            }
+        }
+        
+        // return "redirect:/admin/machine/list";
         return ("redirect:" + uriBuilder.path ("/admin/rentalUser/list").toUriString ());
     }
 
