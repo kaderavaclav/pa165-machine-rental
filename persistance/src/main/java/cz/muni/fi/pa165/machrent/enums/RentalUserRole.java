@@ -5,8 +5,19 @@ package cz.muni.fi.pa165.machrent.enums;
  * 
  * @author  Josef Plch
  * @since   2016-10-26
- * @version 2016-11-20
+ * @version 2017-01-08
  */
 public enum RentalUserRole {
-    CUSTOMER, EMPLOYEE
+    CUSTOMER ("customer"),
+    EMPLOYEE ("employee");
+    private final String code;
+    
+    private RentalUserRole (String code) {
+        this.code = code;
+    }
+    
+    @Override
+    public String toString () {
+        return this.code;
+    }
 }

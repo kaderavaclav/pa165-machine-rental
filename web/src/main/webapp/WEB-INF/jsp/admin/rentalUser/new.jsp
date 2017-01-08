@@ -1,7 +1,7 @@
 <%-- 
     Author:  Josef Plch
     Created: 2016-12-17
-    Version: 2016-12-17
+    Version: 2017-01-08
 --%>
 
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="utf-8" trimDirectiveWhitespaces="true" session="false" %>
@@ -34,6 +34,17 @@
                 </div>
             </div>
             <div class="row" style="margin-bottom: 10px;">
+                <div class="form-group ${legal_personality_error ? 'has-error' : ''}">
+                    <form:label path="legalPersonality" cssClass="col-sm-1 control-label">Legal personality</form:label>
+                    <div class="col-md-5">
+                        <form:select path="legalPersonality" cssClass="form-control">
+                            <form:options items="${legalPersonalityList}"/>
+                        </form:select>
+                        <form:errors path="legalPersonality" cssClass="help-block"/>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-bottom: 10px;">
                 <div class="form-group ${email_error ? 'has-error' : ''}">
                     <form:label path="email" cssClass="col-sm-1 control-label">E-mail</form:label>
                         <div class="col-md-5">
@@ -44,11 +55,13 @@
             </div>
             <div class="row" style="margin-bottom: 10px;">
                 <div class="form-group ${roles_error ? 'has-error' : ''}">
-                    <form:label path="roles" cssClass="col-sm-1 control-label">Role</form:label>
-                        <div class="col-md-5">
-                            <input type="checkbox" path="customer" value="customer" label="customer" /> customer
+                    <form:label path="roles" cssClass="col-sm-1 control-label">Roles</form:label>
+                    <div class="col-md-5">
+                        <c:forEach items="${rentalUserRoleList}" var="rentalUserRole" varStatus="status">
+                            <form:checkbox path="roles" value="${rentalUserRole}" label="${rentalUserRole}"/>
+                            <!-- c:out value="${rentalUserRole}" -->
                             <br/>
-                            <input type="checkbox" path="employee" value="employee" label="employee" /> employee
+                        </c:forEach>
                         <form:errors path="roles" cssClass="help-block"/>
                     </div>
                 </div>
