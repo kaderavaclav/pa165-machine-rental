@@ -2,12 +2,19 @@ package cz.muni.fi.pa165.machrent.controllers;
 
 import cz.muni.fi.pa165.machrent.SampleDataLoadingFacadeImpl;
 import cz.muni.fi.pa165.machrent.dto.RentalUserDto;
+import cz.muni.fi.pa165.machrent.enums.LegalPersonality;
+import cz.muni.fi.pa165.machrent.enums.RentalUserRole;
 import cz.muni.fi.pa165.machrent.facade.RentalUserFacade;
 import cz.muni.fi.pa165.machrent.validators.RentalUserDtoValidator;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +35,7 @@ import org.springframework.web.util.UriComponentsBuilder;
  * 
  * @author  Josef Plch
  * @since   2016-12-16
- * @version 2016-12-16
+ * @version 2017-01-08
  */
 @Controller
 @RequestMapping ("/admin/rentalUser")
@@ -43,6 +50,17 @@ public class RentalUserController {
         LOGGER.info ("new()");
         
         model.addAttribute ("rentalUserCreate", new RentalUserDto ());
+        
+        Map <LegalPersonality, String> legalPersonalityList = new LinkedHashMap <> ();
+        for (LegalPersonality legalPersonality : LegalPersonality.values ()) {
+            legalPersonalityList.put (legalPersonality, legalPersonality.toString ());
+        }
+        model.addAttribute ("legalPersonalityList", legalPersonalityList);
+
+        List <RentalUserRole> rentalUserRoleList = new ArrayList <> ();
+        rentalUserRoleList.addAll (Arrays.asList (RentalUserRole.values ()));
+        model.addAttribute ("rentalUserRoleList", rentalUserRoleList);        
+        
         return ("admin/rentalUser/new");
     }
 
@@ -111,13 +129,7 @@ public class RentalUserController {
     @RequestMapping (value = "/list", method = RequestMethod.GET)
     public String listOfUsers (Model model, HttpServletRequest request) {
         LOGGER.info ("request: GET /admin/rentalUser/list");
-        
-        //HttpSession session = request.getSession (true);
-        //RentalUserDto user = (RentalUserDto) session.getAttribute ("authUser");
-        //if (rentalUserFacade.isUserAdmin (user.getId ())) {
-            model.addAttribute ("rentalUsers", rentalUserFacade.getAllUsers ());
-        //}
-        
+        model.addAttribute ("rentalUsers", rentalUserFacade.getAllUsers ());
         return ("/admin/rentalUser/list");
     }
 
@@ -147,6 +159,21 @@ public class RentalUserController {
         }
         else {
             model.addAttribute ("rentalUserDto", rentalUserDto);
+            
+            Map <LegalPersonality, String> legalPersonalityList = new LinkedHashMap <> ();
+            for (LegalPersonality legalPersonality : LegalPersonality.values ()) {
+                legalPersonalityList.put (legalPersonality, legalPersonality.toString ());
+            }
+            model.addAttribute ("legalPersonalityList", legalPersonalityList);
+            
+            Set <RentalUserRole> roles = rentalUserDto.getRoles ();
+            model.addAttribute ("hasRoleCustomer", roles.contains (RentalUserRole.CUSTOMER));
+            model.addAttribute ("hasRoleEmployee", roles.contains (RentalUserRole.EMPLOYEE));
+            
+            List <RentalUserRole> rentalUserRoleList = new ArrayList <> ();
+            rentalUserRoleList.addAll (Arrays.asList (RentalUserRole.values ()));
+            model.addAttribute ("rentalUserRoleList", rentalUserRoleList);
+            
             result = "admin/rentalUser/update";
         }
         return result;

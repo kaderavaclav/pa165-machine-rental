@@ -1,7 +1,7 @@
 <%-- 
     Author:  Josef Plch
     Created: 2016-12-17
-    Version: 2016-12-17
+    Version: 2017-01-08
 --%>
 
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="utf-8" trimDirectiveWhitespaces="true" session="false" %>
@@ -35,6 +35,15 @@
                     <form:errors path="username" cssClass="help-block"/>
                 </div>
             </div>
+            <div class="form-group ${legal_personality_error ? 'has-error' : ''}">
+                <form:label path="legalPersonality" cssClass="col-sm-1 control-label">Legal personality</form:label>
+                <div class="col-sm-10">
+                    <form:select path="legalPersonality" cssClass="form-control">
+                        <form:options items="${legalPersonalityList}"/>
+                    </form:select>
+                    <form:errors path="legalPersonality" cssClass="help-block"/>
+                </div>
+            </div>
             <div class="form-group ${email_error ? 'has-error' : ''}">
                 <form:label path="email" cssClass="col-sm-1 control-label">E-mail</form:label>
                 <div class="col-sm-10">
@@ -43,11 +52,13 @@
                 </div>
             </div>
             <div class="form-group ${roles_error ? 'has-error' : ''}">
-                <form:label path="roles" cssClass="col-sm-1 control-label">Role</form:label>
+                <form:label path="roles" cssClass="col-sm-1 control-label">Roles</form:label>
                 <div class="col-sm-10">
-                    <input type="checkbox" path="roles" label="customer" /> customer
-                    <br/>
-                    <input type="checkbox" path="roles" label="employee" /> employee
+                    <c:forEach items="${rentalUserRoleList}" var="rentalUserRole" varStatus="status">
+                        <form:checkbox path="roles" value="${rentalUserRole}" label="${rentalUserRole}"/>
+                        <!-- c:out value="${rentalUserRole}" -->
+                        <br/>
+                    </c:forEach>                    
                     <form:errors path="roles" cssClass="help-block"/>
                 </div>
             </div>
