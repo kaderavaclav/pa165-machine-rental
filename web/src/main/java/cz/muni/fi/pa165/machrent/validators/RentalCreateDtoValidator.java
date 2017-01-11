@@ -6,6 +6,7 @@
 package cz.muni.fi.pa165.machrent.validators;
 
 import cz.muni.fi.pa165.machrent.dto.RentalCreateDto;
+import cz.muni.fi.pa165.machrent.facade.MachineFacade;
 import cz.muni.fi.pa165.machrent.facade.RentalFacade;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -19,9 +20,13 @@ import java.util.Date;
 public class RentalCreateDtoValidator implements Validator{
 
     private RentalFacade rentalFacade;
-    
+    private MachineFacade machineFacade;
+
     public void setRentalFacade(RentalFacade rentalFacade) {
         this.rentalFacade = rentalFacade;
+    }
+    public void setMachineFacade(MachineFacade machineFacade) {
+        this.machineFacade = machineFacade;
     }
 
     @Override
@@ -51,6 +56,7 @@ public class RentalCreateDtoValidator implements Validator{
 
         Date dateStart = rentalCreateDto.getDateStart();
         Date dateEnd = rentalCreateDto.getDateEnd();
+
         if (dateStart == null){
             errors.rejectValue("dateStart","null","Shouldnt be null.");
         }
@@ -60,6 +66,12 @@ public class RentalCreateDtoValidator implements Validator{
         if ((dateStart != null && dateEnd != null) && dateEnd.before(dateStart)) {
             errors.rejectValue("dateEnd", "invalidDate", "DateEnd before DateCreated.");
         }
+        if (!(machineFacade.findAvailableMachines(dateStart, dateEnd).contains(machineFacade.findById(machineId)))){
+            errors.rejectValue("dateStart", "invalidDate", "");
+            errors.rejectValue("dateEnd", "invalidDate", "Machine is not available in this time span. Available machines:"
+                    + machineFacade.findAvailableMachines(dateStart, dateEnd).toString());
+        }
+
     }
     
 }

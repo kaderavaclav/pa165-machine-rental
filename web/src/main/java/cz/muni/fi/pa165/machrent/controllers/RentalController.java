@@ -66,6 +66,7 @@ public class RentalController {
         if (binder.getTarget() instanceof RentalCreateDto) {
             RentalCreateDtoValidator validator = new RentalCreateDtoValidator();
             validator.setRentalFacade(rentalFacade);
+            validator.setMachineFacade(machineFacade);
             binder.addValidators(validator);
         }
         if (binder.getTarget() instanceof RentalUpdateDto){
@@ -251,12 +252,7 @@ public class RentalController {
             UriComponentsBuilder uriBuilder) {
 
         log.error("updating(updateRental ={})", formBean);
-        
-        //System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-        //System.out.println(formBean.getId());
-        //System.out.println(bindingResult.getAllErrors());
-        
-        
+
         if (bindingResult.hasErrors()) {
             for (ObjectError ge : bindingResult.getGlobalErrors()) {
                 log.error("ObjectError: {}", ge);
