@@ -7,6 +7,7 @@ import java.util.Objects;
 import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 /**
  * RentalUser represent users of the evidence system - both employees and
@@ -41,7 +42,7 @@ public class RentalUser implements Serializable {
     @Enumerated
     private Set <RentalUserRole> roles;
     
-    private static final String HASH_SALT = "VOLZvQjWGJndyOnjZTfH";
+    private static final String HASH_SALT = BCrypt.gensalt();
 
     @Column(nullable = false)
     @NotNull
@@ -109,7 +110,8 @@ public class RentalUser implements Serializable {
     }
     
     private static String hashPassword (String password) {
-        return Integer.toString (hashString (password + HASH_SALT));
+        return BCrypt.hashpw(password, HASH_SALT); 
+        //return Integer.toString (hashString (password + HASH_SALT));
     }
     
     private static int hashString (String string) {
