@@ -57,8 +57,8 @@ public class RentalDaoImpl implements RentalDao{
     public List<Rental> findAllEffectiveBetween(Date startDate, Date endDate) {
         String sqlQuery =
             "SELECT r FROM " + Rental.class.getName() + " r WHERE ("
-                + "(r.dateStart   >= :startDate AND r.dateCreated <= :endDate)"
-                + " OR (r.dateEnd >= :startDate AND r.dateEnd     <= :endDate)"
+                + "(r.dateStart   <= :endDate AND r.dateEnd >= :startDate)"
+//                + " OR (r.dateEnd >= :startDate AND r.dateEnd     <= :endDate)"
             + ")";
         
         TypedQuery <Rental> query =

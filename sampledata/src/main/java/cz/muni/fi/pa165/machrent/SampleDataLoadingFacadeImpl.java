@@ -69,14 +69,14 @@ public class    SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
         Revision v6 = revision(mech3, m6, getDate("2016-06-02"), "note 6");
 
         Rental r1 = rental(c1, e3, m1, "note 1", getDate("2017-01-01"), getDate("2017-01-11"), getDate("2016-01-11"));
-        Rental r2 = rental(c2, e3, m2, "note 2", getDate("2017-02-02"), getDate("2017-01-12"), getDate("2016-01-12"));
-        Rental r3 = rental(c3, e3, m3, "note 3", getDate("2017-03-03"), getDate("2017-01-13"), getDate("2016-01-13"));
-        Rental r4 = rental(c1, e3, m4, "note 4", getDate("2017-04-04"), getDate("2017-01-14"), getDate("2016-01-14"));
-        Rental r5 = rental(c2, e2, m5, "note 5", getDate("2017-05-05"), getDate("2017-01-15"), getDate("2016-01-15"));
-        Rental r6 = rental(c3, e2, m6, "note 6", getDate("2017-06-06"), getDate("2017-01-16"), getDate("2016-01-16"));
-        Rental r7 = rental(c1, e2, m3, "note 7", getDate("2017-07-07"), getDate("2017-01-17"), getDate("2016-01-17"));
-        Rental r8 = rental(c2, e1, m2, "note 8", getDate("2017-08-08"), getDate("2017-01-18"), getDate("2016-01-18"));
-        Rental r9 = rental(c3, e1, m1, "note 9", getDate("2017-09-09"), getDate("2017-01-19"), getDate("2016-01-19"));
+        Rental r2 = rental(c2, e3, m2, "note 2", getDate("2017-02-02"), getDate("2017-02-12"), getDate("2016-01-12"));
+        Rental r3 = rental(c3, e3, m3, "note 3", getDate("2017-03-03"), getDate("2017-03-13"), getDate("2016-01-13"));
+        Rental r4 = rental(c1, e3, m4, "note 4", getDate("2017-04-04"), getDate("2017-04-14"), getDate("2016-01-14"));
+        Rental r5 = rental(c2, e2, m5, "note 5", getDate("2017-05-05"), getDate("2017-05-15"), getDate("2016-01-15"));
+        Rental r6 = rental(c3, e2, m6, "note 6", getDate("2017-06-06"), getDate("2017-06-16"), getDate("2016-01-16"));
+        Rental r7 = rental(c1, e2, m3, "note 7", getDate("2017-07-07"), getDate("2017-07-17"), getDate("2016-01-17"));
+        Rental r8 = rental(c2, e1, m2, "note 8", getDate("2017-08-08"), getDate("2017-08-18"), getDate("2016-01-18"));
+        Rental r9 = rental(c3, e1, m1, "note 9", getDate("2017-09-09"), getDate("2017-09-19"), getDate("2016-01-19"));
 
     }
 
@@ -136,7 +136,7 @@ public class    SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
     private Date getDate(String date) {
 
         try {
-            DateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
+            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             return formatter.parse(date);
         }
         catch (ParseException e)
